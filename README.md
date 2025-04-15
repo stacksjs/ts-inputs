@@ -72,6 +72,12 @@ For casual chit-chat with others using this package:
 
 Our address: Stacks.js, 12665 Village Ln #2306, Playa Vista, CA 90094, United States 🌎
 
+## Credits
+
+- [cleave-zen](https://github.com/nosir/cleave-zen)
+- [Chris Breuer](https://github.com/chrisbbreuer)
+- [All Contributors](https://github.com/stacksjs/clarity/contributors)
+
 ## Sponsors
 
 We would like to extend our thanks to the following sponsors for funding Stacks development. If you are interested in becoming a sponsor, please reach out to us.
