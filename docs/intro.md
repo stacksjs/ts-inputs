@@ -6,82 +6,111 @@
 
 # ts-inputs
 
-This is an opinionated TypeScript Starter kit to help kick-start development of your next Bun package.
+A comprehensive TypeScript library for formatting and validating various types of input fields. Perfect for creating polished user experiences with properly formatted credit cards, dates, times, numbers, and more.
 
-## Get Started
+## Features
 
-It's rather simple to get your package development started:
+- **Credit Card Formatting**: Format and validate credit card numbers with support for various card types
+- **Date & Time Handling**: Flexible formatting for dates and times with customizable patterns
+- **Numerical Inputs**: Format numbers with customizable delimiters and thousand group styles
+- **Cursor Tracking**: Advanced cursor position management for input fields
+- **General Formatting**: Universal formatting utilities for text inputs
+- **TypeScript First**: Fully typed with comprehensive TypeScript support
 
-```bash
-# you may use this GitHub template or the following command:
-bunx degit stacksjs/ts-inputs my-pkg
-cd my-pkg
+## Quick Start
 
- # if you don't have pnpm installed, run `npm i -g pnpm`
-bun i # install all deps
-bun run build # builds the library for production-ready use
+Install the package:
 
-# after you have successfully committed, you may create a "release"
-bun run release # automates git commits, versioning, and changelog generations
+::: code-group
+
+```sh [bun]
+bun install --dev ts-inputs
+# bun add --dev ts-inputs
+# bun i -d ts-inputs
+
+# or, install globally via
+bun add --global ts-inputs
 ```
 
-_Check out the package.json scripts for more commands._
+```sh [npm]
+npm install --save-dev ts-inputs
+# npm i -d ts-inputs
 
-### Developer Experience (DX)
+# or, install globally via
+npm i -g ts-inputs
+```
 
-This Starter Kit comes pre-configured with the following:
+```sh [pnpm]
+pnpm add --save-dev ts-inputs
+# pnpm i -d ts-inputs
 
-- [Powerful Build Process](https://github.com/oven-sh/bun) - via Bun
-- [Fully Typed APIs](https://www.typescriptlang.org/) - via TypeScript
-- [Documentation-ready](https://vitepress.dev/) - via VitePress
-- [CLI & Binary](https://www.npmjs.com/package/bunx) - via Bun & CAC
-- [Be a Good Commitizen](https://www.npmjs.com/package/git-cz) - pre-configured Commitizen & git-cz setup to simplify semantic git commits, versioning, and changelog generations
-- [Built With Testing In Mind](https://bun.sh/docs/cli/test) - pre-configured unit-testing powered by [Bun](https://bun.sh/docs/cli/test)
-- [Renovate](https://renovatebot.com/) - optimized & automated PR dependency updates
-- [ESLint](https://eslint.org/) - for code linting _(and formatting)_
-- [GitHub Actions](https://github.com/features/actions) - runs your CI _(fixes code style issues, tags releases & creates its changelogs, runs the test suite, etc.)_
+# or, install globally via
+pnpm add --global ts-inputs
+```
 
-## Changelog
+```sh [yarn]
+yarn add --dev ts-inputs
+# yarn i -d ts-inputs
 
-Please see our [releases](https://github.com/stacksjs/stacks/releases) page for more information on what has changed recently.
+# or, install globally via
+yarn global add ts-inputs
+```
+
+:::
+
+Basic usage:
+
+```typescript
+import { formatCreditCard, formatDate, formatNumeral } from 'ts-inputs'
+
+// Format a credit card number
+const formattedCard = formatCreditCard('4111111111111111')
+// Output: '4111 1111 1111 1111'
+
+// Format a date
+const formattedDate = formatDate('2023-04-15', { pattern: 'MM/DD/YYYY' })
+// Output: '04/15/2023'
+
+// Format a number
+const formattedNumber = formatNumeral('1000000', {
+  thousandGroupStyle: 'thousand',
+  delimiter: ','
+})
+// Output: '1,000,000'
+```
+
+## Why ts-inputs?
+
+- **Type Safety**: Built with TypeScript for better development experience
+- **Comprehensive**: Covers all common input formatting needs
+- **Customizable**: Flexible options for different formatting requirements
+- **Lightweight**: Zero dependencies, minimal bundle size
+- **Well-Tested**: Thoroughly tested for reliability
+
+## Documentation
+
+Explore our documentation to learn more about:
+
+- [Installation Guide](/install)
+- [Usage Examples](/usage)
+- [API Reference](/api)
 
 ## Contributing
 
-Please review the [Contributing Guide](https://github.com/stacksjs/contributing) for details.
+We welcome contributions! Please see our [Contributing Guide](https://github.com/stacksjs/contributing) for details.
 
 ## Community
 
-For help, discussion about best practices, or any other conversation that would benefit from being searchable:
+Join our community for help, discussions, and updates:
 
-[Discussions on GitHub](https://github.com/stacksjs/stacks/discussions)
-
-For casual chit-chat with others using this package:
-
-[Join the Stacks Discord Server](https://discord.gg/stacksjs)
-
-## Postcardware
-
-Two things are true: Stacks OSS will always stay open-source, and we do love to receive postcards from wherever Stacks is used! 🌍 _We also publish them on our website. And thank you, Spatie_
-
-Our address: Stacks.js, 12665 Village Ln #2306, Playa Vista, CA 90094
-
-## Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Stacks development. If you are interested in becoming a sponsor, please reach out to us.
-
-- [JetBrains](https://www.jetbrains.com/)
-- [The Solana Foundation](https://solana.com/)
-
-## Credits
-
-- [Chris Breuer](https://github.com/chrisbbreuer)
-- [All Contributors](https://github.com/stacksjs/rpx/graphs/contributors)
+- [GitHub Discussions](https://github.com/stacksjs/ts-inputs/discussions)
+- [Discord Server](https://discord.gg/stacksjs)
 
 ## License
 
 The MIT License (MIT). Please see [LICENSE](https://github.com/stacksjs/ts-inputs/tree/main/LICENSE.md) for more information.
 
-Made with 💙
+Made with 💙 by the Stacks team
 
 <!-- Badges -->
 

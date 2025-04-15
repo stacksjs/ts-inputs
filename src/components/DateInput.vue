@@ -1,46 +1,116 @@
-<script setup lang="ts">
-import type { DatePatternType, FormatDateOptions } from '../date'
-import { computed } from 'vue'
-import BaseInput from '../common/BaseInput.vue'
-import { DefaultDateDelimiter, formatDate } from '../date'
+<script lang="ts">
+import { defineComponent, ref, watch } from 'vue'
+import { formatDate, parseDate, validateDate } from '../utils/date'
 
-interface Props {
-  modelValue: string
-  pattern?: DatePatternType
-  delimiter?: string
-  className?: string
-  options?: Omit<FormatDateOptions, 'pattern' | 'delimiter'>
-}
+export default defineComponent({
+  name: 'DateInput',
+  props: {
+    modelValue: {
+      type: String,
+      default: '',
+    },
+    format: {
+      type: String,
+      default: 'YYYY-MM-DD',
+    },
+    locale: {
+      type: String,
+      default: 'en-US',
+    },
+    placeholder: {
+      type: String,
+      default: 'Enter date',
+    },
+  },
+  emits: ['update:modelValue', 'error'],
+  setup(props, { emit }) {
+    const formattedValue = ref('')
+    const error = ref('')
 
-const props = withDefaults(defineProps<Props>(), {
-  pattern: ['d', 'm', 'Y'],
-  delimiter: DefaultDateDelimiter,
-  className: '',
-  options: () => ({}),
-})
+    const updateFormattedValue = (value: string) => {
+      if (!value) {
+        formattedValue.value = ''
+        return
+      }
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-}>()
+      try {
+        const date = parseDate(value, props.format, props.locale)
+        formattedValue.value = formatDate(date, props.format, props.locale)
+        error.value = ''
+      }
+      catch (e) {
+        error.value = e instanceof Error ? e.message : 'Invalid date format'
+        emit('error', error.value)
+      }
+    }
 
-const formattedValue = computed({
-  get: () => props.modelValue,
-  set: (value: string) => {
-    const formatted = formatDate(value, {
-      pattern: props.pattern,
-      delimiter: props.delimiter,
-      ...props.options,
-    })
-    emit('update:modelValue', formatted)
+    watch(() => props.modelValue, (newValue) => {
+      updateFormattedValue(newValue)
+    }, { immediate: true })
+
+    const handleInput = (event: Event) => {
+      const target = event.target as HTMLInputElement
+      formattedValue.value = target.value
+    }
+
+    const handleBlur = () => {
+      const validation = validateDate(formattedValue.value, props.format, props.locale)
+      if (validation.isValid) {
+        emit('update:modelValue', formattedValue.value)
+        error.value = ''
+      }
+      else {
+        error.value = validation.error || 'Invalid date format'
+        emit('error', error.value)
+      }
+    }
+
+    return {
+      formattedValue,
+      error,
+      handleInput,
+      handleBlur,
+    }
   },
 })
 </script>
 
 <template>
-  <BaseInput
-    v-bind="$attrs"
-    v-model="formattedValue"
-    :placeholder="pattern"
-    :class="className"
-  />
+  <div class="date-input">
+    <input
+      type="text"
+      :value="formattedValue"
+      :class="{ error }"
+      :placeholder="placeholder"
+      @input="handleInput"
+      @blur="handleBlur"
+    >
+    <div v-if="error" class="error-message">
+      {{ error }}
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.date-input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input.error {
+  border-color: #ff4444;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 12px;
+}
+</style>

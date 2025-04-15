@@ -21,6 +21,24 @@ import type {
   TimePatternType,
   TimeUnit,
 } from './time/types'
+
+// Vue Component Types
+import type {
+  CreditCardInputProps,
+  DateInputProps,
+  InputEmits,
+  NumeralInputProps,
+  TimeInputProps,
+} from './vue/types'
+
+// Vue Components
+import {
+  CreditCardInput,
+  DateInput,
+  NumeralInput,
+  TimeInput,
+} from './components/index'
+
 import {
   formatCreditCard,
   getCreditCardType,
@@ -44,59 +62,71 @@ import { DefaultTimeDelimiter } from './time/constants'
 
 export type {
   BlocksType,
+  // Vue Component Types
+  CreditCardInputProps,
+
   // credit card
   CreditCardType,
-
   CursorTrackerDestructor,
+  DateInputProps,
   DatePatternType,
+
   // date
   DateUnit,
   // general
   DelimiterType,
 
   FormatCreditCardOptions,
+
   FormatDateOptions,
-
   FormatGeneralOptions,
-
   // numeral
   FormatNumeralOptions,
+
   FormatTimeOptions,
+  InputEmits,
+  NumeralInputProps,
   // cursor tracker
   RegisterCursorTrackerPropsType,
-
   RequireExactlyOne,
   TimeFormatType,
+  TimeInputProps,
   TimePatternType,
   // time
   TimeUnit,
 }
 
 export {
+  // Vue Components
+  CreditCardInput,
+
+  DateInput,
   DefaultCreditCardDelimiter,
 
   DefaultDateDelimiter,
   DefaultNumeralDelimiter,
-
   DefaultTimeDelimiter,
   // credit card
   formatCreditCard,
+
   // date
   formatDate,
   // general
   formatGeneral,
-
   // numeral
   formatNumeral,
   // time
   formatTime,
-  getCreditCardType,
-  NumeralThousandGroupStyles,
 
+  getCreditCardType,
+  NumeralInput,
+
+  NumeralThousandGroupStyles,
   // cursor tracker
   registerCursorTracker,
-  unformatCreditCard,
 
+  TimeInput,
+  unformatCreditCard,
   unformatGeneral,
   unformatNumeral,
 }

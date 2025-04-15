@@ -56,7 +56,26 @@ const sidebar = [
       { text: 'Intro', link: '/intro' },
       { text: 'Install', link: '/install' },
       { text: 'Usage', link: '/usage' },
-      { text: 'Config', link: '/config' },
+    ],
+  },
+  {
+    text: 'Features',
+    items: [
+      { text: 'Credit Card Formatting', link: '/features/credit-card' },
+      { text: 'Date Formatting', link: '/features/date' },
+      { text: 'Time Formatting', link: '/features/time' },
+      { text: 'Numerical Formatting', link: '/features/numeral' },
+      { text: 'Cursor Tracking', link: '/features/cursor' },
+    ],
+  },
+  {
+    text: 'Vue Components',
+    items: [
+      { text: 'Overview', link: '/vue/' },
+      { text: 'Credit Card Input', link: '/vue/credit-card' },
+      { text: 'Date Input', link: '/vue/date' },
+      { text: 'Time Input', link: '/vue/time' },
+      { text: 'Numeral Input', link: '/vue/numeral' },
     ],
   },
   { text: 'Showcase', link: '/Showcase' },

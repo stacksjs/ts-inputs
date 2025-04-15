@@ -1,89 +1,253 @@
-# Get Started
+# Usage Guide
 
-There are two ways of using this reverse proxy: _as a library or as a CLI._
+`ts-inputs` provides a comprehensive set of utilities for formatting various types of input fields. Here's how to use the library:
 
-## Library
+## Time Formatting
 
-Given the npm package is installed:
+Format time values:
 
-```ts
-import type { TlsConfig } from '@stacksjs/rpx'
-import { startProxy } from '@stacksjs/rpx'
+```typescript
+import { DefaultTimeDelimiter, formatTime } from 'ts-inputs'
 
-export interface CleanupConfig {
-  hosts: boolean // clean up /etc/hosts, defaults to false
-  certs: boolean // clean up certificates, defaults to false
-}
+// Basic usage
+const formattedTime = formatTime('14:30:00')
+// Output: '02:30 PM'
 
-export interface ReverseProxyConfig {
-  from: string // domain to proxy from, defaults to localhost:3000
-  to: string // domain to proxy to, defaults to stacks.localhost
-  cleanUrls?: boolean // removes the .html extension from URLs, defaults to false
-  https: boolean | TlsConfig // automatically uses https, defaults to true, also redirects http to https
-  cleanup?: boolean | CleanupConfig // automatically cleans up /etc/hosts, defaults to false
-  verbose: boolean // log verbose output, defaults to false
-}
-
-const config: ReverseProxyOptions = {
-  from: 'localhost:3000',
-  to: 'my-docs.localhost',
-  cleanUrls: true,
-  https: true,
-  cleanup: false,
-}
-
-startProxy(config)
+// With custom options
+const customTime = formatTime('14:30:00', {
+  format: '24h',
+  delimiter: DefaultTimeDelimiter
+})
+// Output: '14:30'
 ```
 
-In case you are trying to start multiple proxies, you may use this configuration:
+## Numerical Formatting
 
-```ts
-// reverse-proxy.config.{ts,js}
-import type { ReverseProxyOptions } from '@stacksjs/rpx'
-import os from 'node:os'
-import path from 'node:path'
+Format numbers with customizable delimiters and thousand group styles:
 
-const config: ReverseProxyOptions = {
-  https: { // https: true -> also works with sensible defaults
-    caCertPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.ca.crt`),
-    certPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.crt`),
-    keyPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.crt.key`),
-  },
+```typescript
+import { DefaultNumeralDelimiter, formatNumeral, NumeralThousandGroupStyles, unformatNumeral } from 'ts-inputs'
 
-  cleanup: {
-    hosts: true,
-    certs: false,
-  },
+// Basic usage
+const formattedNumber = formatNumeral('1000000')
+// Output: '1,000,000'
 
-  proxies: [
-    {
-      from: 'localhost:5173',
-      to: 'my-app.localhost',
-      cleanUrls: true,
-    },
-    {
-      from: 'localhost:5174',
-      to: 'my-api.local',
-    },
-  ],
+// With custom options
+const customNumber = formatNumeral('1000000', {
+  thousandGroupStyle: NumeralThousandGroupStyles.THOUSAND,
+  delimiter: DefaultNumeralDelimiter
+})
 
-  verbose: true,
+// Remove formatting
+const unformattedNumber = unformatNumeral('1,000,000')
+// Output: '1000000'
+```
+
+## General Text Formatting
+
+Format general text inputs:
+
+```typescript
+import { formatGeneral, unformatGeneral } from 'ts-inputs'
+
+// Format text
+const formattedText = formatGeneral('hello world', {
+  // formatting options...
+})
+
+// Remove formatting
+const unformattedText = unformatGeneral(formattedText)
+```
+
+## Cursor Tracking
+
+Manage cursor position in input fields:
+
+```typescript
+import { registerCursorTracker } from 'ts-inputs'
+
+const inputElement = document.querySelector('input')
+
+const cleanup = registerCursorTracker(inputElement, {
+  // tracking options...
+})
+
+// Clean up when done
+cleanup()
+```
+
+## TypeScript Support
+
+All functions are fully typed with TypeScript:
+
+```typescript
+import type {
+  CreditCardType,
+  FormatCreditCardOptions,
+  FormatDateOptions,
+  FormatGeneralOptions,
+  FormatNumeralOptions,
+  FormatTimeOptions,
+  RegisterCursorTrackerPropsType
+} from 'ts-inputs'
+
+// Use types for better development experience
+const options: FormatCreditCardOptions = {
+  // options...
+}
+```
+
+## Common Patterns
+
+Here are some common patterns you might find useful:
+
+### Formatting User Input in Real-time
+
+```typescript
+import { formatCreditCard } from 'ts-inputs'
+
+const inputElement = document.querySelector('input')
+
+inputElement.addEventListener('input', (event) => {
+  const formattedValue = formatCreditCard(event.target.value)
+  event.target.value = formattedValue
+})
+```
+
+### Formatting Multiple Fields
+
+```typescript
+import { formatDate, formatNumeral } from 'ts-inputs'
+
+const formatInputs = {
+  date: formatDate,
+  number: formatNumeral,
+  // add more formatters as needed
 }
 
-export default config
+const inputElement = document.querySelector('input')
+const inputType = inputElement.dataset.format // e.g., 'date' or 'number'
+
+if (formatInputs[inputType]) {
+  inputElement.value = formatInputs[inputType](inputElement.value)
+}
 ```
 
-## CLI
+For more detailed information about specific features, check out the [Features Guide](/features).
 
-```bash
-rpx --from localhost:3000 --to my-project.localhost
-rpx --from localhost:8080 --to my-project.test --keyPath ./key.pem --certPath ./cert.pem
-rpx --help
-rpx --version
+## Vue Components
+
+`ts-inputs` comes with pre-built Vue components for easy integration into your Vue applications. These components handle all the formatting logic internally while providing a familiar Vue interface.
+
+### Credit Card Input
+
+A component for formatting and validating credit card numbers:
+
+```vue
+<script setup lang="ts">
+import type { CreditCardType } from 'ts-inputs'
+import { CreditCardInput } from 'ts-inputs'
+
+const cardNumber = ref('')
+
+function handleCardTypeChange(type: CreditCardType) {
+  console.log('Card type:', type)
+}
+</script>
+
+<template>
+  <CreditCardInput
+    v-model="cardNumber"
+    placeholder="Enter card number"
+    @card-type-change="handleCardTypeChange"
+  />
+</template>
 ```
 
-## Testing
+#### Props
 
-```bash
-bun test
+- `modelValue` (required): The v-model value
+- `delimiter` (optional): Custom delimiter (defaults to space)
+- `className` (optional): Additional CSS classes
+- `placeholder` (optional): Input placeholder text
+- `options` (optional): Additional formatting options
+
+#### Events
+
+- `update:modelValue`: Emitted when the value changes
+- `cardTypeChange`: Emitted when the card type is detected
+
+### Date Input
+
+A component for formatting dates:
+
+```vue
+<script setup lang="ts">
+import { DateInput } from 'ts-inputs'
+
+const date = ref('')
+</script>
+
+<template>
+  <DateInput
+    v-model="date"
+    pattern="YYYY-MM-DD"
+    placeholder="Enter date"
+  />
+</template>
 ```
+
+### Time Input
+
+A component for formatting time values:
+
+```vue
+<script setup lang="ts">
+import { TimeInput } from 'ts-inputs'
+
+const time = ref('')
+</script>
+
+<template>
+  <TimeInput
+    v-model="time"
+    format="24h"
+    placeholder="Enter time"
+  />
+</template>
+```
+
+### Numeral Input
+
+A component for formatting numbers:
+
+```vue
+<script setup lang="ts">
+import { NumeralInput } from 'ts-inputs'
+
+const number = ref('')
+</script>
+
+<template>
+  <NumeralInput
+    v-model="number"
+    thousand-group-style="thousand"
+    placeholder="Enter number"
+  />
+</template>
+```
+
+### Component Props
+
+All input components share these common props:
+
+- `modelValue` (required): The v-model value
+- `className` (optional): Additional CSS classes
+- `placeholder` (optional): Input placeholder text
+- `options` (optional): Component-specific formatting options
+
+### Component Events
+
+All components emit:
+
+- `update:modelValue`: When the formatted value changes
