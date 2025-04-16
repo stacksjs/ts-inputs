@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import type { FormatNumeralOptions } from '../numeral/types'
+import type { NumeralInputProps } from '../types'
 import { computed } from 'vue'
 import BaseInput from '../common/BaseInput.vue'
 import { DefaultNumeralDelimiter, formatNumeral, NumeralThousandGroupStyles } from '../numeral'
 
-interface Props {
-  modelValue: string
-  delimiter?: string
-  thousandGroupStyle?: NumeralThousandGroupStyles
-  className?: string
-  options?: Omit<FormatNumeralOptions, 'delimiter' | 'thousandGroupStyle'>
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<NumeralInputProps>(), {
   delimiter: DefaultNumeralDelimiter,
   thousandGroupStyle: NumeralThousandGroupStyles.THOUSAND,
   className: '',

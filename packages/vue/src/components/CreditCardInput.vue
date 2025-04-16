@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import type { CreditCardType, FormatCreditCardOptions } from '../credit-card'
+import type { CreditCardType } from '../credit-card'
+import type { CreditCardInputProps } from '../types'
 import { computed, watch } from 'vue'
 import BaseInput from '../common/BaseInput.vue'
 import { DefaultCreditCardDelimiter, formatCreditCard, getCreditCardType } from '../credit-card'
 
-interface Props {
-  modelValue: string
-  delimiter?: string
-  className?: string
-  placeholder?: string
-  options?: Omit<FormatCreditCardOptions, 'delimiter'>
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CreditCardInputProps>(), {
   delimiter: DefaultCreditCardDelimiter,
   className: '',
   options: () => ({}),

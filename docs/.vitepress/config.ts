@@ -69,7 +69,7 @@ const sidebar = [
     ],
   },
   {
-    text: 'Vue Components',
+    text: 'Advanced',
     items: [
       { text: 'Overview', link: '/vue/' },
       { text: 'Credit Card Input', link: '/vue/credit-card' },
@@ -77,6 +77,7 @@ const sidebar = [
       { text: 'Time Input', link: '/vue/time' },
       { text: 'Numeral Input', link: '/vue/numeral' },
     ],
+
   },
   { text: 'Showcase', link: '/Showcase' },
 ]

@@ -13,11 +13,15 @@
   "bugs": {
     "url": "https://github.com/stacksjs/ts-inputs/issues"
   },
-  "keywords": ["typescript", "starter", "kit", "bun", "package"],
+  "keywords": ["typescript", "starter", "kit", "bun", "package", "vue", "components"],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "import": "./dist/vue/index.js"
     },
     "./*": {
       "import": "./dist/*"
@@ -50,14 +54,15 @@
     "bumpp": "^10.1.0",
     "bun-plugin-dtsx": "^0.21.9",
     "changelogen": "^0.6.1",
-    "lint-staged": "^15.5.1",
-    "simple-git-hooks": "^2.12.1",
-    "typescript": "^5.8.3"
+    "lint-staged": "^15.5.1"
   },
   "overrides": {
     "unconfig": "0.3.10"
   },
   "lint-staged": {
     "*.{js,ts}": "bunx --bun eslint . --fix"
-  }
+  },
+  "workspaces": [
+    "src/*"
+  ]
 }

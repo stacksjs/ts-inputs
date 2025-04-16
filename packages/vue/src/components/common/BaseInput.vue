@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { CursorTrackerDestructor } from '../cursor-tracker'
+import type { CursorTrackerDestructor } from 'ts-inputs'
+import { registerCursorTracker } from 'ts-inputs'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { registerCursorTracker } from '../cursor-tracker'
 
 interface Props {
   modelValue: string

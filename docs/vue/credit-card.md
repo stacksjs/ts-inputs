@@ -25,6 +25,10 @@ function handleCardTypeChange(type: CreditCardType) {
 </template>
 ```
 
+## Demo
+
+<CreditCardDemo />
+
 ## Props
 
 - `modelValue` (required): The v-model value

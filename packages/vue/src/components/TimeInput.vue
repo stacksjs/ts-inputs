@@ -1,19 +1,10 @@
 <script setup lang="ts">
-import type { FormatTimeOptions, TimeFormatType, TimePatternType } from '../time/types'
+import type { TimeInputProps } from '../types'
 import { computed } from 'vue'
 import BaseInput from '../common/BaseInput.vue'
 import { DefaultTimeDelimiter, formatTime } from '../time'
 
-interface Props {
-  modelValue: string
-  format?: TimeFormatType
-  pattern?: TimePatternType
-  delimiter?: string
-  className?: string
-  options?: Omit<FormatTimeOptions, 'format' | 'pattern' | 'delimiter'>
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<TimeInputProps>(), {
   format: '24',
   pattern: ['h', 'm', 's'],
   delimiter: DefaultTimeDelimiter,

@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import type { CreditCardType } from 'ts-inputs'
 import { CreditCardInput } from 'ts-inputs'
 import { ref } from 'vue'
 
 const cardNumber = ref('')
-const expiryDate = ref('')
-const cvv = ref('')
+
+function handleCardTypeChange(type: CreditCardType) {
+  console.log('Card type:', type)
+}
 </script>
 
 <template>
-  <div>
-    <CreditCardInput v-model="cardNumber" />
-  </div>
+  <CreditCardInput
+    v-model="cardNumber"
+    placeholder="Enter card number"
+    @card-type-change="handleCardTypeChange"
+  />
 </template>
