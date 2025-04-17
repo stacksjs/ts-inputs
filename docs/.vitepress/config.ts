@@ -71,13 +71,24 @@ const sidebar = [
   {
     text: 'Advanced',
     items: [
-      { text: 'Overview', link: '/vue/' },
-      { text: 'Credit Card Input', link: '/vue/credit-card' },
-      { text: 'Date Input', link: '/vue/date' },
-      { text: 'Time Input', link: '/vue/time' },
-      { text: 'Numeral Input', link: '/vue/numeral' },
+      {
+        text: 'Vue ',
+        items: [
+          { text: 'Overview', link: '/vue/' },
+          { text: 'Credit Card Input', link: '/vue/credit-card' },
+          { text: 'Date Input', link: '/vue/date' },
+          { text: 'Time Input', link: '/vue/time' },
+          { text: 'Numeral Input', link: '/vue/numeral' },
+          { text: 'Google Places Autocomplete', link: '/vue/google-places' },
+        ],
+      },
+      {
+        text: 'React',
+        items: [
+          { text: 'Coming Soon' },
+        ],
+      },
     ],
-
   },
   { text: 'Showcase', link: '/Showcase' },
 ]

@@ -8,11 +8,17 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    copy: typeof import('./theme/components/CreditCardDemo copy.vue')['default']
     CreditCardDemo: typeof import('./theme/components/CreditCardDemo.vue')['default']
+    DateInput: typeof import('./theme/components/DateInput.vue')['default']
+    DateInputDemo: typeof import('./theme/components/DateInputDemo.vue')['default']
+    GooglePlacesInputDemo: typeof import('./theme/components/GooglePlacesInputDemo.vue')['default']
     Home: typeof import('./theme/components/Home.vue')['default']
     HomeContributors: typeof import('./theme/components/HomeContributors.vue')['default']
     HomeSponsors: typeof import('./theme/components/HomeSponsors.vue')['default']
     HomeTeam: typeof import('./theme/components/HomeTeam.vue')['default']
+    NumeralInputDemo: typeof import('./theme/components/NumeralInputDemo.vue')['default']
     TeamMember: typeof import('./theme/components/TeamMember.vue')['default']
+    TimeInputDemo: typeof import('./theme/components/TimeInputDemo.vue')['default']
   }
 }

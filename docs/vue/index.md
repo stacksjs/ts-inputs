@@ -1,24 +1,38 @@
 # Vue Components
 
-`ts-inputs` provides a set of pre-built Vue components that make it easy to integrate formatted inputs into your Vue applications. These components handle all the formatting logic internally while providing a familiar Vue interface.
+The Vue package provides a set of input components that are built on top of the core `ts-inputs` package. These components are designed to be easy to use and highly customizable.
+
+## Available Components
+
+- [Credit Card Input](/vue/credit-card) - Input component for credit card numbers with automatic formatting
+- [Date Input](/vue/date) - Input component for dates with various formatting options
+- [Time Input](/vue/time) - Input component for time values with 12/24 hour format support
+- [Numeral Input](/vue/numeral) - Input component for numerical values with formatting options
+- [Google Places Autocomplete](/vue/google-places) - Input component for Google Places Autocomplete with address suggestions
 
 ## Installation
 
 Make sure you have `ts-inputs` installed in your project:
 
-```bash
-# using bun
-bun add ts-inputs
+::: code-group
 
-# using npm
-npm install ts-inputs
-
-# using yarn
-yarn add ts-inputs
-
-# using pnpm
-pnpm add ts-inputs
+```sh [npm]
+npm install --save-dev ts-inputs-vue
 ```
+
+```sh [bun]
+bun add --dev ts-inputs-vue
+```
+
+```sh [pnpm]
+pnpm add --save-dev ts-inputs-vue
+```
+
+```sh [yarn]
+yarn add --dev ts-inputs-vue
+```
+
+:::
 
 ## Common Features
 

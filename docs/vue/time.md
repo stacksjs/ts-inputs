@@ -20,14 +20,23 @@ const time = ref('')
 </template>
 ```
 
+## Demo
+
+<TimeInputDemo />
+
 ## Props
 
-- `modelValue` (required): The v-model value
-- `format` (optional): Time format ('12h' or '24h', defaults to '12h')
-- `className` (optional): Additional CSS classes
-- `placeholder` (optional): Input placeholder text
-- `options` (optional): Additional formatting options
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `modelValue` | `string` | `''` | The v-model binding value |
+| `format` | `'12h' \| '24h'` | `'12h'` | Time format to display |
+| `className` | `string` | - | Additional CSS classes |
+| `placeholder` | `string` | - | Input placeholder text |
+| `options` | `object` | - | Additional formatting options |
 
 ## Events
 
-- `update:modelValue`: Emitted when the value changes
+| Event | Payload | Description |
+|-------|---------|-------------|
+| `update:modelValue` | `string` | Emitted when the input value changes |
+| `blur` | `Event` | Emitted when the input loses focus |

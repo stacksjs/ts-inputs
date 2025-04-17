@@ -20,14 +20,23 @@ const number = ref('')
 </template>
 ```
 
+## Demo
+
+<NumeralInputDemo />
+
 ## Props
 
-- `modelValue` (required): The v-model value
-- `thousandGroupStyle` (optional): Thousand group style ('thousand' or 'lakh', defaults to 'thousand')
-- `className` (optional): Additional CSS classes
-- `placeholder` (optional): Input placeholder text
-- `options` (optional): Additional formatting options
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `modelValue` | `string` | `''` | The v-model binding value |
+| `thousandGroupStyle` | `'thousand' \| 'lakh'` | `'thousand'` | Thousand group formatting style |
+| `className` | `string` | - | Additional CSS classes |
+| `placeholder` | `string` | - | Input placeholder text |
+| `options` | `object` | - | Additional formatting options |
 
 ## Events
 
-- `update:modelValue`: Emitted when the value changes
+| Event | Payload | Description |
+|-------|---------|-------------|
+| `update:modelValue` | `string` | Emitted when the input value changes |
+| `blur` | `Event` | Emitted when the input loses focus |

@@ -31,13 +31,18 @@ function handleCardTypeChange(type: CreditCardType) {
 
 ## Props
 
-- `modelValue` (required): The v-model value
-- `delimiter` (optional): Custom delimiter (defaults to space)
-- `className` (optional): Additional CSS classes
-- `placeholder` (optional): Input placeholder text
-- `options` (optional): Additional formatting options
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `modelValue` | `string` | `''` | The v-model binding value |
+| `delimiter` | `string` | `' '` | Custom delimiter for card number formatting |
+| `className` | `string` | - | Additional CSS classes |
+| `placeholder` | `string` | - | Input placeholder text |
+| `options` | `object` | - | Additional formatting options |
 
 ## Events
 
-- `update:modelValue`: Emitted when the value changes
-- `cardTypeChange`: Emitted when the card type is detected
+| Event | Payload | Description |
+|-------|---------|-------------|
+| `update:modelValue` | `string` | Emitted when the input value changes |
+| `cardTypeChange` | `CreditCardType` | Emitted when the card type is detected |
+| `blur` | `Event` | Emitted when the input loses focus |

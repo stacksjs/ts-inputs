@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"],
     "moduleDetection": "force",
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -10,7 +10,7 @@
       "ts-inputs-vue": ["./packages/vue/src"]
     },
     "resolveJsonModule": true,
-    "types": ["bun"],
+    "types": ["bun", "google.maps"],
     "allowImportingTsExtensions": true,
     "strict": true,
     "strictNullChecks": true,
