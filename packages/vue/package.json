@@ -41,12 +41,9 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.52.2",
     "@stacksjs/docs": "^0.70.10",
-    "@stacksjs/eslint-config": "^4.2.1-beta.1",
-    "@types/bun": "^1.2.6",
     "@vue/tsconfig": "^0.7.0",
     "bumpp": "^10.1.0",
     "bun-plugin-dtsx": "^0.21.9",
-    "changelogen": "^0.6.1",
-    "typescript": "^5.8.2"
+    "changelogen": "^0.6.1"
   }
 }
