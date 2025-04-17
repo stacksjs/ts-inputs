@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { TimeInputProps } from '../types'
+import { DefaultTimeDelimiter, formatTime } from 'ts-inputs'
 import { computed } from 'vue'
-import BaseInput from '../common/BaseInput.vue'
-import { DefaultTimeDelimiter, formatTime } from '../time'
+import BaseInput from './common/BaseInput.vue'
 
 const props = withDefaults(defineProps<TimeInputProps>(), {
   format: '24',

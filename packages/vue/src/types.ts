@@ -1,6 +1,11 @@
-import type { FormatCreditCardOptions } from '../credit-cardd'
-import type { FormatNumeralOptions, NumeralThousandGroupStyles } from '../numerall'
-import type { FormatTimeOptions, TimeFormatType, TimePatternType } from '../timee'
+import type {
+  FormatCreditCardOptions,
+  FormatNumeralOptions,
+  FormatTimeOptions,
+  NumeralThousandGroupStyles,
+  TimeFormatType,
+  TimePatternType,
+} from 'ts-inputs'
 
 export interface CreditCardInputProps {
   modelValue: string

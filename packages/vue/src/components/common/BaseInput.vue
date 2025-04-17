@@ -58,7 +58,7 @@ onBeforeUnmount(() => {
   <input
     :ref="setInputRef"
     :value="modelValue"
-    class="base-input" :class="[className]"
+    class="" :class="[className]"
     :placeholder="placeholder"
     :disabled="disabled"
     v-bind="$attrs"

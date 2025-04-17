@@ -1,25 +1,24 @@
 {
-  "name": "ts-maps-vue",
+  "name": "ts-inputs-vue",
   "type": "module",
   "version": "0.0.1",
-  "description": "Vue components for ts-maps - Interactive Vector Maps",
+  "description": "Vue components for ts-inputs - Modern & lightweight input masking",
   "author": "Chris Breuer <chris@stacksjs.org>",
   "license": "MIT",
-  "homepage": "https://github.com/stacksjs/ts-maps/tree/main/packages/vue#readme",
+  "homepage": "https://github.com/stacksjs/ts-inputs/tree/main/packages/vue#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stacksjs/ts-maps.git"
+    "url": "git+https://github.com/stacksjs/ts-inputs.git"
   },
   "bugs": {
-    "url": "https://github.com/stacksjs/ts-maps/issues"
+    "url": "https://github.com/stacksjs/ts-inputs/issues"
   },
   "keywords": [
     "typescript",
-    "interactive",
-    "vector",
-    "maps",
+    "inputs",
+    "masking",
     "vue",
-    "ts-maps"
+    "ts-inputs"
   ],
   "exports": {
     ".": {
@@ -41,13 +40,10 @@
     "@stacksjs/docs": "^0.70.10",
     "@stacksjs/eslint-config": "^4.2.1-beta.1",
     "@types/bun": "^1.2.6",
-    "@types/google.maps": "^3.58.1",
     "@vue/tsconfig": "^0.7.0",
     "bumpp": "^10.1.0",
     "bun-plugin-dtsx": "^0.21.9",
-    "cac": "^6.7.14",
     "changelogen": "^0.6.1",
-    "typescript": "^5.8.2",
-    "vue-tsc": "^2.2.8"
+    "typescript": "^5.8.2"
   }
 }

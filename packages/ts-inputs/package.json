@@ -1,0 +1,57 @@
+{
+  "name": "ts-inputs",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "A collection of input components.",
+  "author": "Chris Breuer <chris@stacksjs.org>",
+  "license": "MIT",
+  "homepage": "https://github.com/stacksjs/ts-inputs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stacksjs/ts-inputs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stacksjs/ts-inputs/issues"
+  },
+  "keywords": [
+    "inputs",
+    "typescript",
+    "javascript",
+    "utility"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./*": {
+      "import": "./dist/*"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "README.md",
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun --bun build.ts",
+    "lint": "bunx --bun eslint .",
+    "lint:fix": "bunx --bun eslint . --fix",
+    "prepublishOnly": "bun --bun run build",
+    "release": "bun publish --access public",
+    "test": "bun test",
+    "typecheck": "bun --bun tsc --noEmit"
+  },
+  "devDependencies": {
+    "bun-plugin-dtsx": "^0.21.9",
+    "bunfig": "^0.8.2",
+    "lint-staged": "^15.5.0",
+    "simple-git-hooks": "^2.12.1",
+    "typescript": "^5.8.2"
+  },
+  "lint-staged": {
+    "*.{js,ts}": "bunx --bun eslint . --fix"
+  }
+}

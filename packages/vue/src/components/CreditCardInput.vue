@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { CreditCardType } from '../credit-card'
+import type { CreditCardType } from 'ts-inputs'
 import type { CreditCardInputProps } from '../types'
+import { DefaultCreditCardDelimiter, formatCreditCard, getCreditCardType } from 'ts-inputs'
 import { computed, watch } from 'vue'
-import BaseInput from '../common/BaseInput.vue'
-import { DefaultCreditCardDelimiter, formatCreditCard, getCreditCardType } from '../credit-card'
+import BaseInput from './common/BaseInput.vue'
 
 const props = withDefaults(defineProps<CreditCardInputProps>(), {
   delimiter: DefaultCreditCardDelimiter,

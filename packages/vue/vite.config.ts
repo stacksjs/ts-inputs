@@ -8,14 +8,19 @@ const config: UserConfig = {
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'ts-maps-vue',
+      name: 'ts-inputs-vue',
       fileName: 'index',
     },
     outDir: 'dist',
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', 'ts-inputs'],
       output: {
         format: 'es',
+        exports: 'named',
+        globals: {
+          'vue': 'Vue',
+          'ts-inputs': 'TsInputs',
+        },
       },
     },
   },

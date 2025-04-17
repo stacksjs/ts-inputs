@@ -5,6 +5,10 @@
     "moduleDetection": "force",
     "module": "esnext",
     "moduleResolution": "bundler",
+    "paths": {
+      "ts-inputs": ["./packages/ts-inputs/src"],
+      "ts-inputs-vue": ["./packages/vue/src"]
+    },
     "resolveJsonModule": true,
     "types": ["bun"],
     "allowImportingTsExtensions": true,

@@ -34,7 +34,7 @@
   },
   "files": ["README.md", "dist"],
   "scripts": {
-    "build": "bun --bun build.ts",
+    "build": "bun --filter './packages/*' build",
     "lint": "bunx --bun eslint .",
     "lint:fix": "bunx --bun eslint . --fix",
     "fresh": "bunx rimraf node_modules/ bun.lock && bun i",
@@ -63,6 +63,6 @@
     "*.{js,ts}": "bunx --bun eslint . --fix"
   },
   "workspaces": [
-    "src/*"
+    "packages/*"
   ]
 }

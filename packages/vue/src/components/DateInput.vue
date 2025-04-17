@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import type { DateInputProps, DateValidationResult } from 'ts-maps'
-import { formatDate, parseDate, validateDate } from 'ts-maps'
+import type { DateValidationResult } from 'ts-inputs'
+import type { DateInputProps } from '../types'
+import { formatDate, parseDate, validateDate } from 'ts-inputs'
 import { ref, watch } from 'vue'
 
 const props = withDefaults(defineProps<DateInputProps>(), {

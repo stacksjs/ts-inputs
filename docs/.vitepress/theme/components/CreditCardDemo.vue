@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { CreditCardType } from 'ts-inputs'
-import { CreditCardInput } from 'ts-inputs'
+import type { CreditCardType } from 'ts-inputs-vue'
+import { CreditCardInput } from 'ts-inputs-vue'
 import { ref } from 'vue'
 
 const cardNumber = ref('')

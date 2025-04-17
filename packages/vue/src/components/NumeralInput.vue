@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { NumeralInputProps } from '../types'
+import { DefaultNumeralDelimiter, formatNumeral, NumeralThousandGroupStyles } from 'ts-inputs'
 import { computed } from 'vue'
-import BaseInput from '../common/BaseInput.vue'
-import { DefaultNumeralDelimiter, formatNumeral, NumeralThousandGroupStyles } from '../numeral'
+import BaseInput from './common/BaseInput.vue'
 
 const props = withDefaults(defineProps<NumeralInputProps>(), {
   delimiter: DefaultNumeralDelimiter,
