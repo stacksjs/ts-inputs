@@ -93,7 +93,10 @@ Explore our documentation to learn more about:
 
 - [Installation Guide](/install)
 - [Usage Examples](/usage)
-- [API Reference](/api)
+
+## Stargazers
+
+[![Stargazers](https://starchart.cc/stacksjs/ts-inputs.svg?variant=adaptive)](https://starchart.cc/stacksjs/ts-inputs)
 
 ## Contributing
 

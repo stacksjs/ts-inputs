@@ -90,5 +90,3 @@ yarn add --dev ts-inputs
 ## Next Steps
 
 - Learn how to use the library in the [Usage Guide](/usage)
-- Explore available [Configuration Options](/config)
-- Check out the [API Reference](/api)

@@ -6,7 +6,7 @@ A Vue component that provides Google Places Autocomplete functionality with a cl
 
 ```vue
 <script setup lang="ts">
-import { GooglePlacesInputDemo } from 'ts-inputs-vue'
+import { GooglePlacesInput } from 'ts-inputs-vue'
 import { ref } from 'vue'
 
 const location = ref('')
@@ -19,7 +19,7 @@ function handlePlaceChanged(place: google.maps.places.PlaceResult) {
 </script>
 
 <template>
-  <GooglePlacesInputDemo
+  <GooglePlacesInput
     v-model="location"
     api-key="YOUR_GOOGLE_MAPS_API_KEY"
     placeholder="Enter a location"
@@ -126,7 +126,7 @@ function handleError(error: Error) {
 </script>
 
 <template>
-  <GooglePlacesInputDemo
+  <GooglePlacesInput
     api-key="YOUR_API_KEY"
     @error="handleError"
   />

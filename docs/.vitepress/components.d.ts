@@ -8,9 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    copy: typeof import('./theme/components/CreditCardDemo copy.vue')['default']
     CreditCardDemo: typeof import('./theme/components/CreditCardDemo.vue')['default']
-    DateInput: typeof import('./theme/components/DateInput.vue')['default']
     DateInputDemo: typeof import('./theme/components/DateInputDemo.vue')['default']
     GooglePlacesInputDemo: typeof import('./theme/components/GooglePlacesInputDemo.vue')['default']
     Home: typeof import('./theme/components/Home.vue')['default']

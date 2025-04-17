@@ -32,6 +32,7 @@ const nav = [
       { text: 'Sponsors', link: '/sponsors' },
       { text: 'Partners', link: '/partners' },
       { text: 'Postcardware', link: '/postcardware' },
+      { text: 'Stargazers', link: '/stargazers' },
       { text: 'License', link: '/license' },
       {
         items: [
@@ -72,18 +73,18 @@ const sidebar = [
     text: 'Advanced',
     items: [
       {
-        text: 'Vue ',
+        text: 'Vue Components',
         items: [
           { text: 'Overview', link: '/vue/' },
           { text: 'Credit Card Input', link: '/vue/credit-card' },
           { text: 'Date Input', link: '/vue/date' },
           { text: 'Time Input', link: '/vue/time' },
           { text: 'Numeral Input', link: '/vue/numeral' },
-          { text: 'Google Places Autocomplete', link: '/vue/google-places' },
+          { text: 'Google Places', link: '/vue/google-places' },
         ],
       },
       {
-        text: 'React',
+        text: 'React Components',
         items: [
           { text: 'Coming Soon' },
         ],
@@ -92,8 +93,8 @@ const sidebar = [
   },
   { text: 'Showcase', link: '/Showcase' },
 ]
-const description = 'A TypeScript Starter Kit. For a better Development Experience.'
-const title = 'ts-inputs | A TypeScript Starter Kit. For a better Development Experience.'
+const description = 'A collection of smart, type-safe input components for Vue.js with automatic formatting, validation, and internationalization support'
+const title = 'ts-inputs | Smart Input Components'
 
 export default withPwa(
   defineConfig({
@@ -113,7 +114,7 @@ export default withPwa(
       ['meta', { name: 'author', content: 'Stacks.js, Inc.' }],
       ['meta', {
         name: 'tags',
-        content: 'ts-inputs, stacksjs, reverse proxy, modern, lightweight, zero-config, local development',
+        content: 'ts-inputs, stacksjs, smart input formatting, type script, vue, react, input formatting, input masking, input validation, input validation, input validation',
       }],
 
       ['meta', { property: 'og:type', content: 'website' }],
@@ -123,7 +124,7 @@ export default withPwa(
 
       ['meta', { property: 'og:site_name', content: 'ts-inputs' }],
       ['meta', { property: 'og:image', content: './images/og-image.jpg' }],
-      ['meta', { property: 'og:url', content: 'https://reverse-proxy.sh/' }],
+      ['meta', { property: 'og:url', content: 'https://ts-inputs.netlify.app/' }],
       // ['script', { 'src': 'https://cdn.usefathom.com/script.js', 'data-site': '', 'data-spa': 'auto', 'defer': '' }],
       ...analyticsHead,
     ],

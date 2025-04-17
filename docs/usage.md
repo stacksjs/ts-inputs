@@ -133,8 +133,6 @@ if (formatInputs[inputType]) {
 }
 ```
 
-For more detailed information about specific features, check out the [Features Guide](/features).
-
 ## Vue Components
 
 `ts-inputs` comes with pre-built Vue components for easy integration into your Vue applications. These components handle all the formatting logic internally while providing a familiar Vue interface.
