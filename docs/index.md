@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "ts-inputs"
-  text: "Smart Input Formatting for TypeScript"
+  text: "Modern input masking"
   tagline: "A comprehensive library for formatting and validating various input types"
   image: /images/logo-white.png
   actions:

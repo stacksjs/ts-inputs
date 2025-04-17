@@ -8,39 +8,61 @@
 
 # ts-inputs
 
-This is an opinionated TypeScript Starter kit to help kick-start development of your next Bun package.
+A collection of smart, type-safe input components for Vue.js that provides automatic formatting, validation, and internationalization support. Built to make form input handling both powerful and developer-friendly.
 
 ## Features
 
-This Starter Kit comes pre-configured with the following:
+ts-inputs comes with the following powerful features:
 
-- 🛠️ [Powerful Build Process](https://github.com/oven-sh/bun) - via Bun
-- 💪🏽 [Fully Typed APIs](https://www.typescriptlang.org/) - via TypeScript
-- 📚 [Documentation-ready](https://vitepress.dev/) - via VitePress
-- ⌘ [CLI & Binary](https://www.npmjs.com/package/bunx) - via Bun & CAC
-- 🧪 [Built With Testing In Mind](https://bun.sh/docs/cli/test) - pre-configured unit-testing powered by [Bun](https://bun.sh/docs/cli/test)
-- 🤖 [Renovate](https://renovatebot.com/) - optimized & automated PR dependency updates
-- 🎨 [ESLint](https://eslint.org/) - for code linting _(and formatting)_
-- 📦️ [pkg.pr.new](https://pkg.pr.new) - Continuous (Preview) Releases for your libraries
-- 🐙 [GitHub Actions](https://github.com/features/actions) - runs your CI _(fixes code style issues, tags releases & creates its changelogs, runs the test suite, etc.)_
+- 🎯 **Smart Input Components**
+  - Credit Card formatting with automatic card type detection
+  - Date formatting with customizable patterns
+  - Time formatting with 12h/24h support
+  - Numerical formatting with thousand/lakh grouping
+  - Google Places autocomplete integration
+
+- 💪 **Type Safety**
+  - Full TypeScript support
+  - Type-safe props and events
+  - Intelligent autocompletion
+
+- 🌈 **Developer Experience**
+  - Simple Vue.js integration
+  - Customizable formatting options
+  - Automatic validation
+  - Internationalization support
+  - Modern and clean UI
 
 ## Get Started
 
-It's rather simple to get your package development started:
-
 ```bash
-# you may use this GitHub template or the following command:
-bunx degit stacksjs/ts-inputs my-pkg
-cd my-pkg
-
-bun i # install all deps
-bun run build # builds the library for production-ready use
-
-# after you have successfully committed, you may create a "release"
-bun run release # automates git commits, versioning, and changelog generations
+# Install using your preferred package manager
+npm install ts-inputs
+# or
+yarn add ts-inputs
+# or
+pnpm add ts-inputs
 ```
 
-_Check out the package.json scripts for more commands._
+Basic usage example:
+
+```vue
+<script setup lang="ts">
+import { CreditCardInput, DateInput, NumeralInput, TimeInput } from 'ts-inputs'
+
+const cardNumber = ref('')
+const date = ref('')
+const time = ref('')
+const number = ref('')
+</script>
+
+<template>
+  <CreditCardInput v-model="cardNumber" placeholder="Enter card number" />
+  <DateInput v-model="date" pattern="YYYY-MM-DD" />
+  <TimeInput v-model="time" format="24h" />
+  <NumeralInput v-model="number" thousand-group-style="thousand" />
+</template>
+```
 
 ## Testing
 
@@ -51,6 +73,10 @@ bun test
 ## Changelog
 
 Please see our [releases](https://github.com/stackjs/ts-inputs/releases) page for more information on what has changed recently.
+
+## Stargazers
+
+[![Stargazers](https://starchart.cc/stacksjs/ts-inputs.svg?variant=adaptive)](https://starchart.cc/stacksjs/ts-inputs)
 
 ## Contributing
 
