@@ -36,7 +36,8 @@
     "lint:fix": "bunx --bun eslint . --fix"
   },
   "dependencies": {
-    "@types/google.maps": "^3.58.1"
+    "@types/google.maps": "^3.58.1",
+    "date-fns": "^3.3.1"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.52.4",
