@@ -474,3 +474,175 @@ defineExpose({
     </ActionRow>
   </div>
 </template>
+
+<style scoped>
+.dp__menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--dp-background-color);
+  border: 1px solid var(--dp-border-color);
+  border-radius: var(--dp-border-radius);
+  box-shadow: var(--dp-menu-box-shadow);
+  transition: var(--dp-common-transition);
+}
+
+.dp__menu_index {
+  z-index: 99999;
+}
+
+.dp__relative {
+  position: relative;
+}
+
+.dp__arrow_top {
+  position: absolute;
+  top: -6px;
+  left: var(--dp-arrow-left);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--dp-border-color);
+}
+
+.dp__arrow_bottom {
+  position: absolute;
+  bottom: -6px;
+  left: var(--dp-arrow-left);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--dp-border-color);
+}
+
+.dp__menu_content_wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-width: 0;
+  transition: var(--dp-common-transition);
+}
+
+.dp--menu-content-wrapper-collapsed {
+  flex-direction: column;
+}
+
+.dp__sidebar_left,
+.dp__sidebar_right {
+  display: flex;
+  flex-direction: column;
+  padding: var(--dp-sidebar-padding);
+  background-color: var(--dp-sidebar-background-color);
+  border-right: 1px solid var(--dp-border-color);
+}
+
+.dp__sidebar_right {
+  border-right: none;
+  border-left: 1px solid var(--dp-border-color);
+}
+
+.dp__instance_calendar {
+  flex: 1;
+  min-width: 0;
+}
+
+.dp--preset-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: var(--dp-preset-dates-padding);
+  background-color: var(--dp-preset-dates-background-color);
+  border-right: 1px solid var(--dp-border-color);
+}
+
+.dp--preset-dates-collapsed {
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-right: none;
+  border-bottom: 1px solid var(--dp-border-color);
+}
+
+.dp__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: var(--dp-font-size);
+  color: var(--dp-text-color);
+  background-color: transparent;
+  border: 1px solid var(--dp-border-color);
+  border-radius: var(--dp-border-radius);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+}
+
+.dp__btn:hover {
+  background-color: var(--dp-hover-color);
+  border-color: var(--dp-border-color-hover);
+}
+
+.dp--preset-range {
+  width: 100%;
+  text-align: left;
+}
+
+.dp--preset-range-collapsed {
+  width: auto;
+}
+
+.dp__menu_disabled,
+.dp__menu_readonly {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dp-disabled-color);
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dp--menu-load-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dp-background-color);
+  z-index: 2;
+}
+
+.dp--menu-loader {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--dp-border-color);
+  border-top-color: var(--dp-primary-color);
+  border-radius: 50%;
+  animation: dp-spin 1s linear infinite;
+}
+
+.dp--menu-header {
+  padding: var(--dp-menu-header-padding);
+  background-color: var(--dp-menu-header-background-color);
+  border-bottom: 1px solid var(--dp-border-color);
+}
+
+.dp__action_extra {
+  padding: var(--dp-action-extra-padding);
+  background-color: var(--dp-action-extra-background-color);
+  border-top: 1px solid var(--dp-border-color);
+}
+
+@keyframes dp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>

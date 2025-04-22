@@ -81,6 +81,7 @@ const sidebar = [
           { text: 'Time Input', link: '/vue/time' },
           { text: 'Numeral Input', link: '/vue/numeral' },
           { text: 'Google Places', link: '/vue/google-places' },
+          { text: 'DateTime Picker', link: '/vue/datetime-picker' },
         ],
       },
       {

@@ -427,3 +427,143 @@ defineExpose({ triggerTransition })
     </div>
   </div>
 </template>
+
+<style scoped>
+.dp__calendar_header {
+  display: flex;
+  align-items: center;
+  padding: var(--dp-calendar-wrap-padding);
+  color: var(--dp-text-color);
+}
+
+.dp__calendar_header_item {
+  flex: 1;
+  text-align: center;
+  font-size: var(--dp-font-size);
+  font-weight: 500;
+  padding: var(--dp-calendar-header-cell-padding);
+}
+
+.dp__calendar_header_separator {
+  height: 1px;
+  background-color: var(--dp-border-color);
+  margin: var(--dp-row-margin);
+}
+
+.dp__calendar_row {
+  display: flex;
+  align-items: center;
+  padding: var(--dp-calendar-wrap-padding);
+}
+
+.dp__calendar_item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--dp-cell-size);
+  padding: var(--dp-cell-padding);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+}
+
+.dp__cell_inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: var(--dp-font-size);
+  color: var(--dp-text-color);
+  border-radius: var(--dp-cell-border-radius);
+  transition: var(--dp-common-transition);
+}
+
+.dp__calendar_item:hover .dp__cell_inner {
+  background-color: var(--dp-hover-color);
+}
+
+.dp__calendar_item.dp__cell_disabled .dp__cell_inner {
+  color: var(--dp-disabled-color-text);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dp__calendar_item.dp__active_date .dp__cell_inner {
+  background-color: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+}
+
+.dp__calendar_item.dp__range_start .dp__cell_inner,
+.dp__calendar_item.dp__range_end .dp__cell_inner {
+  background-color: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+}
+
+.dp__calendar_item.dp__range_between .dp__cell_inner {
+  background-color: var(--dp-range-between-dates-background-color);
+  color: var(--dp-range-between-dates-text-color);
+  border-radius: 0;
+}
+
+.dp__marker_dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--dp-marker-color);
+  margin-top: 2px;
+}
+
+.dp__marker_line {
+  width: 100%;
+  height: 2px;
+  background-color: var(--dp-marker-color);
+  margin-top: 2px;
+}
+
+.dp__marker_tooltip {
+  position: absolute;
+  z-index: 100;
+  background-color: var(--dp-tooltip-color);
+  border-radius: var(--dp-border-radius);
+  padding: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dp__tooltip_content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dp__tooltip_text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--dp-font-size);
+  color: var(--dp-text-color);
+}
+
+.dp__tooltip_mark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dp__arrow_bottom_tp {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--dp-tooltip-color);
+}
+
+.dp__week_num {
+  font-size: var(--dp-font-size);
+  color: var(--dp-text-color);
+  opacity: 0.7;
+}
+</style>

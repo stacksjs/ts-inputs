@@ -218,3 +218,94 @@ function selectDate(): void {
     </template>
   </div>
 </template>
+
+<style scoped>
+.dp__action_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--dp-action-row-padding);
+  background-color: var(--dp-background-color);
+  border-top: 1px solid var(--dp-border-color);
+  transition: var(--dp-action-row-transition);
+}
+
+.dp__selection_preview {
+  flex: 1;
+  min-width: 0;
+  padding: 0 0.5rem;
+  font-size: var(--dp-preview-font-size);
+  color: var(--dp-text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: var(--dp-action-row-transition);
+}
+
+.dp__action_buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--dp-action-buttons-padding);
+}
+
+.dp__action_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--dp-action-button-height);
+  padding: 0 0.75rem;
+  font-size: var(--dp-font-size);
+  font-weight: 500;
+  color: var(--dp-text-color);
+  background-color: transparent;
+  border: 1px solid var(--dp-border-color);
+  border-radius: var(--dp-border-radius);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+}
+
+.dp__action_button:hover {
+  background-color: var(--dp-hover-color);
+  border-color: var(--dp-border-color-hover);
+}
+
+.dp__action_button:focus {
+  outline: none;
+  border-color: var(--dp-border-color-focus);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.dp__action_button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dp__action_cancel {
+  color: var(--dp-secondary-color);
+  border-color: var(--dp-border-color);
+}
+
+.dp__action_cancel:hover {
+  color: var(--dp-text-color);
+  background-color: var(--dp-hover-color);
+}
+
+.dp__action_select {
+  color: var(--dp-primary-text-color);
+  background-color: var(--dp-primary-color);
+  border-color: var(--dp-primary-color);
+}
+
+.dp__action_select:hover {
+  background-color: var(--dp-primary-disabled-color);
+  border-color: var(--dp-primary-disabled-color);
+}
+
+.dp__action_select:disabled {
+  background-color: var(--dp-disabled-color);
+  border-color: var(--dp-disabled-color);
+  color: var(--dp-disabled-color-text);
+}
+</style>

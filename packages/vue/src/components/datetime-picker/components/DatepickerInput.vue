@@ -114,7 +114,7 @@ function handleRangeTextInput(value: string) {
   }
 }
 
-function handlePaste() {
+function handlePaste(): void {
   textPasted.value = true
 }
 
@@ -339,3 +339,123 @@ defineExpose({
     </div>
   </div>
 </template>
+
+<style scoped>
+.dp__input_wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  background-color: var(--dp-input-bg);
+  border: 1px solid var(--dp-input-border);
+  border-radius: var(--dp-border-radius);
+  transition: var(--dp-common-transition);
+}
+
+.dp__input_wrap:hover {
+  border-color: var(--dp-input-border-hover);
+}
+
+.dp__input_wrap:focus-within {
+  border-color: var(--dp-input-border-focus);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.dp__input {
+  width: 100%;
+  padding: var(--dp-input-padding);
+  font-size: var(--dp-font-size);
+  color: var(--dp-text-color);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  transition: var(--dp-common-transition);
+}
+
+.dp__input::placeholder {
+  color: var(--dp-placeholder-color);
+}
+
+.dp__input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dp__input_readonly {
+  cursor: default;
+}
+
+.dp__input_icon {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dp-input-icon-size);
+  height: 100%;
+  padding: 0 0.5rem;
+  color: var(--dp-icon-color);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+}
+
+.dp__input_icon:hover {
+  color: var(--dp-hover-icon-color);
+}
+
+.dp__input_icon_pad {
+  padding-right: var(--dp-input-icon-size);
+}
+
+.dp__input_valid {
+  border-color: var(--dp-success-color);
+}
+
+.dp__input_invalid {
+  border-color: var(--dp-danger-color);
+}
+
+.dp__input_focus {
+  border-color: var(--dp-input-border-focus);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.dp__input_reg {
+  cursor: pointer;
+}
+
+.dp__pointer {
+  cursor: pointer;
+}
+
+.dp__disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dp--clear-btn {
+  position: absolute;
+  right: var(--dp-input-icon-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dp-input-icon-size);
+  height: 100%;
+  padding: 0 0.5rem;
+  color: var(--dp-icon-color);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+}
+
+.dp--clear-btn:hover {
+  color: var(--dp-hover-icon-color);
+}
+
+.dp__input_icons {
+  width: var(--dp-input-icon-size);
+  height: var(--dp-input-icon-size);
+}
+</style>

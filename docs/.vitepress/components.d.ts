@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     CreditCardDemo: typeof import('./theme/components/CreditCardDemo.vue')['default']
     DateInputDemo: typeof import('./theme/components/DateInputDemo.vue')['default']
+    DateTimeDemo: typeof import('./theme/components/DateTimeDemo.vue')['default']
     GooglePlacesInputDemo: typeof import('./theme/components/GooglePlacesInputDemo.vue')['default']
     Home: typeof import('./theme/components/Home.vue')['default']
     HomeContributors: typeof import('./theme/components/HomeContributors.vue')['default']

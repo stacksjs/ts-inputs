@@ -347,3 +347,55 @@ defineExpose({
     </template>
   </div>
 </template>
+
+<style>
+.dp--header-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--dp-menu-padding);
+  background-color: red;
+  border-bottom: 1px solid var(--dp-border-color);
+}
+
+.dp__month_year_wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--dp-text-color);
+}
+
+.dp__month_year_select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  font-size: var(--dp-font-size);
+  font-weight: 500;
+  color: var(--dp-text-color);
+  background-color: transparent;
+  border: 1px solid var(--dp-border-color);
+  border-radius: var(--dp-border-radius);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+}
+
+.dp__month_year_select:hover {
+  background-color: var(--dp-hover-color);
+  border-color: var(--dp-border-color-hover);
+}
+
+.dp__month_year_select:focus {
+  outline: none;
+  border-color: var(--dp-border-color-focus);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.dp__month_year_select.dp--hidden-el {
+  visibility: hidden;
+}
+
+.dp__year_disable_select {
+  justify-content: center;
+}
+</style>
