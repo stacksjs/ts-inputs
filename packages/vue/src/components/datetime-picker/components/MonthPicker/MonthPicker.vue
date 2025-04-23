@@ -134,3 +134,65 @@ defineExpose({ getSidebarProps, presetDate, toggleYearPicker: (flow: boolean) =>
     </template>
   </InstanceWrap>
 </template>
+
+<style>
+.dp-month-picker-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+}
+
+.dp--month-items {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  padding: 5px;
+}
+
+.dp--month-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: var(--dp-border-radius);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+  background: transparent;
+  border: none;
+  color: var(--dp-text-color);
+  font-family: var(--dp-font-family);
+  font-size: var(--dp-font-size);
+}
+
+.dp--month-btn:hover {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp--month-btn:focus {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+  outline: none;
+}
+
+.dp--month-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dp--month-btn-active {
+  background-color: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+}
+
+.dp--month-btn-between {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp--month-btn-highlighted {
+  font-weight: bold;
+  color: var(--dp-primary-color);
+}
+</style>

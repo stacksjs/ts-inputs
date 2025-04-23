@@ -506,3 +506,152 @@ defineExpose({ openChildCmp })
     </template>
   </div>
 </template>
+
+<style>
+.dp__time_input {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+}
+
+.dp__time_col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.dp__time_col_block {
+  padding: 5px;
+  border-radius: var(--dp-border-radius);
+  background-color: var(--dp-background-color);
+}
+
+.dp__time_col_reg_block {
+  width: 60px;
+}
+
+.dp__time_col_reg_inline {
+  width: 50px;
+}
+
+.dp__time_col_reg_with_button {
+  width: 80px;
+}
+
+.dp__time_col_sec {
+  width: 80px;
+}
+
+.dp__time_col_sec_with_button {
+  width: 100px;
+}
+
+.dp__inc_dec_button {
+  width: 30px;
+  height: 30px;
+}
+
+.dp__inc_dec_button_inline {
+  width: 20px;
+  height: 20px;
+}
+
+.dp__tp_inline_btn_top {
+  margin-bottom: 5px;
+}
+
+.dp__tp_inline_btn_bottom {
+  margin-top: 5px;
+}
+
+.dp__inc_dec_button_disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dp__time_display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: var(--dp-border-radius);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+  background: transparent;
+  border: none;
+  color: var(--dp-text-color);
+  font-family: var(--dp-font-family);
+  font-size: var(--dp-font-size);
+}
+
+.dp__time_display_block {
+  width: 100%;
+}
+
+.dp__time_display_inline {
+  width: 40px;
+}
+
+.dp--time-invalid {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dp--time-overlay-btn:hover {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp--time-overlay-btn:focus {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+  outline: none;
+}
+
+.dp__pm_am_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: var(--dp-border-radius);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+  background: transparent;
+  border: none;
+  color: var(--dp-text-color);
+  font-family: var(--dp-font-family);
+  font-size: var(--dp-font-size);
+}
+
+.dp__pm_am_button:hover {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp__pm_am_button:focus {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+  outline: none;
+}
+
+.dp__tp_inline_btn_bar {
+  display: block;
+  width: 10px;
+  height: 2px;
+  background-color: var(--dp-text-color);
+}
+
+.dp__tp_btn_in_l {
+  transform: rotate(-45deg);
+}
+
+.dp__tp_btn_in_r {
+  transform: rotate(45deg);
+}
+
+.dp--hidden-el {
+  display: none;
+}
+</style>

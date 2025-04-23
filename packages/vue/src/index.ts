@@ -1,14 +1,17 @@
 import type { App, Plugin } from 'vue'
-import TSInputs from './components/TSInputs.vue'
+import BaseInputs from './components/BaseInputs.vue'
+import DateTimePicker from './components/datetime-picker/DateTimePicker.vue'
 
 const plugin: Plugin = {
   install: (app: App) => {
-    app.component('TSInputs', TSInputs)
+    app.component('DateTimePicker', DateTimePicker)
+    app.component('BaseInputs', BaseInputs)
   },
 }
 
 export default plugin
 
 export {
-  TSInputs,
+  BaseInputs,
+  DateTimePicker,
 }

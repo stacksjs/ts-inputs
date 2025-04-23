@@ -27,3 +27,33 @@ const calendarInstanceClassWrapper = computed(() => ({
     </div>
   </div>
 </template>
+
+<style>
+.dp__menu_inner {
+  padding: var(--dp-menu-padding);
+}
+
+.dp--menu--inner-stretched {
+  padding: 6px 0;
+}
+
+.dp__flex_display {
+  display: flex;
+  gap: 10px;
+}
+
+.dp--flex-display-collapsed {
+  flex-direction: column;
+  gap: 0;
+}
+
+.dp__instance_calendar {
+  flex: 1;
+  min-width: 0;
+}
+
+[data-dp-mobile] .dp__flex_display {
+  flex-direction: column;
+  gap: 0;
+}
+</style>

@@ -2,9 +2,8 @@
 import type { TSInputsProps } from '../types'
 import { format } from 'date-fns'
 import { ref, watch } from 'vue'
-import DpCalendar from './datetime-picker/components/DatePicker/DpCalendar.vue'
-import DpHeader from './datetime-picker/components/DatePicker/DpHeader.vue'
-import TimePicker from './datetime-picker/components/TimePicker/TimePicker.vue'
+
+import DateTimePicker from './datetime-picker/DateTimePicker.vue'
 
 const props = defineProps<TSInputsProps>()
 const emit = defineEmits<{
@@ -112,8 +111,9 @@ function handleTimeUpdate(value: { hours: number, minutes: number, seconds: numb
 </script>
 
 <template>
-  <div class="ts-inputs-wrapper">
+  <div class="base-inputs-wrapper">
     <input
+      v-if="type !== 'date'"
       ref="inputRef"
       v-model="formattedValue"
       :type="type === 'text' ? 'text' : 'text'"
@@ -125,45 +125,13 @@ function handleTimeUpdate(value: { hours: number, minutes: number, seconds: numb
     >
 
     <!-- Date Picker -->
-    <div v-if="type === 'date' && showDatePicker" class="date-picker-container">
-      <DpHeader
-        :month="month"
-        :year="year"
-        @update-month-year="handleMonthYearUpdate"
-      />
-      <DpCalendar
-        :days="[]"
-        :month="month"
-        :year="year"
-        @select-date="handleDateSelect"
-      />
-      <TimePicker
-        v-if="props.enableTimePicker"
-        :time="time"
-        @update-time="handleTimeUpdate"
-      />
-    </div>
+    <DateTimePicker v-if="type === 'date'" :class="className" v-model="formattedValue" range />
   </div>
 </template>
 
 <style>
-.dp__calendar {
-  display: flex;
-  flex-direction: column;
-  background-color: red;
-}
-
-.ts-inputs-wrapper {
+.base-inputs-wrapper {
   position: relative;
   display: inline-block;
-}
-
-.date-picker-container {
-  position: absolute;
-  z-index: 1000;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 </style>

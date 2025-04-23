@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 
-import type { DisabledTimesArrProp, TimeInputRef, TimeType } from '../../interfaces'
+import type { DisabledTimesArrProp, Flow, TimeInputRef, TimeType } from '../../interfaces'
 import { computed, nextTick, onMounted, ref, useSlots } from 'vue'
 
 import { mapSlots, useArrowNavigation, useCommon, useDefaults, useTransitions } from '../../composables'
@@ -54,6 +54,7 @@ const closeTimePickerBtn = ref(null)
 const timeInputRefs = ref<TimeInputRef[]>([])
 const overlayRef = ref<HTMLElement | null>(null)
 const timePickerOverlayOpen = ref(false)
+const navigationFlow: Flow = ref('time')
 
 onMounted(() => {
   emit('mount')
@@ -119,6 +120,12 @@ const toggleButtonClass = computed(() => ({
   dp__button_bottom: props.autoApply && !defaultedConfig.value.keepActionRow,
 }))
 
+const overlayClass = computed(() => ({
+  'dp__overlay': !props.timePickerInline,
+  'dp--overlay-absolute': !props.timePicker && !props.timePickerInline,
+  'dp--overlay-relative': props.timePicker,
+}))
+
 const timeInputSlots = mapSlots(slots, 'timePicker')
 
 function getEvent(event: number, index: number, property: 'hours' | 'minutes' | 'seconds') {
@@ -168,7 +175,7 @@ defineExpose({ toggleTimePicker })
   <div class="dp--tp-wrap" :data-dp-mobile="isMobile">
     <button
       v-if="!timePicker && !timePickerInline"
-      v-show="!hideNavigationButtons(hideNavigation, 'time')"
+      v-show="!hideNavigationButtons(hideNavigation, navigationFlow)"
       ref="openTimePickerBtn"
       type="button"
       :class="{ ...toggleButtonClass, 'dp--hidden-el': showTimePicker }"
@@ -186,11 +193,7 @@ defineExpose({ toggleTimePicker })
         v-if="showTimePicker || timePicker || timePickerInline"
         ref="overlayRef"
         :role="timePickerInline ? undefined : 'dialog'"
-        :class="{
-          'dp__overlay': !timePickerInline,
-          'dp--overlay-absolute': !props.timePicker && !timePickerInline,
-          'dp--overlay-relative': props.timePicker,
-        }"
+        :class="overlayClass"
         :style="timePicker ? { height: `${defaultedConfig.modeHeight}px` } : undefined"
         :aria-label="defaultedAriaLabels?.timePicker"
         :tabindex="timePickerInline ? undefined : 0"
@@ -249,7 +252,7 @@ defineExpose({ toggleTimePicker })
           </template>
           <button
             v-if="!timePicker && !timePickerInline"
-            v-show="!hideNavigationButtons(hideNavigation, 'time')"
+            v-show="!hideNavigationButtons(hideNavigation, navigationFlow)"
             ref="closeTimePickerBtn"
             type="button"
             :class="{ ...toggleButtonClass, 'dp--hidden-el': timePickerOverlayOpen }"
@@ -266,3 +269,100 @@ defineExpose({ toggleTimePicker })
     </transition>
   </div>
 </template>
+
+<style>
+.dp--tp-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+}
+
+.dp__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.dp--overlay-absolute {
+  position: absolute;
+}
+
+.dp--overlay-relative {
+  position: relative;
+}
+
+.dp__overlay_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background-color: var(--dp-background-color);
+  border-radius: var(--dp-border-radius);
+  box-shadow: var(--dp-box-shadow);
+}
+
+.dp__time_picker_overlay_container {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.dp__time_picker_inline_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dp__flex {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dp__flex_row {
+  flex-direction: row;
+}
+
+.dp__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: var(--dp-border-radius);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+  background: transparent;
+  border: none;
+  color: var(--dp-text-color);
+  font-family: var(--dp-font-family);
+  font-size: var(--dp-font-size);
+}
+
+.dp__btn:hover {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp__btn:focus {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+  outline: none;
+}
+
+.dp__button {
+  width: 40px;
+  height: 40px;
+}
+
+.dp__button_bottom {
+  margin-top: auto;
+}
+
+.dp--hidden-el {
+  display: none;
+}
+</style>

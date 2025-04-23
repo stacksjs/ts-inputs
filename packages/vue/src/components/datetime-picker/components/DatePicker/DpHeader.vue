@@ -351,51 +351,76 @@ defineExpose({
 <style>
 .dp--header-wrap {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--dp-menu-padding);
-  background-color: red;
-  border-bottom: 1px solid var(--dp-border-color);
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
 }
 
 .dp__month_year_wrap {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--dp-text-color);
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dp__year_disable_select {
+  justify-content: center;
 }
 
 .dp__month_year_select {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem;
-  font-size: var(--dp-font-size);
-  font-weight: 500;
-  color: var(--dp-text-color);
-  background-color: transparent;
-  border: 1px solid var(--dp-border-color);
+  padding: 5px 10px;
   border-radius: var(--dp-border-radius);
   cursor: pointer;
   transition: var(--dp-common-transition);
+  background: transparent;
+  border: none;
+  color: var(--dp-text-color);
+  font-family: var(--dp-font-family);
+  font-size: var(--dp-font-size);
 }
 
 .dp__month_year_select:hover {
   background-color: var(--dp-hover-color);
-  border-color: var(--dp-border-color-hover);
+  color: var(--dp-hover-text-color);
 }
 
 .dp__month_year_select:focus {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
   outline: none;
-  border-color: var(--dp-border-color-focus);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
-.dp__month_year_select.dp--hidden-el {
-  visibility: hidden;
+.dp--hidden-el {
+  display: none;
 }
 
-.dp__year_disable_select {
-  justify-content: center;
+.dp__btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--dp-font-family);
+  font-size: var(--dp-font-size);
+  color: var(--dp-text-color);
+  transition: var(--dp-common-transition);
+}
+
+.dp__btn:hover {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp__btn:focus {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+  outline: none;
+}
+
+.dp__btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>

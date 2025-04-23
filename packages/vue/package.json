@@ -35,16 +35,15 @@
     "lint": "bunx --bun eslint .",
     "lint:fix": "bunx --bun eslint . --fix"
   },
-  "dependencies": {
-    "@types/google.maps": "^3.58.1",
-    "date-fns": "^3.6.0"
-  },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.52.5",
+    "@microsoft/api-extractor": "^7.52.4",
     "@stacksjs/docs": "^0.70.23",
+    "@types/google.maps": "^3.58.1",
     "@vue/tsconfig": "^0.7.0",
     "bumpp": "^10.1.0",
     "bun-plugin-dtsx": "^0.21.9",
-    "changelogen": "^0.6.1"
+    "changelogen": "^0.6.1",
+    "clean-css": "^5.3.3",
+    "date-fns": "^3.3.1"
   }
 }

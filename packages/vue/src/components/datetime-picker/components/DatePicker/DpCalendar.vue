@@ -428,121 +428,127 @@ defineExpose({ triggerTransition })
   </div>
 </template>
 
-<style scoped>
+<style>
+.dp__calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+}
+
+.dp__calendar_next {
+  margin-left: 10px;
+}
+
 .dp__calendar_header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: var(--dp-calendar-wrap-padding);
-  color: var(--dp-text-color);
+  padding: 5px;
 }
 
 .dp__calendar_header_item {
   flex: 1;
   text-align: center;
-  font-size: var(--dp-font-size);
-  font-weight: 500;
-  padding: var(--dp-calendar-header-cell-padding);
+  font-weight: bold;
+  color: var(--dp-text-color);
 }
 
 .dp__calendar_header_separator {
   height: 1px;
   background-color: var(--dp-border-color);
-  margin: var(--dp-row-margin);
+  margin: 5px 0;
 }
 
 .dp__calendar_row {
   display: flex;
-  align-items: center;
-  padding: var(--dp-calendar-wrap-padding);
+  justify-content: space-between;
+  gap: 5px;
 }
 
 .dp__calendar_item {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--dp-cell-size);
-  padding: var(--dp-cell-padding);
+  text-align: center;
+  padding: 5px;
   cursor: pointer;
+  border-radius: var(--dp-border-radius);
   transition: var(--dp-common-transition);
+}
+
+.dp__calendar_item:hover {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp__calendar_item:focus {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+  outline: none;
+}
+
+.dp__calendar_item[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dp__calendar_item[aria-selected="true"] {
+  background-color: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
 }
 
 .dp__cell_inner {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  font-size: var(--dp-font-size);
+  height: 30px;
+  position: relative;
+}
+
+.dp__week_num {
+  font-weight: bold;
   color: var(--dp-text-color);
-  border-radius: var(--dp-cell-border-radius);
-  transition: var(--dp-common-transition);
-}
-
-.dp__calendar_item:hover .dp__cell_inner {
-  background-color: var(--dp-hover-color);
-}
-
-.dp__calendar_item.dp__cell_disabled .dp__cell_inner {
-  color: var(--dp-disabled-color-text);
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.dp__calendar_item.dp__active_date .dp__cell_inner {
-  background-color: var(--dp-primary-color);
-  color: var(--dp-primary-text-color);
-}
-
-.dp__calendar_item.dp__range_start .dp__cell_inner,
-.dp__calendar_item.dp__range_end .dp__cell_inner {
-  background-color: var(--dp-primary-color);
-  color: var(--dp-primary-text-color);
-}
-
-.dp__calendar_item.dp__range_between .dp__cell_inner {
-  background-color: var(--dp-range-between-dates-background-color);
-  color: var(--dp-range-between-dates-text-color);
-  border-radius: 0;
 }
 
 .dp__marker_dot {
+  position: absolute;
+  bottom: 2px;
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background-color: var(--dp-marker-color);
-  margin-top: 2px;
+  background-color: var(--dp-primary-color);
 }
 
 .dp__marker_line {
+  position: absolute;
+  bottom: 0;
   width: 100%;
   height: 2px;
-  background-color: var(--dp-marker-color);
-  margin-top: 2px;
+  background-color: var(--dp-primary-color);
 }
 
 .dp__marker_tooltip {
   position: absolute;
-  z-index: 100;
-  background-color: var(--dp-tooltip-color);
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--dp-background-color);
+  border: 1px solid var(--dp-border-color);
   border-radius: var(--dp-border-radius);
-  padding: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  z-index: 99999;
+  box-shadow: var(--dp-box-shadow);
 }
 
 .dp__tooltip_content {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 5px;
 }
 
 .dp__tooltip_text {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: var(--dp-font-size);
-  color: var(--dp-text-color);
+  gap: 5px;
 }
 
 .dp__tooltip_mark {
@@ -553,17 +559,76 @@ defineExpose({ triggerTransition })
 
 .dp__arrow_bottom_tp {
   position: absolute;
-  bottom: 0;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid var(--dp-tooltip-color);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--dp-border-color);
 }
 
-.dp__week_num {
-  font-size: var(--dp-font-size);
-  color: var(--dp-text-color);
-  opacity: 0.7;
+/* Transitions */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+.next-enter-active,
+.next-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.next-enter-from {
+  transform: translateX(100%);
+}
+
+.next-leave-to {
+  transform: translateX(-100%);
+}
+
+.previous-enter-active,
+.previous-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.previous-enter-from {
+  transform: translateX(-100%);
+}
+
+.previous-leave-to {
+  transform: translateX(100%);
+}
+
+.vNext-enter-active,
+.vNext-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.vNext-enter-from {
+  transform: translateY(100%);
+}
+
+.vNext-leave-to {
+  transform: translateY(-100%);
+}
+
+.vPrevious-enter-active,
+.vPrevious-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.vPrevious-enter-from {
+  transform: translateY(-100%);
+}
+
+.vPrevious-leave-to {
+  transform: translateY(100%);
 }
 </style>

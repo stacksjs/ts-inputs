@@ -309,92 +309,156 @@ defineExpose({
 </template>
 
 <style>
+.dp__date_picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dp__time_picker {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--dp-border-color);
+}
+
+.dp__calendar_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dp__calendar_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.dp__calendar_header_item {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  color: var(--dp-text-color);
+}
+
+.dp__calendar_header_separator {
+  height: 1px;
+  background-color: var(--dp-border-color);
+  margin: 5px 0;
+}
+
 .dp__calendar {
   display: flex;
   flex-direction: column;
-  background-color: var(--dp-background-color);
+  gap: 5px;
+}
+
+.dp__calendar_row {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.dp__calendar_item {
+  flex: 1;
+  text-align: center;
+  padding: 5px;
+  cursor: pointer;
   border-radius: var(--dp-border-radius);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: var(--dp-common-transition);
 }
 
-.dp__calendar_next {
-  margin-left: var(--dp-multi-calendars-spacing);
+.dp__calendar_item:hover {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
 }
 
-.dp__flex_display {
+.dp__calendar_item:focus {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+  outline: none;
+}
+
+.dp__calendar_item[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dp__calendar_item[aria-selected="true"] {
+  background-color: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+}
+
+.dp__cell_inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  position: relative;
+}
+
+.dp__week_num {
+  font-weight: bold;
+  color: var(--dp-text-color);
+}
+
+.dp__marker_dot {
+  position: absolute;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--dp-primary-color);
+}
+
+.dp__marker_line {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--dp-primary-color);
+}
+
+.dp__marker_tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--dp-background-color);
+  border: 1px solid var(--dp-border-color);
+  border-radius: var(--dp-border-radius);
+  padding: 5px;
+  z-index: 99999;
+  box-shadow: var(--dp-box-shadow);
+}
+
+.dp__tooltip_content {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 5px;
 }
 
-.dp__flex_display_with_input {
-  flex-direction: column;
-  align-items: flex-start;
+.dp__tooltip_text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.dp__flex_display_collapsed {
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: var(--dp-multi-calendars-spacing);
+.dp__tooltip_mark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
 }
 
-.dp__theme_dark {
-  --dp-background-color: #212121;
-  --dp-text-color: #fff;
-  --dp-hover-color: #484848;
-  --dp-hover-text-color: #fff;
-  --dp-hover-icon-color: #959595;
-  --dp-primary-color: #005cb2;
-  --dp-primary-disabled-color: #61a8ea;
-  --dp-primary-text-color: #fff;
-  --dp-secondary-color: #a9a9a9;
-  --dp-border-color: #2d2d2d;
-  --dp-menu-border-color: #2d2d2d;
-  --dp-border-color-hover: #aaaeb7;
-  --dp-border-color-focus: #aaaeb7;
-  --dp-disabled-color: #737373;
-  --dp-disabled-color-text: #d0d0d0;
-  --dp-scroll-bar-background: #212121;
-  --dp-scroll-bar-color: #484848;
-  --dp-success-color: #00701a;
-  --dp-success-color-disabled: #428f59;
-  --dp-icon-color: #959595;
-  --dp-danger-color: #e53935;
-  --dp-marker-color: #e53935;
-  --dp-tooltip-color: #3e3e3e;
-  --dp-highlight-color: rgb(0 92 178 / 20%);
-  --dp-range-between-dates-background-color: var(--dp-hover-color, #484848);
-  --dp-range-between-dates-text-color: var(--dp-hover-text-color, #fff);
-  --dp-range-between-border-color: var(--dp-hover-color, #fff);
-}
-
-.dp__theme_light {
-  --dp-background-color: #fff;
-  --dp-text-color: #212121;
-  --dp-hover-color: #f3f3f3;
-  --dp-hover-text-color: #212121;
-  --dp-hover-icon-color: #959595;
-  --dp-primary-color: #1976d2;
-  --dp-primary-disabled-color: #6bacea;
-  --dp-primary-text-color: #fff;
-  --dp-secondary-color: #c0c4cc;
-  --dp-border-color: #ddd;
-  --dp-menu-border-color: #ddd;
-  --dp-border-color-hover: #aaaeb7;
-  --dp-border-color-focus: #aaaeb7;
-  --dp-disabled-color: #f6f6f6;
-  --dp-scroll-bar-background: #f3f3f3;
-  --dp-scroll-bar-color: #959595;
-  --dp-success-color: #76d275;
-  --dp-success-color-disabled: #a3d9b1;
-  --dp-icon-color: #959595;
-  --dp-danger-color: #ff6f60;
-  --dp-marker-color: #ff6f60;
-  --dp-tooltip-color: #fafafa;
-  --dp-disabled-color-text: #8e8e8e;
-  --dp-highlight-color: rgb(25 118 210 / 10%);
-  --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
-  --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
-  --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
+.dp__arrow_bottom_tp {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--dp-border-color);
 }
 </style>

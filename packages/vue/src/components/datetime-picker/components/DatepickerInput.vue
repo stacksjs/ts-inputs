@@ -258,6 +258,10 @@ function onClearKeydown(event: KeyboardEvent) {
   }
 }
 
+function addEmit(event: string) {
+  return () => $emit(event)
+}
+
 defineExpose({
   focusInput,
   setParsedDate,
@@ -285,9 +289,9 @@ defineExpose({
         :on-keypress="handleKeyPress"
         :on-paste="handlePaste"
         :on-focus="handleFocus"
-        :open-menu="() => $emit('open')"
-        :close-menu="() => $emit('close')"
-        :toggle-menu="() => $emit('toggle')"
+        :open-menu="addEmit('open')"
+        :close-menu="addEmit('close')"
+        :toggle-menu="addEmit('toggle')"
       />
       <input
         v-if="!$slots['dp-input']"
@@ -340,73 +344,50 @@ defineExpose({
   </div>
 </template>
 
-<style scoped>
-.dp__input_wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-width: 0;
-  background-color: var(--dp-input-bg);
-  border: 1px solid var(--dp-input-border);
-  border-radius: var(--dp-border-radius);
-  transition: var(--dp-common-transition);
-}
-
-.dp__input_wrap:hover {
-  border-color: var(--dp-input-border-hover);
-}
-
-.dp__input_wrap:focus-within {
-  border-color: var(--dp-input-border-focus);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-}
-
+<style>
 .dp__input {
-  width: 100%;
-  padding: var(--dp-input-padding);
-  font-size: var(--dp-font-size);
-  color: var(--dp-text-color);
-  background-color: transparent;
-  border: none;
+  background: var(--dp-background-color);
+  border-radius: var(--dp-border-radius);
+  font-family: var(--dp-font-family);
+  border: 1px solid var(--dp-border-color);
   outline: none;
-  transition: var(--dp-common-transition);
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
+  font-size: var(--dp-font-size);
+  line-height: calc(var(--dp-font-size) * 1.5);
+  padding: var(--dp-input-padding);
+  color: var(--dp-text-color);
+  box-sizing: border-box;
+}
+
+.dp__input:hover {
+  border-color: var(--dp-border-color-hover);
+}
+
+.dp__input:focus {
+  border-color: var(--dp-border-color-focus);
 }
 
 .dp__input::placeholder {
   color: var(--dp-placeholder-color);
 }
 
-.dp__input:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
+.dp__input_icon_pad {
+  padding-left: var(--dp-input-icon-padding);
+}
+
+.dp__input_reg {
+  padding-left: var(--dp-input-padding);
 }
 
 .dp__input_readonly {
-  cursor: default;
-}
-
-.dp__input_icon {
-  position: absolute;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--dp-input-icon-size);
-  height: 100%;
-  padding: 0 0.5rem;
-  color: var(--dp-icon-color);
   cursor: pointer;
-  transition: var(--dp-common-transition);
 }
 
-.dp__input_icon:hover {
-  color: var(--dp-hover-icon-color);
-}
-
-.dp__input_icon_pad {
-  padding-right: var(--dp-input-icon-size);
+.dp__input_disabled {
+  background: var(--dp-disabled-color);
+  color: var(--dp-disabled-color-text);
+  cursor: not-allowed;
 }
 
 .dp__input_valid {
@@ -418,44 +399,61 @@ defineExpose({
 }
 
 .dp__input_focus {
-  border-color: var(--dp-input-border-focus);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  border-color: var(--dp-border-color-focus);
 }
 
-.dp__input_reg {
-  cursor: pointer;
-}
-
-.dp__pointer {
-  cursor: pointer;
-}
-
-.dp__disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.dp--clear-btn {
+.dp__input_icon {
   position: absolute;
-  right: var(--dp-input-icon-size);
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dp-icon-color);
+  height: var(--dp-button-icon-height);
+  width: var(--dp-button-icon-height);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--dp-input-icon-size);
-  height: 100%;
-  padding: 0 0.5rem;
-  color: var(--dp-icon-color);
   cursor: pointer;
-  transition: var(--dp-common-transition);
 }
 
-.dp--clear-btn:hover {
+.dp__input_icon:hover {
   color: var(--dp-hover-icon-color);
 }
 
+.dp__clear_icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dp-icon-color);
+  height: var(--dp-button-icon-height);
+  width: var(--dp-button-icon-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dp__clear_icon:hover {
+  color: var(--dp-hover-icon-color);
+}
+
+.dp__input_wrap {
+  position: relative;
+  width: 100%;
+}
+
 .dp__input_icons {
-  width: var(--dp-input-icon-size);
-  height: var(--dp-input-icon-size);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  padding-right: var(--dp-common-padding);
+}
+
+.dp__input_icon_pad {
+  padding-right: var(--dp-common-padding);
 }
 </style>

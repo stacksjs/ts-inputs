@@ -219,93 +219,71 @@ function selectDate(): void {
   </div>
 </template>
 
-<style scoped>
+<style>
 .dp__action_row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  width: 100%;
   padding: var(--dp-action-row-padding);
-  background-color: var(--dp-background-color);
-  border-top: 1px solid var(--dp-border-color);
-  transition: var(--dp-action-row-transition);
+  box-sizing: border-box;
+  color: var(--dp-text-color);
+  flex-flow: row nowrap;
+}
+
+.dp__action_row svg {
+  height: var(--dp-button-icon-height);
+  width: auto;
 }
 
 .dp__selection_preview {
-  flex: 1;
-  min-width: 0;
-  padding: 0 0.5rem;
-  font-size: var(--dp-preview-font-size);
+  display: block;
   color: var(--dp-text-color);
-  white-space: nowrap;
+  font-size: var(--dp-preview-font-size);
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
-  transition: var(--dp-action-row-transition);
 }
 
 .dp__action_buttons {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: var(--dp-action-buttons-padding);
+  flex: 0;
+  white-space: nowrap;
 }
 
 .dp__action_button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  background: none;
+  border: none;
+  padding: var(--dp-action-buttons-padding);
+  margin: 0 5px;
   height: var(--dp-action-button-height);
-  padding: 0 0.75rem;
-  font-size: var(--dp-font-size);
-  font-weight: 500;
-  color: var(--dp-text-color);
-  background-color: transparent;
-  border: 1px solid var(--dp-border-color);
   border-radius: var(--dp-border-radius);
+  font-size: var(--dp-font-size);
   cursor: pointer;
-  transition: var(--dp-common-transition);
-}
-
-.dp__action_button:hover {
-  background-color: var(--dp-hover-color);
-  border-color: var(--dp-border-color-hover);
-}
-
-.dp__action_button:focus {
-  outline: none;
-  border-color: var(--dp-border-color-focus);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-}
-
-.dp__action_button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
+  transition: var(--dp-action-row-transition);
 }
 
 .dp__action_cancel {
-  color: var(--dp-secondary-color);
-  border-color: var(--dp-border-color);
+  color: var(--dp-text-color);
 }
 
 .dp__action_cancel:hover {
-  color: var(--dp-text-color);
-  background-color: var(--dp-hover-color);
+  background: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
 }
 
 .dp__action_select {
+  background: var(--dp-primary-color);
   color: var(--dp-primary-text-color);
-  background-color: var(--dp-primary-color);
-  border-color: var(--dp-primary-color);
 }
 
 .dp__action_select:hover {
-  background-color: var(--dp-primary-disabled-color);
-  border-color: var(--dp-primary-disabled-color);
+  background: var(--dp-primary-color);
+  opacity: 0.8;
 }
 
 .dp__action_select:disabled {
-  background-color: var(--dp-disabled-color);
-  border-color: var(--dp-disabled-color);
+  background: var(--dp-disabled-color);
   color: var(--dp-disabled-color-text);
+  cursor: not-allowed;
 }
 </style>

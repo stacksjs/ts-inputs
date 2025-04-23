@@ -113,3 +113,65 @@ defineExpose({ getSidebarProps })
     </div>
   </InstanceWrap>
 </template>
+
+<style>
+.dp-quarter-picker-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+}
+
+.dp--quarter-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  padding: 5px;
+}
+
+.dp--qr-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: var(--dp-border-radius);
+  cursor: pointer;
+  transition: var(--dp-common-transition);
+  background: transparent;
+  border: none;
+  color: var(--dp-text-color);
+  font-family: var(--dp-font-family);
+  font-size: var(--dp-font-size);
+}
+
+.dp--qr-btn:hover {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp--qr-btn:focus {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+  outline: none;
+}
+
+.dp--qr-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dp--qr-btn-active {
+  background-color: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+}
+
+.dp--qr-btn-between {
+  background-color: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp--qr-btn-highlighted {
+  font-weight: bold;
+  color: var(--dp-primary-color);
+}
+</style>
