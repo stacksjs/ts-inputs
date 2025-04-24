@@ -77,11 +77,10 @@ const sidebar = [
         items: [
           { text: 'Overview', link: '/vue/' },
           { text: 'Credit Card Input', link: '/vue/credit-card' },
-          { text: 'Date Input', link: '/vue/date' },
+          { text: 'DateTime Input', link: '/vue/datetime' },
           { text: 'Time Input', link: '/vue/time' },
           { text: 'Numeral Input', link: '/vue/numeral' },
           { text: 'Google Places', link: '/vue/google-places' },
-          { text: 'DateTime Picker', link: '/vue/datetime-picker' },
         ],
       },
       {

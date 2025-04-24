@@ -248,42 +248,48 @@ function selectDate(): void {
   display: flex;
   flex: 0;
   white-space: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  margin-inline-start: auto;
 }
 
 .dp__action_button {
-  background: none;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
   padding: var(--dp-action-buttons-padding);
-  margin: 0 5px;
+  line-height: var(--dp-action-button-height);
+  margin-inline-start: 3px;
   height: var(--dp-action-button-height);
-  border-radius: var(--dp-border-radius);
-  font-size: var(--dp-font-size);
   cursor: pointer;
-  transition: var(--dp-action-row-transition);
+  border-radius: var(--dp-border-radius);
+  font-size: var(--dp-preview-font-size);
+  font-family: var(--dp-font-family);
 }
 
 .dp__action_cancel {
   color: var(--dp-text-color);
+  border: 1px solid var(--dp-border-color);
 }
 
 .dp__action_cancel:hover {
-  background: var(--dp-hover-color);
-  color: var(--dp-hover-text-color);
+  border-color: var(--dp-primary-color);
+  transition: var(--dp-action-row-transition);
 }
 
-.dp__action_select {
+.dp__action_buttons .dp__action_select {
   background: var(--dp-primary-color);
   color: var(--dp-primary-text-color);
 }
 
-.dp__action_select:hover {
+.dp__action_buttons .dp__action_select:hover {
   background: var(--dp-primary-color);
-  opacity: 0.8;
+  transition: var(--dp-action-row-transition);
 }
 
-.dp__action_select:disabled {
-  background: var(--dp-disabled-color);
-  color: var(--dp-disabled-color-text);
+.dp__action_buttons .dp__action_select:disabled {
+  background: var(--dp-primary-disabled-color);
   cursor: not-allowed;
 }
 </style>

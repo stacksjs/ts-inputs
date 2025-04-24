@@ -521,6 +521,7 @@ defineExpose({
   position: absolute;
   inset: 0;
   z-index: 999999;
+
   background: rgb(255 255 255 / 50%);
   cursor: not-allowed;
 }

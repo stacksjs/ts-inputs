@@ -118,60 +118,55 @@ defineExpose({ getSidebarProps })
 .dp-quarter-picker-wrap {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 5px;
+  height: 100%;
+  min-width: var(--dp-menu-min-width);
 }
 
-.dp--quarter-items {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5px;
-  padding: 5px;
+.dp--qr-btn-disabled {
+  cursor: not-allowed;
+  background: var(--dp-disabled-color);
+}
+
+.dp--qr-btn-disabled:hover {
+  background: var(--dp-disabled-color);
 }
 
 .dp--qr-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  border-radius: var(--dp-border-radius);
-  cursor: pointer;
-  transition: var(--dp-common-transition);
-  background: transparent;
   border: none;
-  color: var(--dp-text-color);
-  font-family: var(--dp-font-family);
-  font-size: var(--dp-font-size);
+  font: inherit;
+  transition: var(--dp-common-transition);
+  line-height: normal;
+  width: 100%;
+  padding: var(--dp-common-padding);
+  background: none;
 }
 
-.dp--qr-btn:hover {
-  background-color: var(--dp-hover-color);
+.dp--qr-btn:not(.dp--highlighted):not(.dp--qr-btn-active):not(.dp--qr-btn-disabled):not(.dp--qr-btn-between) {
+  background: none;
+}
+
+.dp--qr-btn:hover:not(.dp--qr-btn-active):not(.dp--qr-btn-disabled) {
+  background: var(--dp-hover-color);
   color: var(--dp-hover-text-color);
+  transition: var(--dp-common-transition);
 }
 
-.dp--qr-btn:focus {
-  background-color: var(--dp-hover-color);
-  color: var(--dp-hover-text-color);
-  outline: none;
-}
-
-.dp--qr-btn[aria-disabled="true"] {
-  opacity: 0.5;
-  cursor: not-allowed;
+.dp--quarter-items {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  justify-content: space-evenly;
 }
 
 .dp--qr-btn-active {
-  background-color: var(--dp-primary-color);
+  background: var(--dp-primary-color);
   color: var(--dp-primary-text-color);
 }
 
 .dp--qr-btn-between {
-  background-color: var(--dp-hover-color);
+  background: var(--dp-hover-color);
   color: var(--dp-hover-text-color);
-}
-
-.dp--qr-btn-highlighted {
-  font-weight: bold;
-  color: var(--dp-primary-color);
 }
 </style>

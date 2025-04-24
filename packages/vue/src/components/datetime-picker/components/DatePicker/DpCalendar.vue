@@ -429,206 +429,251 @@ defineExpose({ triggerTransition })
 </template>
 
 <style>
-.dp__calendar {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 5px;
-}
-
-.dp__calendar_next {
-  margin-left: 10px;
-}
-
 .dp__calendar_header {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 5px;
+  color: var(--dp-text-color);
+  white-space: nowrap;
+  font-weight: bold;
 }
 
 .dp__calendar_header_item {
-  flex: 1;
   text-align: center;
-  font-weight: bold;
-  color: var(--dp-text-color);
-}
-
-.dp__calendar_header_separator {
-  height: 1px;
-  background-color: var(--dp-border-color);
-  margin: 5px 0;
+  flex-grow: 1;
+  height: var(--dp-cell-size);
+  padding: var(--dp-cell-padding);
+  width: var(--dp-cell-size);
+  box-sizing: border-box;
 }
 
 .dp__calendar_row {
   display: flex;
-  justify-content: space-between;
-  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  margin: var(--dp-row-margin);
 }
 
 .dp__calendar_item {
-  flex: 1;
   text-align: center;
-  padding: 5px;
-  cursor: pointer;
-  border-radius: var(--dp-border-radius);
-  transition: var(--dp-common-transition);
+  flex-grow: 1;
+  box-sizing: border-box;
+  color: var(--dp-text-color);
 }
 
-.dp__calendar_item:hover {
-  background-color: var(--dp-hover-color);
-  color: var(--dp-hover-text-color);
+.dp__calendar {
+  position: relative;
 }
 
-.dp__calendar_item:focus {
-  background-color: var(--dp-hover-color);
-  color: var(--dp-hover-text-color);
-  outline: none;
-}
-
-.dp__calendar_item[aria-disabled="true"] {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.dp__calendar_item[aria-selected="true"] {
-  background-color: var(--dp-primary-color);
-  color: var(--dp-primary-text-color);
+.dp__calendar_header_cell {
+  border-bottom: thin solid var(--dp-border-color);
+  padding: var(--dp-calendar-header-cell-padding);
 }
 
 .dp__cell_inner {
   display: flex;
   align-items: center;
+  text-align: center;
   justify-content: center;
-  height: 30px;
+  border-radius: var(--dp-cell-border-radius);
+  height: var(--dp-cell-size);
+  padding: var(--dp-cell-padding);
+  width: var(--dp-cell-size);
+  border: 1px solid transparent;
+  box-sizing: border-box;
   position: relative;
 }
 
+.dp__cell_inner:hover {
+  transition: all 0.2s;
+}
+
+.dp__cell_offset {
+  color: var(--dp-secondary-color);
+}
+
+.dp__cell_disabled {
+  color: var(--dp-secondary-color);
+  cursor: not-allowed;
+}
+
+.dp__active_date {
+  background: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+}
+
+.dp__range_start {
+  background: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
+}
+
+.dp__range_end {
+  background: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+  border-end-start-radius: 0;
+  border-start-start-radius: 0;
+}
+
+.dp__date_hover:hover {
+  background: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp__date_hover_start:hover {
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
+  background: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp__date_hover_end:hover {
+  border-end-start-radius: 0;
+  border-start-start-radius: 0;
+  background: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp__range_between {
+  background: var(--dp-range-between-dates-background-color);
+  color: var(--dp-range-between-dates-text-color);
+  border-radius: 0;
+  border: 1px solid var(--dp-range-between-border-color);
+}
+
+.dp__range_between_week {
+  background: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+  border-radius: 0;
+  border-top: 1px solid var(--dp-primary-color);
+  border-bottom: 1px solid var(--dp-primary-color);
+}
+
+.dp__today {
+  border: 1px solid var(--dp-primary-color);
+}
+
 .dp__week_num {
-  font-weight: bold;
-  color: var(--dp-text-color);
+  color: var(--dp-secondary-color);
+  text-align: center;
+}
+
+.dp__cell_auto_range {
+  border-radius: 0;
+  border-top: 1px dashed var(--dp-primary-color);
+  border-bottom: 1px dashed var(--dp-primary-color);
+}
+
+.dp__cell_auto_range_start {
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
+
+  border-start-start-radius: var(--dp-cell-border-radius);
+  border-end-start-radius: var(--dp-cell-border-radius);
+  border-inline-start: 1px dashed var(--dp-primary-color);
+  border-top: 1px dashed var(--dp-primary-color);
+  border-bottom: 1px dashed var(--dp-primary-color);
+}
+
+.dp__cell_auto_range_end {
+  border-end-start-radius: 0;
+  border-start-start-radius: 0;
+
+  border-start-end-radius: var(--dp-cell-border-radius);
+  border-end-end-radius: var(--dp-cell-border-radius);
+  border-top: 1px dashed var(--dp-primary-color);
+  border-bottom: 1px dashed var(--dp-primary-color);
+  border-inline-end: 1px dashed var(--dp-primary-color);
+}
+
+.dp__calendar_header_separator {
+  width: 100%;
+  height: 1px;
+  background: var(--dp-border-color);
+}
+
+.dp__calendar_next {
+  margin-inline-start: var(--dp-multi-calendars-spacing);
 }
 
 .dp__marker_dot {
-  position: absolute;
-  bottom: 2px;
-  width: 4px;
-  height: 4px;
+  width: 5px;
   border-radius: 50%;
-  background-color: var(--dp-primary-color);
+  left: 50%;
+  transform: translateX(-50%);
+  height: 5px;
+  background-color: var(--dp-marker-color);
+  position: absolute;
+  bottom: 0;
 }
 
 .dp__marker_line {
+  width: 100%;
+  left: 0;
+  height: 5px;
+  background-color: var(--dp-marker-color);
   position: absolute;
   bottom: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--dp-primary-color);
 }
 
 .dp__marker_tooltip {
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--dp-background-color);
-  border: 1px solid var(--dp-border-color);
   border-radius: var(--dp-border-radius);
+  background-color: var(--dp-tooltip-color);
   padding: 5px;
+  border: 1px solid var(--dp-border-color);
   z-index: 99999;
-  box-shadow: var(--dp-box-shadow);
+  box-sizing: border-box;
+  cursor: default;
 }
 
 .dp__tooltip_content {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  white-space: nowrap;
 }
 
 .dp__tooltip_text {
   display: flex;
   align-items: center;
-  gap: 5px;
+  flex-flow: row nowrap;
+  color: var(--dp-text-color);
 }
 
 .dp__tooltip_mark {
-  width: 8px;
-  height: 8px;
+  height: 5px;
+  width: 5px;
   border-radius: 50%;
+  background-color: var(--dp-text-color);
+  color: var(--dp-text-color);
+  margin-inline-end: 5px;
 }
 
 .dp__arrow_bottom_tp {
+  bottom: 0;
+  height: 8px;
+  width: 8px;
+  background-color: var(--dp-tooltip-color);
   position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid var(--dp-border-color);
+  border-inline-end: 1px solid var(--dp-border-color);
+  border-bottom: 1px solid var(--dp-border-color);
+  transform: translate(-50%, 50%) rotate(45deg);
 }
 
-/* Transitions */
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.3s ease;
+.dp__instance_calendar {
+  position: relative;
+  width: 100%;
 }
 
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
+.dp__flex_display[data-dp-mobile] {
+  flex-direction: column;
 }
 
-.next-enter-active,
-.next-leave-active {
-  transition: transform 0.3s ease;
+.dp--flex-display-collapsed {
+  flex-direction: column;
 }
 
-.next-enter-from {
-  transform: translateX(100%);
-}
-
-.next-leave-to {
-  transform: translateX(-100%);
-}
-
-.previous-enter-active,
-.previous-leave-active {
-  transition: transform 0.3s ease;
-}
-
-.previous-enter-from {
-  transform: translateX(-100%);
-}
-
-.previous-leave-to {
-  transform: translateX(100%);
-}
-
-.vNext-enter-active,
-.vNext-leave-active {
-  transition: transform 0.3s ease;
-}
-
-.vNext-enter-from {
-  transform: translateY(100%);
-}
-
-.vNext-leave-to {
-  transform: translateY(-100%);
-}
-
-.vPrevious-enter-active,
-.vPrevious-leave-active {
-  transition: transform 0.3s ease;
-}
-
-.vPrevious-enter-from {
-  transform: translateY(-100%);
-}
-
-.vPrevious-leave-to {
-  transform: translateY(100%);
+.dp__cell_highlight {
+  background-color: var(--dp-highlight-color);
 }
 </style>

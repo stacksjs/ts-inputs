@@ -109,39 +109,9 @@ function handleYear(increment = false): void {
 <style>
 .dp--year-mode-picker {
   display: flex;
+  width: 100%;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 5px;
-}
-
-.dp--year-select {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 12px;
-  border-radius: var(--dp-border-radius);
-  cursor: pointer;
-  transition: var(--dp-common-transition);
-  background: transparent;
-  border: none;
-  color: var(--dp-text-color);
-  font-family: var(--dp-font-family);
-  font-size: var(--dp-font-size);
-}
-
-.dp--year-select:hover {
-  background-color: var(--dp-hover-color);
-  color: var(--dp-hover-text-color);
-}
-
-.dp--year-select:focus {
-  background-color: var(--dp-hover-color);
-  color: var(--dp-hover-text-color);
-  outline: none;
-}
-
-.dp--hidden-el {
-  display: none;
+  justify-content: space-between;
+  height: var(--dp-cell-size);
 }
 </style>

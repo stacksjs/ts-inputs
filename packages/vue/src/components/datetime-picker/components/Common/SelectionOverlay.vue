@@ -333,111 +333,135 @@ defineExpose({ focusGrid })
 
 <style>
 .dp__overlay {
-  position: fixed;
+  width: 100%;
   background: var(--dp-background-color);
-  border-radius: var(--dp-border-radius);
-  border: 1px solid var(--dp-menu-border-color);
-  box-shadow: var(--dp-box-shadow);
+  transition: opacity 1s ease-out;
   z-index: 99999;
   font-family: var(--dp-font-family);
-  font-size: var(--dp-font-size);
-  user-select: none;
+  color: var(--dp-text-color);
   box-sizing: border-box;
 }
 
 .dp--overlay-absolute {
   position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 
 .dp--overlay-relative {
   position: relative;
 }
 
-.dp__overlay_container {
-  overflow-y: auto;
-  max-height: var(--dp-overlay-height);
-  padding: 5px;
+.dp__overlay_container::-webkit-scrollbar-track {
+  box-shadow: var(--dp-scroll-bar-background);
+  background-color: var(--dp-scroll-bar-background);
+}
+
+.dp__overlay_container::-webkit-scrollbar {
+  width: 5px;
+  background-color: var(--dp-scroll-bar-background);
+}
+
+.dp__overlay_container::-webkit-scrollbar-thumb {
+  background-color: var(--dp-scroll-bar-color);
+  border-radius: 10px;
+}
+
+.dp__overlay:focus {
+  border: none;
+  outline: none;
 }
 
 .dp__container_flex {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
 }
 
 .dp__container_block {
   display: block;
 }
 
-.dp__selection_grid_header {
-  padding: 5px;
-  text-align: center;
-  font-weight: bold;
+.dp__overlay_container {
+  flex-direction: column;
+  overflow-y: auto;
+  height: var(--dp-overlay-height);
+}
+
+.dp__time_picker_overlay_container {
+  height: 100%;
 }
 
 .dp__overlay_row {
+  padding: 0;
+  box-sizing: border-box;
   display: flex;
-  justify-content: center;
-  gap: 5px;
-  padding: 5px;
+  margin-inline: auto;
+  flex-wrap: wrap;
+  max-width: 100%;
+  width: 100%;
+  align-items: center;
 }
 
 .dp__flex_row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  flex: 1;
 }
 
 .dp__overlay_col {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-sizing: border-box;
+  width: 33%;
+  padding: var(--dp-overlay-col-padding);
+  white-space: nowrap;
+}
+
+.dp__overlay_cell_pad {
+  padding: var(--dp-common-padding) 0;
+}
+
+.dp__overlay_cell_active {
   cursor: pointer;
   border-radius: var(--dp-border-radius);
-  transition: var(--dp-common-transition);
-  padding: 5px;
-  min-width: 30px;
-  height: 30px;
-}
-
-.dp__overlay_col:hover {
-  background-color: var(--dp-hover-color);
-  color: var(--dp-hover-text-color);
-}
-
-.dp__overlay_col:focus {
-  background-color: var(--dp-hover-color);
-  color: var(--dp-hover-text-color);
-  outline: none;
-}
-
-.dp__overlay_col[aria-disabled="true"] {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.dp__overlay_col[aria-selected="true"] {
-  background-color: var(--dp-primary-color);
+  text-align: center;
+  background: var(--dp-primary-color);
   color: var(--dp-primary-text-color);
 }
 
-.dp__overlay_action {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 5px;
-  margin-top: 5px;
-  border-top: 1px solid var(--dp-border-color);
+.dp__overlay_cell {
+  cursor: pointer;
+  border-radius: var(--dp-border-radius);
+  text-align: center;
+  transition: var(--dp-common-transition);
+}
+
+.dp__overlay_cell:hover {
+  background: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
+}
+
+.dp__cell_in_between {
+  background: var(--dp-hover-color);
+  color: var(--dp-hover-text-color);
 }
 
 .dp__over_action_scroll {
-  position: sticky;
-  bottom: 0;
-  background-color: var(--dp-background-color);
+  right: 5px;
+  box-sizing: border-box;
 }
 
-.dp__button_bottom {
-  margin-bottom: 5px;
+.dp__overlay_cell_disabled {
+  cursor: not-allowed;
+  background: var(--dp-disabled-color);
+}
+
+.dp__overlay_cell_disabled:hover {
+  background: var(--dp-disabled-color);
+}
+
+.dp__overlay_cell_active_disabled {
+  cursor: not-allowed;
+  background: var(--dp-primary-disabled-color);
+}
+
+.dp__overlay_cell_active_disabled:hover {
+  background: var(--dp-primary-disabled-color);
 }
 </style>
