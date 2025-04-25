@@ -16,8 +16,8 @@
   "keywords": ["typescript", "starter", "kit", "bun", "package", "vue", "components"],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/ts-inputs/index.d.ts",
+      "import": "./dist/ts-inputs/index.js"
     },
     "./vue": {
       "types": "./dist/vue/index.d.ts",

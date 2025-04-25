@@ -4,13 +4,11 @@ import type {
   FormatNumeralOptions,
   FormatTimeOptions,
   NumeralThousandGroupStyles,
-  TimeFormatType,
-  TimePatternType,
 } from 'ts-inputs'
 
 import type { TimeZoneConfig } from './components/datetime-picker/interfaces'
 
-export type InputType = 'text' | 'credit-card' | 'date' | 'numeral' | 'time' | 'google-places'
+export type InputType = 'text' | 'date' | 'credit-card' | 'numeral' | 'time' | 'places'
 
 export interface TSInputsProps {
   modelValue: string
@@ -95,4 +93,21 @@ export interface NumeralInputProps {
   thousandGroupStyle?: NumeralThousandGroupStyles
   className?: string
   options?: Omit<FormatNumeralOptions, 'delimiter' | 'thousandGroupStyle'>
+}
+
+export interface PlacesOptions {
+  apiKey: string
+  types?: string[]
+  componentRestrictions?: {
+    country: string | string[]
+  }
+}
+
+export interface TSInputsProps {
+  modelValue: string
+  type: InputType
+  className?: string
+  placeholder?: string
+  dateOptions?: DateOptions
+  placesOptions?: PlacesOptions
 }

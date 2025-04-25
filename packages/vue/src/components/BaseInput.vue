@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { TSInputsProps } from '../types'
 import { format, parse } from 'date-fns'
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import DateTimePicker from './datetime-picker/DateTimePicker.vue'
+import { CreditCardType } from 'ts-inputs'
 
 const props = defineProps<TSInputsProps>()
 
@@ -32,11 +33,50 @@ const emit = defineEmits<{
   (e: 'invalidDate'): void
   (e: 'overlayToggle'): void
   (e: 'textInput'): void
+  (e: 'placeSelected', place: any): void
+  (e: 'cardType', type: CreditCardType): void
 }>()
 
 const inputRef = ref<HTMLInputElement | null>(null)
 const formattedValue = ref(props.modelValue)
 const showDatePicker = ref(false)
+const autocomplete = ref<google.maps.places.Autocomplete | null>(null)
+
+// Initialize Google Places Autocomplete if type is 'places'
+onMounted(() => {
+  if (props.type === 'places' && props.placesOptions?.apiKey) {
+    if (!window.google) {
+      const script = document.createElement('script')
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${props.placesOptions.apiKey}&libraries=places`
+      script.async = true
+      script.defer = true
+      document.head.appendChild(script)
+      script.onload = initAutocomplete
+    }
+    else {
+      initAutocomplete()
+    }
+  }
+})
+
+function initAutocomplete() {
+  if (!inputRef.value || !props.placesOptions?.apiKey)
+    return
+
+  autocomplete.value = new google.maps.places.Autocomplete(inputRef.value, {
+    types: props.placesOptions.types || ['address'],
+    componentRestrictions: props.placesOptions.componentRestrictions || { country: 'us' },
+  })
+
+  autocomplete.value.addListener('place_changed', () => {
+    const place = autocomplete.value?.getPlace()
+    if (place && place.formatted_address) {
+      formattedValue.value = place.formatted_address
+      emit('update:modelValue', place.formatted_address)
+      emit('placeSelected', place)
+    }
+  })
+}
 
 // Computed date format
 const dateFormat = computed(() => {
@@ -48,6 +88,56 @@ const dateFormat = computed(() => {
   return 'yyyy-MM-dd'
 })
 
+// Format credit card number
+function formatCreditCard(value: string): string {
+  const cleanValue = value.replace(/\D/g, '')
+  const delimiter = props.creditCardOptions?.delimiter || ' '
+
+  // Determine card type based on first digits
+  const firstDigit = cleanValue.charAt(0)
+  const firstTwoDigits = cleanValue.slice(0, 2)
+  const firstFourDigits = cleanValue.slice(0, 4)
+
+  let cardType: CreditCardType | null = null
+
+  // Check card type
+  if (firstDigit === '4') {
+    cardType = CreditCardType.VISA
+  }
+  else if (firstTwoDigits === '34' || firstTwoDigits === '37') {
+    cardType = CreditCardType.AMEX
+  }
+  else if (firstTwoDigits >= '51' && firstTwoDigits <= '55') {
+    cardType = CreditCardType.MASTERCARD
+  }
+  else if (firstFourDigits === '6011' || firstTwoDigits === '65') {
+    cardType = CreditCardType.DISCOVER
+  }
+  else if (firstTwoDigits === '36' || firstTwoDigits === '38' || firstTwoDigits === '39') {
+    cardType = CreditCardType.DINERS
+  }
+  else if (firstTwoDigits === '35') {
+    cardType = CreditCardType.JCB
+  }
+
+  if (cardType) {
+    emit('cardType', cardType)
+  }
+
+  // Format based on card type
+  let formatted = cleanValue
+  if (cardType === CreditCardType.AMEX) {
+    // AMEX: XXXX XXXXXX XXXXX
+    formatted = cleanValue.replace(/(\d{4})(\d{6})(\d{5})/, `$1${delimiter}$2${delimiter}$3`)
+  }
+  else {
+    // Other cards: XXXX XXXX XXXX XXXX
+    formatted = cleanValue.replace(/(\d{4})/g, `$1${delimiter}`).trim()
+  }
+
+  return formatted
+}
+
 // Handle input changes
 function handleInput(event: Event) {
   const target = event.target as HTMLInputElement
@@ -56,19 +146,17 @@ function handleInput(event: Event) {
   // Apply formatting based on type
   switch (props.type) {
     case 'credit-card':
-      // Credit card formatting logic
-      newValue = newValue.replace(/\D/g, '')
-      newValue = newValue.replace(/(\d{4})/g, '$1 ').trim()
+      newValue = formatCreditCard(newValue)
       break
     case 'date':
       // Date formatting logic
       try {
         const parsedDate = parse(newValue, dateFormat.value, new Date())
-        if (!isNaN(parsedDate.getTime())) {
+        if (!Number.isNaN(parsedDate.getTime())) {
           newValue = formatDate(parsedDate)
         }
       }
-      catch (e) {
+      catch {
         // Invalid date format
         emit('invalidDate')
       }
@@ -159,13 +247,26 @@ function handleDatePickerEvents(event: string, value?: any) {
 <template>
   <div class="base-input-wrapper">
     <input
-      v-if="type !== 'date'"
+      v-if="type !== 'date' && type !== 'places'"
       ref="inputRef"
       v-model="formattedValue"
       :type="type === 'text' ? 'text' : 'text'"
       :class="className"
       :placeholder="placeholder"
+      :maxlength="type === 'credit-card' ? '19' : undefined"
       @input="handleInput"
+      @focus="emit('focus')"
+      @blur="emit('blur')"
+    >
+
+    <input
+      v-if="type === 'places'"
+      ref="inputRef"
+      v-model="formattedValue"
+      type="text"
+      :class="className"
+      :placeholder="placeholder"
+      autocomplete="off"
       @focus="emit('focus')"
       @blur="emit('blur')"
     >

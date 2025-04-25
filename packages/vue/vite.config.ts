@@ -3,10 +3,6 @@ import { resolve } from 'node:path'
 
 import Vue from '@vitejs/plugin-vue'
 import CleanCSS from 'clean-css'
-import UnoCSS from 'unocss/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-import Icons from 'unplugin-icons/vite'
-import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
 function minify(code: string) {

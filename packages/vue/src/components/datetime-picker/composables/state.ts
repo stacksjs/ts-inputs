@@ -1,25 +1,26 @@
-import { computed, reactive } from 'vue';
+import { computed, reactive } from 'vue'
 
 const state = reactive({
-    menuFocused: false,
-    shiftKeyInMenu: false,
-});
+  menuFocused: false,
+  shiftKeyInMenu: false,
+})
 
-export const useState = () => {
-    const setMenuFocused = (value: boolean): void => {
-        state.menuFocused = value;
-    };
+export function useState() {
+  const setMenuFocused = (value: boolean): void => {
+    state.menuFocused = value
+  }
 
-    const setShiftKey = (value: boolean): void => {
-        if (state.shiftKeyInMenu === value) return;
-        state.shiftKeyInMenu = value;
-    };
+  const setShiftKey = (value: boolean): void => {
+    if (state.shiftKeyInMenu === value)
+      return
+    state.shiftKeyInMenu = value
+  }
 
-    const control = computed(() => ({ shiftKeyInMenu: state.shiftKeyInMenu, menuFocused: state.menuFocused }));
+  const control = computed(() => ({ shiftKeyInMenu: state.shiftKeyInMenu, menuFocused: state.menuFocused }))
 
-    return {
-        control,
-        setMenuFocused,
-        setShiftKey,
-    };
-};
+  return {
+    control,
+    setMenuFocused,
+    setShiftKey,
+  }
+}
