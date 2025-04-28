@@ -6,63 +6,72 @@
 <!-- [![npm downloads][npm-downloads-src]][npm-downloads-href] -->
 <!-- [![Codecov][codecov-src]][codecov-href] -->
 
-# ts-inputs
+# TS-Inputs
 
-A collection of smart, type-safe input components for Vue.js that provides automatic formatting, validation, and internationalization support. Built to make form input handling both powerful and developer-friendly.
+A TypeScript library providing specialized input handling and formatting for various data types.
+
+## Overview
+
+TS-Inputs is a modular library that provides specialized input handling, formatting, and validation for different types of data. It's designed to be used in web applications where precise input control and formatting are required.
 
 ## Features
 
-ts-inputs comes with the following powerful features:
+- **Credit Card Input**: Formatting and validation for credit card numbers
+- **Date Input**: Specialized date input handling
+- **Time Input**: Time format handling
+- **Numeral Input**: Number formatting and validation
+- **General Input**: Common input handling utilities
+- **Cursor Tracker**: Input cursor position tracking
 
-- 🎯 **Smart Input Components**
-  - Credit Card formatting with automatic card type detection
-  - Date formatting with customizable patterns
-  - Time formatting with 12h/24h support
-  - Numerical formatting with thousand/lakh grouping
-  - Google Places autocomplete integration
+## Project Structure
 
-- 💪 **Type Safety**
-  - Full TypeScript support
-  - Type-safe props and events
-  - Intelligent autocompletion
+```
+src/
+├── common/           # Shared utilities and types
+│   ├── types.ts     # Common type definitions
+│   └── utils.ts     # Shared utility functions
+├── credit-card/     # Credit card input handling
+├── cursor-tracker/  # Cursor position tracking
+├── date/           # Date input handling
+├── general/        # General input utilities
+├── numeral/        # Number formatting
+└── time/           # Time input handling
+```
 
-- 🌈 **Developer Experience**
-  - Simple Vue.js integration
-  - Customizable formatting options
-  - Automatic validation
-  - Internationalization support
-  - Modern and clean UI
+## Common Utilities
 
-## Get Started
+The library provides several common utilities and types:
+
+- `RequireExactlyOne`: Type utility for requiring exactly one property from a set
+- `DelimiterType`: Type definition for input delimiters
+- `BlocksType`: Type for input block definitions
+- Various interfaces for input formatting and delimiter handling
+
+## Usage
+
+```typescript
+import { creditCard, date, numeral, time } from 'ts-inputs'
+
+// Example usage with credit card input
+const formattedCard = creditCard.format('4111111111111111')
+// Result: '4111 1111 1111 1111'
+```
+
+## Installation
 
 ```bash
-# Install using your preferred package manager
 npm install ts-inputs
 # or
 yarn add ts-inputs
-# or
-pnpm add ts-inputs
 ```
 
-Basic usage example:
+## Contributing
 
-```vue
-<script setup lang="ts">
-import { CreditCardInput, DateInput, NumeralInput, TimeInput } from 'ts-inputs'
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-const cardNumber = ref('')
-const date = ref('')
-const time = ref('')
-const number = ref('')
-</script>
+## License
 
-<template>
-  <CreditCardInput v-model="cardNumber" placeholder="Enter card number" />
-  <DateInput v-model="date" pattern="YYYY-MM-DD" />
-  <TimeInput v-model="time" format="24h" />
-  <NumeralInput v-model="number" thousand-group-style="thousand" />
-</template>
-```
+[Add your license information here]
 
 ## Testing
 
@@ -78,10 +87,6 @@ Please see our [releases](https://github.com/stackjs/ts-inputs/releases) page fo
 
 [![Stargazers](https://starchart.cc/stacksjs/ts-inputs.svg?variant=adaptive)](https://starchart.cc/stacksjs/ts-inputs)
 
-## Contributing
-
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
-
 ## Community
 
 For help, discussion about best practices, or any other conversation that would benefit from being searchable:
@@ -94,7 +99,7 @@ For casual chit-chat with others using this package:
 
 ## Postcardware
 
-“Software that is free, but hopes for a postcard.” We love receiving postcards from around the world showing where Stacks is being used! We showcase them on our website too.
+"Software that is free, but hopes for a postcard." We love receiving postcards from around the world showing where Stacks is being used! We showcase them on our website too.
 
 Our address: Stacks.js, 12665 Village Ln #2306, Playa Vista, CA 90094, United States 🌎
 

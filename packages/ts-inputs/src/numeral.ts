@@ -1,4 +1,7 @@
-import type { FormatNumeralOptions, FormatNumeralRequiredProps } from './types'
+import type {
+  FormatNumeralOptions,
+  FormatNumeralRequiredProps,
+} from './types'
 
 import {
   DefaultNumeralDecimalMark,
@@ -149,6 +152,3 @@ export function unformatNumeral(value: string, options?: Pick<FormatNumeralOptio
     .replace(/[^0-9-M]/g, '')
     .replace('M', '.')
 }
-
-export * from './constants'
-export * from './types'

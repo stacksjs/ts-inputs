@@ -1,12 +1,12 @@
-import type { DelimiterType } from '../common/types'
 import type {
   CalculeteCleanCursorIndexProps,
   CalculeteDirtyCursorIndexProps,
-  CursorTrackerDestructor,
   CursorTrackerInputElement,
+  DelimiterType,
   RegisterCursorTrackerPropsType,
 } from './types'
-import { stripDelimiters } from '../common/utils'
+
+import { stripDelimiters } from './utils'
 
 function calculeteCleanCursorIndex({
   value,
@@ -40,12 +40,8 @@ function calculeteDirtyCursorIndex({
   return index
 }
 
-export function registerCursorTracker({
-  input,
-  delimiter = '',
-  delimiters = [],
-  prefix = '',
-}: RegisterCursorTrackerPropsType): CursorTrackerDestructor {
+export function registerCursorTracker(props: RegisterCursorTrackerPropsType): () => void {
+  const { input, delimiter = '', delimiters = [], prefix = '' } = props
   const cursorTrackerInput: CursorTrackerInputElement
     = input as CursorTrackerInputElement
 
@@ -108,5 +104,3 @@ export function registerCursorTracker({
     cursorTrackerInput.CLEAVE_ZEN_cursor_tracker = undefined
   }
 }
-
-export * from './types'

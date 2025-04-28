@@ -42,13 +42,8 @@ export function stripDelimiters({
   return value
 }
 
-export function getFormattedValue({
-  value,
-  blocks,
-  delimiter = '',
-  delimiters = [],
-  delimiterLazyShow = false,
-}: GetFormattedValueProps): string {
+export function getFormattedValue(props: GetFormattedValueProps): string {
+  const { value, blocks, delimiter = '', delimiters = [], delimiterLazyShow = false } = props
   let result = ''
   let valueRemaining = value
   let currentDelimiter = ''

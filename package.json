@@ -13,28 +13,28 @@
   "bugs": {
     "url": "https://github.com/stacksjs/ts-inputs/issues"
   },
-  "keywords": ["typescript", "starter", "kit", "bun", "package", "vue", "components"],
+  "keywords": [
+    "typescript",
+    "starter",
+    "kit",
+    "bun",
+    "package",
+    "vue",
+    "components"
+  ],
   "exports": {
     ".": {
-      "types": "./dist/ts-inputs/index.d.ts",
-      "import": "./dist/ts-inputs/index.js"
-    },
-    "./vue": {
-      "types": "./dist/vue/index.d.ts",
-      "import": "./dist/vue/index.js"
-    },
-    "./*": {
-      "import": "./dist/*"
+      "import": "./packages/ts-inputs/dist/index.js"
     }
   },
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "bin": {
-    "bin-name": "./dist/bin/cli.js"
-  },
-  "files": ["README.md", "dist"],
+  "module": "./packages/ts-inputs/dist/index.js",
+  "types": "./packages/ts-inputs/dist/index.d.ts",
+  "files": [
+    "README.md",
+    "dist"
+  ],
   "scripts": {
-    "build": "bun --filter './packages/*' build",
+    "build": "bun --filter './packages/ts-inputs' build && bun --filter './packages/vue' build",
     "lint": "bunx --bun eslint .",
     "lint:fix": "bunx --bun eslint . --fix",
     "fresh": "bunx rimraf node_modules/ bun.lock && bun i",

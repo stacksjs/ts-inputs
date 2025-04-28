@@ -1,9 +1,13 @@
-import type { FormatGeneralOptions, GetPrefixStrippedValueProps } from './types'
+import type {
+  FormatGeneralOptions,
+  GetPrefixStrippedValueProps,
+} from './types'
+
 import {
   getFormattedValue,
   stripDelimiters,
   stripNonNumeric,
-} from '../common/utils'
+} from './utils'
 
 // strip prefix
 function stripPrefix({
@@ -99,5 +103,3 @@ export function unformatGeneral(value: string, options: Pick<FormatGeneralOption
   const { delimiter = '', delimiters = [] } = options
   return stripDelimiters({ value, delimiters: [...delimiters, delimiter] })
 }
-
-export * from './types'

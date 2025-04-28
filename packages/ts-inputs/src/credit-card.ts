@@ -1,23 +1,26 @@
-import type { BlocksType, DelimiterType } from '../common/types'
 import type {
+  BlocksType,
   CreditCardExcludeGeneralType,
   CreditCardInfoProps,
+  DelimiterType,
   FormatCreditCardOptions,
   GetCreditCardInfoProps,
 } from './types'
-import {
-  getFormattedValue,
-  getMaxLength,
-  headStr,
-  stripDelimiters,
-  stripNonNumeric,
-} from '../common/utils'
+
 import {
   CreditCardBlocks,
   CreditCardRegex,
   CreditCardType,
   DefaultCreditCardDelimiter,
 } from './constants'
+
+import {
+  getFormattedValue,
+  getMaxLength,
+  headStr,
+  stripDelimiters,
+  stripNonNumeric,
+} from './utils'
 
 function getStrictBlocks(blocks: BlocksType): BlocksType {
   const total: number = blocks.reduce(
@@ -110,6 +113,3 @@ export function getCreditCardType(value: string, delimiter?: DelimiterType): Cre
 export function unformatCreditCard(value: string): string {
   return stripNonNumeric(value)
 }
-
-export * from './constants'
-export * from './types'

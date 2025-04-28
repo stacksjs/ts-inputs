@@ -27,6 +27,9 @@
     "packages/vue": {
       "name": "ts-inputs-vue",
       "version": "0.0.1",
+      "dependencies": {
+        "ts-datetime": "^0.0.3",
+      },
       "devDependencies": {
         "@microsoft/api-extractor": "^7.52.4",
         "@stacksjs/docs": "^0.70.23",
@@ -1737,6 +1740,8 @@
     "trim-lines": ["trim-lines@3.0.1", "", {}, "sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg=="],
 
     "ts-api-utils": ["ts-api-utils@2.1.0", "", { "peerDependencies": { "typescript": ">=4.8.4" } }, "sha512-CUgTZL1irw8u29bzrOD/nH85jqyc74D6SshFgujOIA7osm2Rz7dYH77agkx7H4FBNxDq7Cjf+IjaX/8zwFW+ZQ=="],
+
+    "ts-datetime": ["ts-datetime@0.0.3", "", {}, "sha512-3k4N2rMwptRmJ6sLf0bTJBRt2lgAZQR8KnxMf6MxuBaslrlShaZY9XawJZ8UwDqdVkVL7bRV5j1w4SLnrfKYHA=="],
 
     "ts-inputs": ["ts-inputs@workspace:packages/ts-inputs"],
 

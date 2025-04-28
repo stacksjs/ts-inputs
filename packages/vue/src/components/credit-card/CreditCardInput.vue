@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { CreditCardType } from 'ts-inputs'
 import type { FormatCreditCardOptions } from 'ts-inputs'
+import { CreditCardType } from 'ts-inputs'
+import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{
   modelValue?: string
@@ -121,17 +121,17 @@ const cardIcon = computed(() => {
       ref="inputRef"
       v-model="formattedValue"
       type="text"
-      :class="['credit-card-input', className]"
+      class="credit-card-input" :class="[className]"
       :placeholder="placeholder || 'Enter card number'"
       maxlength="19"
       @input="handleInput"
-    />
+    >
     <img
       v-if="cardIcon"
       :src="cardIcon"
       :alt="cardType?.toString()"
       class="card-icon"
-    />
+    >
   </div>
 </template>
 

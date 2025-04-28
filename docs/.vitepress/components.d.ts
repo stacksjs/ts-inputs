@@ -8,17 +8,14 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    CreditCardDemo: typeof import('./theme/components/CreditCardDemo.vue')['default']
-    DateInputDemo: typeof import('./theme/components/DateInputDemo.vue')['default']
-    DateTimeDemo: typeof import('./theme/components/DateTimeDemo.vue')['default']
-    GooglePlacesInputDemo: typeof import('./theme/components/GooglePlacesInputDemo.vue')['default']
+    CreditCardDemo: typeof import('./theme/components/vue-demo/CreditCardDemo.vue')['default']
+    DateInputDemo: typeof import('./theme/components/vue-demo/DateInputDemo.vue')['default']
     Home: typeof import('./theme/components/Home.vue')['default']
     HomeContributors: typeof import('./theme/components/HomeContributors.vue')['default']
     HomeSponsors: typeof import('./theme/components/HomeSponsors.vue')['default']
     HomeTeam: typeof import('./theme/components/HomeTeam.vue')['default']
-    NumeralInputDemo: typeof import('./theme/components/NumeralInputDemo.vue')['default']
-    PlacesAutocompleteDemo: typeof import('./theme/components/PlacesAutocompleteDemo.vue')['default']
+    NumeralInputDemo: typeof import('./theme/components/vue-demo/NumeralInputDemo.vue')['default']
     TeamMember: typeof import('./theme/components/TeamMember.vue')['default']
-    TimeInputDemo: typeof import('./theme/components/TimeInputDemo.vue')['default']
+    TimeInputDemo: typeof import('./theme/components/vue-demo/TimeInputDemo.vue')['default']
   }
 }

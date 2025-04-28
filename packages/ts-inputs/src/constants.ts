@@ -1,5 +1,10 @@
-import type { DelimiterType } from '../common/types'
-import type { CreditCardBlocksType, CreditCardRegexType } from './types'
+import type {
+  CreditCardBlocksType,
+  CreditCardRegexType,
+  DelimiterType,
+  TimeFormatType,
+  TimeUnit,
+} from './types'
 
 export const DefaultCreditCardDelimiter: DelimiterType = ' '
 
@@ -78,3 +83,20 @@ export const CreditCardRegex: CreditCardRegexType = {
   // starts with 62/81; 16 digits
   [CreditCardType.UNIONPAY]: /^(62|81)\d{0,14}/,
 }
+
+export enum NumeralThousandGroupStyles {
+  THOUSAND = 'thousand',
+  LAKH = 'lakh',
+  WAN = 'wan',
+  NONE = 'none',
+}
+export const DefaultNumeralDelimiter: DelimiterType = ','
+export const DefaultNumeralDecimalMark: DelimiterType = '.'
+export const DefaultNumeralThousandGroupStyle: NumeralThousandGroupStyles
+  = NumeralThousandGroupStyles.THOUSAND
+export const DefaultNumeralDecimalScale: number = 2
+export const DefaultNumeralIntegerScale: number = 0 // no limit
+
+export const DefaultTimeFormat: TimeFormatType = '24'
+export const DefaultTimeDelimiter: DelimiterType = ':'
+export const DefaultTimePattern: TimeUnit[] = ['h', 'm', 's']
