@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { TSInputsProps } from '../types'
 import { format, parse } from 'date-fns'
+import { CreditCardType, formatNumeral } from 'ts-inputs'
 import { computed, onMounted, ref, watch } from 'vue'
 import DateTimePicker from './datetime-picker/DateTimePicker.vue'
-import { CreditCardType } from 'ts-inputs'
+import NumeralInput from './numeral/NumeralInput.vue'
 
 const props = defineProps<TSInputsProps>()
 
@@ -35,6 +36,7 @@ const emit = defineEmits<{
   (e: 'textInput'): void
   (e: 'placeSelected', place: any): void
   (e: 'cardType', type: CreditCardType): void
+  (e: 'invalidNumeral'): void
 }>()
 
 const inputRef = ref<HTMLInputElement | null>(null)
@@ -163,7 +165,25 @@ function handleInput(event: Event) {
       break
     case 'numeral':
       // Numeral formatting logic
-      // Implement numeral formatting
+      try {
+        const formatOptions = {
+          delimiter: props.numeralOptions?.delimiter || ',',
+          numeralThousandsGroupStyle: props.numeralOptions?.thousandGroupStyle || 'thousand',
+          numeralIntegerScale: props.numeralOptions?.integerScale || 0,
+          numeralDecimalMark: props.numeralOptions?.decimalMark || '.',
+          numeralDecimalScale: props.numeralOptions?.decimalScale || 2,
+          stripLeadingZeroes: props.numeralOptions?.stripLeadingZeroes ?? true,
+          numeralPositiveOnly: props.numeralOptions?.positiveOnly ?? false,
+          tailPrefix: props.numeralOptions?.tailPrefix ?? false,
+          signBeforePrefix: props.numeralOptions?.signBeforePrefix ?? false,
+          prefix: props.numeralOptions?.prefix || '',
+        }
+        newValue = formatNumeral(newValue, formatOptions)
+      }
+      catch (err) {
+        // Invalid number format
+        emit('invalidNumeral')
+      }
       break
     case 'time':
       // Time formatting logic
@@ -246,8 +266,27 @@ function handleDatePickerEvents(event: string, value?: any) {
 
 <template>
   <div class="base-input-wrapper">
+    <NumeralInput
+      v-if="type === 'numeral'"
+      v-model="formattedValue"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :readonly="readonly"
+      :delimiter="numeralOptions?.delimiter"
+      :thousand-group-style="numeralOptions?.thousandGroupStyle"
+      :integer-scale="numeralOptions?.integerScale"
+      :decimal-mark="numeralOptions?.decimalMark"
+      :decimal-scale="numeralOptions?.decimalScale"
+      :strip-leading-zeroes="numeralOptions?.stripLeadingZeroes"
+      :positive-only="numeralOptions?.positiveOnly"
+      :tail-prefix="numeralOptions?.tailPrefix"
+      :sign-before-prefix="numeralOptions?.signBeforePrefix"
+      :prefix="numeralOptions?.prefix"
+      @focus="emit('focus')"
+      @blur="emit('blur')"
+    />
     <input
-      v-if="type !== 'date' && type !== 'places'"
+      v-else-if="type !== 'date' && type !== 'places'"
       ref="inputRef"
       v-model="formattedValue"
       :type="type === 'text' ? 'text' : 'text'"
