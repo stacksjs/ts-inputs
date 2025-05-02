@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { NumeralThousandGroupStyles } from 'ts-inputs'
 import { formatNumeral, unformatNumeral } from 'ts-inputs'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 
 interface FormatNumeralOptions {
   delimiter?: string

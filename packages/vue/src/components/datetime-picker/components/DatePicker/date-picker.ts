@@ -39,6 +39,18 @@ import { dateToTimezoneSafe } from '../../utils/timezone'
 import { isNumberArray } from '../../utils/type-guard'
 import { getMapDate, isNumNullish } from '../../utils/util'
 
+function mapInternalModuleValues(fromMount = false): void {
+  if (modelValue.value) {
+    if (Array.isArray(modelValue.value)) {
+      tempRange.value = modelValue.value
+      return assignExistingModelValueArr(fromMount)
+    }
+    return assignSingleValue(modelValue.value, fromMount)
+  }
+  if (defaultedMultiCalendars.value.count && fromMount && !props.startDate)
+    return assignMonthAndYear(getDate(), fromMount)
+}
+
 export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, triggerCalendarTransition: (inst?: number) => void, updateFlow: () => void) {
   const tempRange = ref<Date[]>([])
   const lastScrollTime = ref(new Date())
@@ -131,18 +143,6 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     if (props.autoApply && isFlowLastStep.value) {
       emit('auto-apply', props.partialFlow ? props.flowStep !== props.flow.length : false)
     }
-  }
-
-  const mapInternalModuleValues = (fromMount = false): void => {
-    if (modelValue.value) {
-      if (Array.isArray(modelValue.value)) {
-        tempRange.value = modelValue.value
-        return assignExistingModelValueArr(fromMount)
-      }
-      return assignSingleValue(modelValue.value, fromMount)
-    }
-    if (defaultedMultiCalendars.value.count && fromMount && !props.startDate)
-      return assignMonthAndYear(getDate(), fromMount)
   }
 
   const shouldAssignMultiSolo = () => {

@@ -100,3 +100,8 @@ export const DefaultNumeralIntegerScale: number = 0 // no limit
 export const DefaultTimeFormat: TimeFormatType = '24'
 export const DefaultTimeDelimiter: DelimiterType = ':'
 export const DefaultTimePattern: TimeUnit[] = ['h', 'm', 's']
+
+export const DefaultPhoneDelimiter: DelimiterType = '-'
+export const DefaultPhonePattern: number[] = [3, 3, 4] // Default US pattern: XXX-XXX-XXXX
+
+export const DefaultPhoneRegion = 'US'

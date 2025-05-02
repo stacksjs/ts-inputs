@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TSInputsProps } from '../types'
 import { format, parse } from 'date-fns'
-import { CreditCardType, formatNumeral } from 'ts-inputs'
+import { CreditCardType, formatNumeral, formatPhone } from 'ts-inputs'
 import { computed, onMounted, ref, watch } from 'vue'
 import DateTimePicker from './datetime-picker/DateTimePicker.vue'
 import NumeralInput from './numeral/NumeralInput.vue'
@@ -37,6 +37,7 @@ const emit = defineEmits<{
   (e: 'placeSelected', place: any): void
   (e: 'cardType', type: CreditCardType): void
   (e: 'invalidNumeral'): void
+  (e: 'invalidPhone'): void
 }>()
 
 const inputRef = ref<HTMLInputElement | null>(null)
@@ -140,6 +141,28 @@ function formatCreditCard(value: string): string {
   return formatted
 }
 
+// Format phone number
+function formatPhoneNumber(value: string): string {
+  const cleanValue = value.replace(/\D/g, '')
+  const delimiter = props.phoneOptions?.delimiter || '-'
+  const region = props.phoneOptions?.region || 'US'
+  const includeCountryCode = props.phoneOptions?.includeCountryCode || false
+  const format = props.phoneOptions?.format || 'national'
+
+  try {
+    return formatPhone(cleanValue, {
+      delimiter,
+      region,
+      includeCountryCode,
+      format,
+    })
+  }
+  catch {
+    emit('invalidPhone')
+    return value
+  }
+}
+
 // Handle input changes
 function handleInput(event: Event) {
   const target = event.target as HTMLInputElement
@@ -149,6 +172,9 @@ function handleInput(event: Event) {
   switch (props.type) {
     case 'credit-card':
       newValue = formatCreditCard(newValue)
+      break
+    case 'phone':
+      newValue = formatPhoneNumber(newValue)
       break
     case 'date':
       // Date formatting logic
@@ -180,7 +206,7 @@ function handleInput(event: Event) {
         }
         newValue = formatNumeral(newValue, formatOptions)
       }
-      catch (err) {
+      catch {
         // Invalid number format
         emit('invalidNumeral')
       }
@@ -289,10 +315,10 @@ function handleDatePickerEvents(event: string, value?: any) {
       v-else-if="type !== 'date' && type !== 'places'"
       ref="inputRef"
       v-model="formattedValue"
-      :type="type === 'text' ? 'text' : 'text'"
+      :type="type === 'text' || type === 'phone' ? 'text' : 'text'"
       :class="className"
       :placeholder="placeholder"
-      :maxlength="type === 'credit-card' ? '19' : undefined"
+      :maxlength="type === 'credit-card' ? '19' : type === 'phone' ? '15' : undefined"
       @input="handleInput"
       @focus="emit('focus')"
       @blur="emit('blur')"

@@ -8,7 +8,7 @@ import type {
 
 import type { TimeZoneConfig } from './components/datetime-picker/interfaces'
 
-export type InputType = 'text' | 'date' | 'credit-card' | 'numeral' | 'time' | 'places'
+export type InputType = 'text' | 'number' | 'email' | 'password' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'color' | 'range' | 'file' | 'hidden' | 'image' | 'submit' | 'reset' | 'button' | 'credit-card' | 'numeral' | 'phone' | 'places'
 
 export interface TSInputsProps {
   modelValue: string
@@ -77,6 +77,7 @@ export interface TSInputsProps {
       country: string | string[]
     }
   }
+  phoneOptions?: PhoneOptions
 }
 
 // Keep existing interfaces for backward compatibility
@@ -103,11 +104,9 @@ export interface PlacesOptions {
   }
 }
 
-export interface TSInputsProps {
-  modelValue: string
-  type: InputType
-  className?: string
-  placeholder?: string
-  dateOptions?: DateOptions
-  placesOptions?: PlacesOptions
+export interface PhoneOptions {
+  delimiter?: string
+  region?: string
+  includeCountryCode?: boolean
+  format?: 'national' | 'international'
 }

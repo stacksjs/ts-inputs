@@ -62,11 +62,11 @@ const sidebar = [
   {
     text: 'Features',
     items: [
+      { text: 'Phone Formatting', link: '/features/phone' },
       { text: 'Credit Card Formatting', link: '/features/credit-card' },
       { text: 'Date Formatting', link: '/features/date' },
       { text: 'Time Formatting', link: '/features/time' },
       { text: 'Numerical Formatting', link: '/features/numeral' },
-      { text: 'Cursor Tracking', link: '/features/cursor' },
     ],
   },
   {
@@ -76,8 +76,9 @@ const sidebar = [
         text: 'Vue Components',
         items: [
           { text: 'Overview', link: '/vue/' },
+          { text: 'Phone Input', link: '/vue/phone' },
           { text: 'Credit Card Input', link: '/vue/credit-card' },
-          { text: 'DateTime Input', link: '/vue/datetime' },
+          { text: 'Date Input', link: '/vue/date' },
           { text: 'Time Input', link: '/vue/time' },
           { text: 'Numeral Input', link: '/vue/numeral' },
           { text: 'Places Autocomplete', link: '/vue/places-autocomplete' },

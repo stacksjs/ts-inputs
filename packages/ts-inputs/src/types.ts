@@ -152,3 +152,11 @@ export interface GetFixedTimeStringProps {
   value: string
   timePattern: TimePatternType
 }
+
+export interface FormatPhoneOptions {
+  delimiter?: string
+  pattern?: number[]
+  region?: string
+  includeCountryCode?: boolean
+  format?: 'national' | 'international'
+}

@@ -6,8 +6,8 @@ A component for formatting and validating credit card numbers. You can use eithe
 
 ```vue
 <script setup lang="ts">
-import { BaseInput } from 'ts-inputs'
-import type { CreditCardType } from 'ts-inputs'
+import type { CreditCardType } from 'ts-inputs-vue'
+import { BaseInput } from 'ts-inputs-vue'
 
 const cardNumber = ref('')
 
@@ -31,8 +31,8 @@ function handleCardTypeChange(type: CreditCardType) {
 
 ```vue
 <script setup lang="ts">
-import type { CreditCardType } from 'ts-inputs'
-import { CreditCardInput } from 'ts-inputs'
+import type { CreditCardType } from 'ts-inputs-vue'
+import { CreditCardInput } from 'ts-inputs-vue'
 
 const cardNumber = ref('')
 

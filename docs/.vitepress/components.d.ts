@@ -15,6 +15,7 @@ declare module 'vue' {
     HomeSponsors: typeof import('./theme/components/HomeSponsors.vue')['default']
     HomeTeam: typeof import('./theme/components/HomeTeam.vue')['default']
     NumeralInputDemo: typeof import('./theme/components/vue-demo/NumeralInputDemo.vue')['default']
+    PhoneInputDemo: typeof import('./theme/components/vue-demo/PhoneInputDemo.vue')['default']
     TeamMember: typeof import('./theme/components/TeamMember.vue')['default']
     TimeInputDemo: typeof import('./theme/components/vue-demo/TimeInputDemo.vue')['default']
   }

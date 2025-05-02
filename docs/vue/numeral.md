@@ -6,7 +6,7 @@ A component for formatting numbers with various formatting options and styles.
 
 ```vue
 <script setup lang="ts">
-import { NumeralInput } from 'ts-inputs'
+import { NumeralInput } from 'ts-inputs-vue'
 
 const number = ref('')
 </script>
