@@ -4,7 +4,7 @@ import { computed } from 'vue'
 const props = defineProps<{ multiCalendars: number, stretch?: boolean, collapse?: boolean, isMobile?: boolean }>()
 
 const instances = computed((): number[] =>
-  props.multiCalendars > 0 ? [...new Array(props.multiCalendars).keys()] : [0],
+  props.multiCalendars > 0 ? Array.from({ length: props.multiCalendars }, (_, i) => i) : [0],
 )
 
 const calendarInstanceClassWrapper = computed(() => ({

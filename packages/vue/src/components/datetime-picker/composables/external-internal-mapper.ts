@@ -24,35 +24,24 @@ import { useDefaults } from './defaults'
 /**
  * Handles values from external to internal and vise versa
  */
-export function useExternalInternalMapper(emit: VueEmit, props: AllPropsType, isInputFocused: Ref<boolean>) {
+export function useExternalInternalMapper(
+  emit: VueEmit,
+  props: AllPropsType,
+  isInputFocused: Ref<boolean>,
+) {
   const internalModelValue = ref()
 
-  const { defaultedTextInput, defaultedRange, defaultedTz, defaultedMultiDates, getDefaultPattern }
-        = useDefaults(props)
+  const {
+    defaultedTextInput,
+    defaultedRange,
+    defaultedTz,
+    defaultedMultiDates,
+    getDefaultPattern,
+  } = useDefaults(props)
 
   const inputValue = ref('')
   const formatRef = toRef(props, 'format')
   const formatLocale = toRef(props, 'formatLocale')
-
-  watch(
-    internalModelValue,
-    () => {
-      if (typeof props.onInternalModelChange === 'function') {
-        emit('internal-model-change', internalModelValue.value, emitModelValue(true))
-      }
-    },
-    { deep: true },
-  )
-
-  watch(defaultedRange, (newVal, oldVal) => {
-    if (newVal.enabled !== oldVal.enabled) {
-      internalModelValue.value = null
-    }
-  })
-
-  watch(formatRef, () => {
-    formatInputValue()
-  })
 
   const convertModelToTz = (date: Date) => {
     if (defaultedTz.value.timezone && defaultedTz.value.convertModel) {
@@ -81,6 +70,49 @@ export function useExternalInternalMapper(emit: VueEmit, props: AllPropsType, is
     )
   }
 
+  const toModelType = (val: Date): string | number | Date => {
+    if (!val)
+      return ''
+    if (props.utc) {
+      return dateToUtc(val, props.utc === 'preserve', props.enableSeconds)
+    }
+    if (props.modelType) {
+      if (props.modelType === 'timestamp')
+        return +convertZonedModelToLocal(val)
+      if (props.modelType === 'iso')
+        return convertZonedModelToLocal(val).toISOString()
+
+      if (props.modelType === 'format' && (typeof props.format === 'string' || !props.format))
+        return formatDateFn(convertZonedModelToLocal(val))
+
+      return formatDateFn(convertZonedModelToLocal(val), props.modelType, true)
+    }
+    return convertZonedModelToLocal(val)
+  }
+
+  const parseModelType = (value: string | number | Date): Date => {
+    if (props.utc) {
+      const toDate = new Date(value)
+      return props.utc === 'preserve' ? new Date(toDate.getTime() + toDate.getTimezoneOffset() * 60000) : toDate
+    }
+    if (props.modelType) {
+      if (modelTypePredefined.includes(props.modelType))
+        return convertModelToTz(new Date(value))
+
+      if (props.modelType === 'format' && (typeof props.format === 'string' || !props.format)) {
+        return convertModelToTz(
+          parse(value as string, getDefaultPattern(), new Date(), { locale: formatLocale.value }),
+        )
+      }
+
+      return convertModelToTz(
+        parse(value as string, props.modelType, new Date(), { locale: formatLocale.value }),
+      )
+    }
+
+    return convertModelToTz(new Date(value))
+  }
+
   const getTimeVal = (date?: Date): TimeModel | ModelTypeConverted | null => {
     if (!date)
       return null
@@ -99,6 +131,13 @@ export function useExternalInternalMapper(emit: VueEmit, props: AllPropsType, is
     return { month: getMonth(date), year: getYear(date) }
   }
 
+  const convertCustomModeType = (value: unknown, defaultValue: Date): Date => {
+    const shouldConvert = (typeof value === 'string' || typeof value === 'number') && props.modelType
+    if (shouldConvert)
+      return parseModelType(value)
+    return defaultValue
+  }
+
   const mapYearExternalToInternal = (value: number | number[]): Date | Date[] => {
     if (Array.isArray(value)) {
       if (defaultedMultiDates.value.enabled) {
@@ -113,13 +152,6 @@ export function useExternalInternalMapper(emit: VueEmit, props: AllPropsType, is
       )
     }
     return setYear(getDate(), +value)
-  }
-
-  const convertCustomModeType = (value: unknown, defaultValue: Date): Date => {
-    const shouldConvert = (typeof value === 'string' || typeof value === 'number') && props.modelType
-    if (shouldConvert)
-      return parseModelType(value)
-    return defaultValue
   }
 
   const mapTimeExternalToInternal = (value: TimeModel | TimeModel[]): Date | Date[] => {
@@ -275,23 +307,6 @@ export function useExternalInternalMapper(emit: VueEmit, props: AllPropsType, is
     return mapDateExternalToInternal(convertType(value))
   }
 
-  /**
-   * Map external values to dates that will be used internally by the datepicker
-   * Also does the validation of the provided value, if invalid it will use null as a default or an empty value
-   */
-  const parseExternalModelValue = (value: ModelValue): void => {
-    const mappedDate = mapExternalToInternal(value)
-
-    if (isValidDate(convertType(mappedDate))) {
-      internalModelValue.value = convertType(mappedDate)
-      formatInputValue()
-    }
-    else {
-      internalModelValue.value = null
-      inputValue.value = ''
-    }
-  }
-
   const formatRangeTextInput = () => {
     const formatter = (value: Date) => format(value, defaultedTextInput.value.format as string)
     return `${formatter(internalModelValue.value[0])} ${defaultedTextInput.value.rangeSeparator} ${
@@ -336,47 +351,21 @@ export function useExternalInternalMapper(emit: VueEmit, props: AllPropsType, is
     }
   }
 
-  const parseModelType = (value: string | number | Date): Date => {
-    if (props.utc) {
-      const toDate = new Date(value)
-      return props.utc === 'preserve' ? new Date(toDate.getTime() + toDate.getTimezoneOffset() * 60000) : toDate
+  /**
+   * Map external values to dates that will be used internally by the datepicker
+   * Also does the validation of the provided value, if invalid it will use null as a default or an empty value
+   */
+  const parseExternalModelValue = (value: ModelValue): void => {
+    const mappedDate = mapExternalToInternal(value)
+
+    if (isValidDate(convertType(mappedDate))) {
+      internalModelValue.value = convertType(mappedDate)
+      formatInputValue()
     }
-    if (props.modelType) {
-      if (modelTypePredefined.includes(props.modelType))
-        return convertModelToTz(new Date(value))
-
-      if (props.modelType === 'format' && (typeof props.format === 'string' || !props.format)) {
-        return convertModelToTz(
-          parse(value as string, getDefaultPattern(), new Date(), { locale: formatLocale.value }),
-        )
-      }
-
-      return convertModelToTz(
-        parse(value as string, props.modelType, new Date(), { locale: formatLocale.value }),
-      )
+    else {
+      internalModelValue.value = null
+      inputValue.value = ''
     }
-
-    return convertModelToTz(new Date(value))
-  }
-
-  const toModelType = (val: Date): string | number | Date => {
-    if (!val)
-      return ''
-    if (props.utc) {
-      return dateToUtc(val, props.utc === 'preserve', props.enableSeconds)
-    }
-    if (props.modelType) {
-      if (props.modelType === 'timestamp')
-        return +convertZonedModelToLocal(val)
-      if (props.modelType === 'iso')
-        return convertZonedModelToLocal(val).toISOString()
-
-      if (props.modelType === 'format' && (typeof props.format === 'string' || !props.format))
-        return formatDateFn(convertZonedModelToLocal(val))
-
-      return formatDateFn(convertZonedModelToLocal(val), props.modelType, true)
-    }
-    return convertZonedModelToLocal(val)
   }
 
   const emitValue = (value: ModelValue, useTz = false, returnOnly = false) => {
@@ -463,6 +452,26 @@ export function useExternalInternalMapper(emit: VueEmit, props: AllPropsType, is
     }
     return false
   }
+
+  watch(
+    internalModelValue,
+    () => {
+      if (typeof props.onInternalModelChange === 'function') {
+        emit('internal-model-change', internalModelValue.value, emitModelValue(true))
+      }
+    },
+    { deep: true },
+  )
+
+  watch(defaultedRange, (newVal, oldVal) => {
+    if (newVal.enabled !== oldVal.enabled) {
+      internalModelValue.value = null
+    }
+  })
+
+  watch(formatRef, () => {
+    formatInputValue()
+  })
 
   return {
     inputValue,

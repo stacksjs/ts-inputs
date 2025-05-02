@@ -14,11 +14,27 @@ import type {
 } from '../../interfaces'
 
 import type { PickerBasePropsType } from '../../props'
-import { addYears, differenceInYears, endOfYear, getMonth, getYear, set, startOfYear, subYears } from 'date-fns'
+
+import {
+  addYears,
+  differenceInYears,
+  endOfYear,
+  getMonth,
+  getYear,
+  set,
+  startOfYear,
+  subYears,
+} from 'date-fns'
 
 import { computed, onMounted, ref, watch } from 'vue'
 import { FlowStep } from '../../constants'
-import { checkHighlightYear, getDate, getMinMaxYear, resetDate, validateMonthYear } from '../../utils/date-utils'
+import {
+  checkHighlightYear,
+  getDate,
+  getMinMaxYear,
+  resetDate,
+  validateMonthYear,
+} from '../../utils/date-utils'
 import { checkMinMaxValue, getYears, groupListAndMap } from '../../utils/util'
 
 interface Opts {
@@ -54,7 +70,7 @@ export function useMonthOrQuarterPicker({
   const years = computed(() => getYears(props.yearRange, props.locale, props.reverseYears))
   const showYearPicker = ref([false])
 
-  const isDisabled = computed(() => (instance: number, next: boolean) => {
+  const isDisabled = computed(() => (instance: number, next: boolean): boolean => {
     const currentDate = set(resetDate(new Date()), {
       month: month.value(instance),
       year: year.value(instance),
@@ -114,7 +130,9 @@ export function useMonthOrQuarterPicker({
 
   const checkModelValue = () => {
     if (modelValue.value) {
-      const firstDate = Array.isArray(modelValue.value) ? getRangedValueDate(modelValue.value) : modelValue.value
+      const firstDate = Array.isArray(modelValue.value)
+        ? getRangedValueDate(modelValue.value)
+        : modelValue.value
       calendars.value[0] = { month: getMonth(firstDate), year: getYear(firstDate) }
     }
   }
@@ -138,9 +156,13 @@ export function useMonthOrQuarterPicker({
     assign()
   })
 
-  const selectYear = (year: number, instance: number) => {
+  const selectYear = (year: number, instance: number): void => {
     calendars.value[instance].year = year
-    emit('update-month-year', { instance, year, month: calendars.value[instance].month })
+    emit('update-month-year', {
+      instance,
+      year,
+      month: calendars.value[instance].month,
+    })
     if (multiCalendars.value.count && !multiCalendars.value.solo) {
       updateMultiCalendars(instance)
     }
@@ -161,19 +183,11 @@ export function useMonthOrQuarterPicker({
     })
   })
 
-  const handleYearSelect = (year: number, instance: number) => {
-    selectYear(year, instance)
-    toggleYearPicker(instance)
-  }
-
-  const handleYear = (instance: number, increment = false): void => {
-    if (!isDisabled.value(instance, increment)) {
-      const yearToSelect = increment ? year.value(instance) + 1 : year.value(instance) - 1
-      selectYear(yearToSelect, instance)
-    }
-  }
-
-  const toggleYearPicker = (instance: number, flow = false, show?: boolean): void => {
+  const toggleYearPicker = (
+    instance: number,
+    flow = false,
+    show?: boolean,
+  ): void => {
     if (!flow) {
       emit('reset-flow')
     }
@@ -191,6 +205,18 @@ export function useMonthOrQuarterPicker({
     }
     else {
       emit('overlay-toggle', { open: true, overlay: FlowStep.year })
+    }
+  }
+
+  const handleYearSelect = (year: number, instance: number): void => {
+    selectYear(year, instance)
+    toggleYearPicker(instance)
+  }
+
+  const handleYear = (instance: number, increment = false): void => {
+    if (!isDisabled.value(instance, increment)) {
+      const yearToSelect = increment ? year.value(instance) + 1 : year.value(instance) - 1
+      selectYear(yearToSelect, instance)
     }
   }
 

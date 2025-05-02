@@ -40,7 +40,7 @@ const props = defineProps({
   months: { type: Array as PropType<IDefaultSelect[]>, default: () => [] },
   ...PickerBaseProps,
 })
-const emit = defineEmits(['update-month-year', 'mount', 'reset-flow', 'overlay-closed', 'overlay-opened'])
+const emit = defineEmits(['updateMonthYear', 'mount', 'resetFlow', 'overlayClosed', 'overlayOpened'])
 const {
   defaultedTransitions,
   defaultedAriaLabels,
@@ -70,7 +70,7 @@ function bindOptions(type: HeaderPicker) {
     get: () => props[type],
     set: (value: number) => {
       const otherType = type === HeaderPicker.month ? HeaderPicker.year : HeaderPicker.month
-      emit('update-month-year', { [type]: value, [otherType]: props[otherType] })
+      emit('updateMonthYear', { [type]: value, [otherType]: props[otherType] })
 
       if (type === HeaderPicker.month) {
         toggleMonthPicker(true)
@@ -139,11 +139,11 @@ function toggleWrap(val: Ref<boolean>, type: FlowStep, show?: boolean) {
 
   if (!val.value) {
     overlayOpen.value = false
-    emit('overlay-closed', type)
+    emit('overlayClosed', type)
   }
   else {
     overlayOpen.value = true
-    emit('overlay-opened', type)
+    emit('overlayOpened', type)
   }
 }
 
@@ -159,7 +159,7 @@ function toggleYearPicker(flow = false, show?: boolean): void {
 
 function checkFlow(flow: boolean): void {
   if (!flow) {
-    emit('reset-flow')
+    emit('resetFlow')
   }
 }
 
@@ -326,7 +326,6 @@ defineExpose({
         </ArrowBtn>
         <ArrowBtn
           v-if="showRightIcon(defaultedMultiCalendars, instance)"
-          ref="rightIcon"
           el-name="action-next"
           :disabled="isDisabled(true)"
           :aria-label="defaultedAriaLabels?.nextMonth"

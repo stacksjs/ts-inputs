@@ -49,7 +49,7 @@ export function useMonthPicker(props: PickerBasePropsType, emit: VueEmit) {
   const { checkMinMaxRange } = useValidation(props)
 
   const {
-    selectYear: onYearSelect,
+    selectYear: _selectYearFromPicker,
     groupedYears,
     showYearPicker,
     toggleYearPicker,
@@ -193,13 +193,13 @@ export function useMonthPicker(props: PickerBasePropsType, emit: VueEmit) {
     emitMonthYearUpdate(instance, year, null)
   }
 
-  const emitMonthYearUpdate = (instance: number, year: number, monthVal: number | null) => {
-    let month = monthVal
-    if (!month && month !== 0) {
-      const value = getModelMonthYear()
-      month = Array.isArray(value) ? value[instance].month : value.month
-    }
-    emit('update-month-year', { instance, year, month })
+  function emitMonthYearUpdate(month: number, year: number, fromNav = false): void {
+    emit('update-month-year', { month, year, fromNav })
+  }
+
+  function onYearSelect(year: number, instance: number): void {
+    emit('toggle-year-picker', { flow: true })
+    emitMonthYearUpdate(instance, year)
   }
 
   const setHoverDate = (month: number, instance: number) => {

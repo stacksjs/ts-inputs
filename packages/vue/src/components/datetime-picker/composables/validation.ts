@@ -1,6 +1,26 @@
-import type { DisabledTime, DisabledTimesFn, InternalModuleValue, MaybeDate, TimeModel } from '../interfaces'
-import type { AllPropsType, PickerBasePropsType } from '../props'
-import { differenceInCalendarDays, eachDayOfInterval, getDay, getHours, getMinutes, getMonth, getYear } from 'date-fns'
+import type {
+  DisabledTime,
+  DisabledTimesFn,
+  InternalModuleValue,
+  MaybeDate,
+  TimeModel,
+} from '../interfaces'
+
+import type {
+  AllPropsType,
+  PickerBasePropsType,
+} from '../props'
+
+import {
+  differenceInCalendarDays,
+  eachDayOfInterval,
+  getDay,
+  getHours,
+  getMinutes,
+  getMonth,
+  getYear,
+} from 'date-fns'
+
 import { computed } from 'vue'
 
 import {
@@ -45,7 +65,16 @@ export function useValidation(props: PickerBasePropsType | AllPropsType) {
     return isDateBefore(date, propDates.value.minDate)
   }
 
-  const validateDate = (date: Date) => {
+  const checkAllowedDates = (date: Date) => {
+    if (Array.isArray(propDates.value.allowedDates) && !propDates.value.allowedDates.length)
+      return true
+    if (propDates.value.allowedDates) {
+      return !getMapDate(date, propDates.value.allowedDates, getMapKeyType(props.monthPicker, props.yearPicker))
+    }
+    return false
+  }
+
+  const validateDate = (date: Date): boolean => {
     const aboveMax = validateAboveMax(date)
     const bellowMin = validateBellowMin(date)
     const isDisabled = isDateDisabled(date)
@@ -116,16 +145,6 @@ export function useValidation(props: PickerBasePropsType | AllPropsType) {
     }
     return valid
   }
-
-  const checkAllowedDates = (date: Date) => {
-    if (Array.isArray(propDates.value.allowedDates) && !propDates.value.allowedDates.length)
-      return true
-    if (propDates.value.allowedDates) {
-      return !getMapDate(date, propDates.value.allowedDates, getMapKeyType(props.monthPicker, props.yearPicker))
-    }
-    return false
-  }
-
   /**
    * Check if date is between max and min date, or if it is included in filters
    */

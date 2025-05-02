@@ -17,14 +17,25 @@ import {
 import { checkMinMaxValue, getYears, groupListAndMap } from '../../utils/util'
 
 export function useYearPicker(props: PickerBasePropsType, emit: VueEmit) {
-  const reMap = () => {
-    if (props.isTextInputDate)
-      focusYear.value = getYear(getDate(props.startDate))
+  const yearRefs = ref<Record<number, HTMLElement>>({})
+
+  function focusYearElement(year: number): void {
+    if (yearRefs.value[year]) {
+      yearRefs.value[year].focus()
+    }
   }
+
+  const reMap = () => {
+    if (props.isTextInputDate) {
+      const year = getYear(getDate(props.startDate))
+      focusYearElement(year)
+    }
+  }
+
   const { modelValue } = useModel(props, emit, reMap)
   const hoverDate = ref<Date | null>(null)
   const { defaultedHighlight, defaultedMultiDates, defaultedFilters, defaultedRange, propDates } = useDefaults(props)
-  const focusYear = ref()
+  const focusYear = ref<number>()
 
   onMounted(() => {
     if (props.startDate) {
@@ -86,8 +97,8 @@ export function useYearPicker(props: PickerBasePropsType, emit: VueEmit) {
     })
   })
 
-  const yearToDate = (year: number): Date => {
-    return setYear(resetDate(startOfYear(new Date())), year)
+  function yearToDate(year: number): Date {
+    return new Date(year, 0, 1)
   }
 
   const selectYear = (year: number) => {

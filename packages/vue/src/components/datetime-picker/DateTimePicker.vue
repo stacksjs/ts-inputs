@@ -53,29 +53,29 @@ const props = defineProps({
 const emit = defineEmits([
   'update:model-value',
   'update:model-timezone-value',
-  'text-submit',
+  'textSubmit',
   'closed',
   'cleared',
   'open',
   'focus',
   'blur',
-  'internal-model-change',
-  'recalculate-position',
-  'flow-step',
-  'update-month-year',
-  'invalid-select',
-  'invalid-fixed-range',
-  'tooltip-open',
-  'tooltip-close',
-  'time-picker-open',
-  'time-picker-close',
-  'am-pm-change',
-  'range-start',
-  'range-end',
-  'date-update',
-  'invalid-date',
-  'overlay-toggle',
-  'text-input',
+  'internalModelChange',
+  'recalculatePosition',
+  'flowStep',
+  'updateMonthYear',
+  'invalidSelect',
+  'invalidFixedRange',
+  'tooltipOpen',
+  'tooltipClose',
+  'timePickerOpen',
+  'timePickerClose',
+  'amPmChange',
+  'rangeStart',
+  'rangeEnd',
+  'dateUpdate',
+  'invalidDate',
+  'overlayToggle',
+  'textInput',
 ])
 
 const slots = useSlots()
@@ -107,46 +107,6 @@ const { menuTransition, showTransition } = useTransitions(defaultedTransitions)
 const { isMobile } = useResponsive(defaultedConfig)
 
 const currentInstance = getCurrentInstance()
-
-onMounted(() => {
-  parseExternalModelValue(props.modelValue)
-  nextTick().then(() => {
-    if (!defaultedInline.value.enabled) {
-      const el = getScrollableParent(pickerWrapperRef.value)
-      el?.addEventListener('scroll', onScroll)
-
-      window?.addEventListener('resize', onResize)
-    }
-  })
-
-  if (defaultedInline.value.enabled) {
-    isOpen.value = true
-  }
-
-  window?.addEventListener('keyup', onKeyUp)
-  window?.addEventListener('keydown', onKeyDown)
-})
-
-onUnmounted(() => {
-  if (!defaultedInline.value.enabled) {
-    const el = getScrollableParent(pickerWrapperRef.value)
-    el?.removeEventListener('scroll', onScroll)
-    window?.removeEventListener('resize', onResize)
-  }
-  window?.removeEventListener('keyup', onKeyUp)
-  window?.removeEventListener('keydown', onKeyDown)
-})
-
-const slotList = mapSlots(slots, 'all', props.presetDates)
-const inputSlots = mapSlots(slots, 'input')
-
-watch(
-  [modelValueRef, timezoneRef],
-  () => {
-    parseExternalModelValue(modelValueRef.value)
-  },
-  { deep: true },
-)
 
 const { openOnTop, menuStyle, xCorrect, setMenuPosition, getScrollableParent, shadowRender } = usePosition({
   menuRef: dpWrapMenuRef,
@@ -249,7 +209,7 @@ function onKeyDown(event: KeyboardEvent) {
   shiftKeyActive.value = event.shiftKey
 }
 
-function openMenu() {
+function openMenu(): void {
   if (!props.disabled && !props.readonly) {
     shadowRender(currentInstance, DatepickerMenu, props)
     setMenuPosition(false)
@@ -313,7 +273,7 @@ function selectDate(): void {
     closeMenu()
   }
   else {
-    emit('invalid-select', internalModelValue.value)
+    emit('invalidSelect', internalModelValue.value)
   }
 }
 
@@ -401,7 +361,7 @@ function setInputDate(date: Date | Date[] | null, submit?: boolean, tabbed = fal
     if (submit) {
       shouldFocusNext.value = tabbed
       selectDate()
-      emit('text-submit')
+      emit('textSubmit')
     }
     else if (props.autoApply) {
       autoApplyValue()
@@ -411,7 +371,7 @@ function setInputDate(date: Date | Date[] | null, submit?: boolean, tabbed = fal
     })
   }
   else {
-    emit('invalid-date', date)
+    emit('invalidDate', date)
   }
 }
 
@@ -476,14 +436,54 @@ function clickOutside(validateBeforeEmit: () => boolean, evt: PointerEvent) {
   return closeMenu(true)
 }
 
-function handleFlow(skipStep = 0) {
+function handleFlow(skipStep = 0): void {
   dpMenuRef.value?.handleFlow(skipStep)
 }
 
-const getDpWrapMenuRef = () => dpWrapMenuRef
+const getDpWrapMenuRef = (): Ref<HTMLElement | null> => dpWrapMenuRef
 
 onClickOutside(dpWrapMenuRef, inputRef as unknown as MaybeElementRef, (evt: PointerEvent) =>
   clickOutside(validateBeforeEmit, evt))
+
+onMounted(() => {
+  parseExternalModelValue(props.modelValue)
+  nextTick().then(() => {
+    if (!defaultedInline.value.enabled) {
+      const el = getScrollableParent(pickerWrapperRef.value)
+      el?.addEventListener('scroll', onScroll)
+
+      window?.addEventListener('resize', onResize)
+    }
+  })
+
+  if (defaultedInline.value.enabled) {
+    isOpen.value = true
+  }
+
+  window?.addEventListener('keyup', onKeyUp)
+  window?.addEventListener('keydown', onKeyDown)
+})
+
+onUnmounted(() => {
+  if (!defaultedInline.value.enabled) {
+    const el = getScrollableParent(pickerWrapperRef.value)
+    el?.removeEventListener('scroll', onScroll)
+    window?.removeEventListener('resize', onResize)
+  }
+  window?.removeEventListener('keyup', onKeyUp)
+  window?.removeEventListener('keydown', onKeyDown)
+})
+
+const slotList = mapSlots(slots, 'all', props.presetDates)
+const inputSlots = mapSlots(slots, 'input')
+
+watch(
+  [modelValueRef, timezoneRef],
+  () => {
+    parseExternalModelValue(modelValueRef.value)
+  },
+  { deep: true },
+)
 
 defineExpose({
   closeMenu,
@@ -519,7 +519,7 @@ defineExpose({
       @focus="handleInputFocus"
       @blur="handleBlur"
       @real-blur="isInputFocused = false"
-      @text-input="$emit('text-input', $event)"
+      @text-input="$emit('textInput', $event)"
     >
       <template v-for="(slot, i) in inputSlots" #[slot]="args" :key="i">
         <slot :name="slot" v-bind="args" />
@@ -548,22 +548,22 @@ defineExpose({
             @select-date="selectDate"
             @auto-apply="autoApplyValue"
             @time-update="timeUpdate"
-            @flow-step="$emit('flow-step', $event)"
-            @update-month-year="$emit('update-month-year', $event)"
-            @invalid-select="$emit('invalid-select', internalModelValue)"
-            @auto-apply-invalid="$emit('invalid-select', $event)"
-            @invalid-fixed-range="$emit('invalid-fixed-range', $event)"
+            @flow-step="$emit('flowStep', $event)"
+            @update-month-year="$emit('updateMonthYear', $event)"
+            @invalid-select="$emit('invalidSelect', internalModelValue)"
+            @auto-apply-invalid="$emit('invalidSelect', $event)"
+            @invalid-fixed-range="$emit('invalidFixedRange', $event)"
             @recalculate-position="setMenuPosition"
-            @tooltip-open="$emit('tooltip-open', $event)"
-            @tooltip-close="$emit('tooltip-close', $event)"
-            @time-picker-open="$emit('time-picker-open', $event)"
-            @time-picker-close="$emit('time-picker-close', $event)"
-            @am-pm-change="$emit('am-pm-change', $event)"
-            @range-start="$emit('range-start', $event)"
-            @range-end="$emit('range-end', $event)"
-            @date-update="$emit('date-update', $event)"
-            @invalid-date="$emit('invalid-date', $event)"
-            @overlay-toggle="$emit('overlay-toggle', $event)"
+            @tooltip-open="$emit('tooltipOpen', $event)"
+            @tooltip-close="$emit('tooltipClose', $event)"
+            @time-picker-open="$emit('timePickerOpen', $event)"
+            @time-picker-close="$emit('timePickerClose', $event)"
+            @am-pm-change="$emit('amPmChange', $event)"
+            @range-start="$emit('rangeStart', $event)"
+            @range-end="$emit('rangeEnd', $event)"
+            @date-update="$emit('dateUpdate', $event)"
+            @invalid-date="$emit('invalidDate', $event)"
+            @overlay-toggle="$emit('overlayToggle', $event)"
             @menu-blur="$emit('blur')"
           >
             <template v-for="(slot, i) in slotList" #[slot]="args" :key="i">

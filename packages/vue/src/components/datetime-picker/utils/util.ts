@@ -39,14 +39,22 @@ function dayNameIntlMapper(locale: string) {
 
 function dayNameDateFnsMapper(formatLocale: Locale) {
   return (day: number) => {
-    return format(localToTz(new Date(`2017-01-0${day}T00:00:00+00:00`), 'UTC'), 'EEEEEE', { locale: formatLocale })
+    return format(
+      localToTz(new Date(`2017-01-0${day}T00:00:00+00:00`), 'UTC'),
+      'EEEEEE',
+      { locale: formatLocale },
+    )
   }
 }
 
 /**
  * Generate week day names based on formatLocale or locale and in order specified in week start
  */
-export function getDayNames(formatLocale: Locale | null, locale: string, weekStart: number): string[] {
+export function getDayNames(
+  formatLocale: Locale | null,
+  locale: string,
+  weekStart: number,
+): string[] {
   // Get list in order from sun ... sat
   const daysArray = [1, 2, 3, 4, 5, 6, 7]
   let days
@@ -56,7 +64,7 @@ export function getDayNames(formatLocale: Locale | null, locale: string, weekSta
     try {
       days = daysArray.map(dayNameDateFnsMapper(formatLocale))
     }
-    catch (e) {
+    catch {
       days = daysArray.map(dayNameIntlMapper(locale))
     }
   }
@@ -76,7 +84,11 @@ export function getDayNames(formatLocale: Locale | null, locale: string, weekSta
 /**
  * Generate array of years for selection display
  */
-export function getYears(yearRange: number[] | string[], locale: string, reverse?: boolean): IDefaultSelect[] {
+export function getYears(
+  yearRange: number[] | string[],
+  locale: string,
+  reverse?: boolean,
+): IDefaultSelect[] {
   const years: IDefaultSelect[] = []
   for (let year = +yearRange[0]; year <= +yearRange[1]; year++) {
     years.push({ value: +year, text: formatNumber(year, locale) })
@@ -87,7 +99,11 @@ export function getYears(yearRange: number[] | string[], locale: string, reverse
 /**
  * Generate month names based on formatLocale or locale for selection display
  */
-export function getMonths(formatLocale: Locale | null, locale: string, monthFormat: 'long' | 'short'): IDefaultSelect[] {
+export function getMonths(
+  formatLocale: Locale | null,
+  locale: string,
+  monthFormat: 'long' | 'short',
+): IDefaultSelect[] {
   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month) => {
     const mm = month < 10 ? `0${month}` : month
     return new Date(`2017-${mm}-01T00:00:00+00:00`)
@@ -104,7 +120,7 @@ export function getMonths(formatLocale: Locale | null, locale: string, monthForm
         }
       })
     }
-    catch (e) {
+    catch {
       // Do nothing. Go ahead to execute fallback
     }
   }
@@ -156,7 +172,7 @@ export function convertType<T>(val: any): T {
 export function getNumVal(num?: string | number | null): number | null {
   if (num === 0)
     return num
-  if (!num || isNaN(+num))
+  if (!num || Number.isNaN(+num))
     return null
   return +num
 }
@@ -168,7 +184,7 @@ export function isNumNullish(num?: number | null): num is null {
 export function findFocusableEl(container: HTMLElement | null): HTMLElement | undefined {
   if (container) {
     const elementsList = container.querySelectorAll('input, button, select, textarea, a[href]')
-    const elArr = [...elementsList] as HTMLElement[]
+    const elArr = Array.from(elementsList) as HTMLElement[]
     return elArr[0]
   }
   return undefined
@@ -219,7 +235,15 @@ export function checkMinMaxValue(value: number | string, min?: number, max?: num
 /**
  * Maps data for the SelectionOverlay
  */
-export function groupListAndMap(list: IDefaultSelect[], cb: (item: IDefaultSelect) => { active: boolean, disabled: boolean, highlighted?: boolean, isBetween?: boolean }): OverlayGridItem[][] {
+export function groupListAndMap(
+  list: IDefaultSelect[],
+  cb: (item: IDefaultSelect) => {
+    active: boolean
+    disabled: boolean
+    highlighted?: boolean
+    isBetween?: boolean
+  },
+): OverlayGridItem[][] {
   return getGroupedList(list).map((items) => {
     return items.map((item) => {
       const { active, disabled, isBetween, highlighted } = cb(item)
@@ -241,7 +265,7 @@ export function groupListAndMap(list: IDefaultSelect[], cb: (item: IDefaultSelec
   })
 }
 
-export function checkStopPropagation(ev: Event | undefined, config: Config, immediate = false) {
+export function checkStopPropagation(ev: Event | undefined, config: Config, immediate = false): void {
   if (ev && config.allowStopPropagation) {
     if (immediate) {
       ev.stopImmediatePropagation()
@@ -263,21 +287,27 @@ function getFocusableElementsSelector() {
   ].join(', ')
 }
 
-export function findNextFocusableElement(startingElement: HTMLElement, reverse: boolean) {
-  let focusable = [...document.querySelectorAll(getFocusableElementsSelector())]
+export function findNextFocusableElement(
+  startingElement: HTMLElement,
+  reverse: boolean,
+): HTMLElement | undefined {
+  const focusable = Array.from(document.querySelectorAll(getFocusableElementsSelector()))
 
-  focusable = focusable.filter((elem) => {
+  const filteredFocusable = focusable.filter((elem) => {
     return !startingElement.contains(elem) || elem.hasAttribute('data-datepicker-instance')
   })
 
-  const currentIndex = focusable.indexOf(startingElement)
+  const currentIndex = filteredFocusable.indexOf(startingElement)
 
-  if (currentIndex >= 0 && (reverse ? currentIndex - 1 >= 0 : currentIndex + 1 <= focusable.length)) {
-    return focusable[currentIndex + (reverse ? -1 : 1)] as HTMLElement
+  if (currentIndex >= 0 && (reverse ? currentIndex - 1 >= 0 : currentIndex + 1 <= filteredFocusable.length)) {
+    return filteredFocusable[currentIndex + (reverse ? -1 : 1)] as HTMLElement
   }
 }
 
-export function getElWithin(wrapper: HTMLElement | null, attribute: DPElements): HTMLElement | undefined | null {
+export function getElWithin(
+  wrapper: HTMLElement | null,
+  attribute: DPElements,
+): HTMLElement | undefined | null {
   return wrapper?.querySelector(`[data-dp-element="${attribute}"]`)
 }
 
@@ -285,7 +315,7 @@ export function formatNumber(num: number, locale: string): string {
   return new Intl.NumberFormat(locale, { useGrouping: false, style: 'decimal' }).format(num)
 }
 
-export function getMapKey(date: Date | string | number, mapKeyFormat?: MAP_KEY_FORMAT) {
+export function getMapKey(date: Date | string | number, mapKeyFormat?: MAP_KEY_FORMAT): string {
   return format(date, mapKeyFormat ?? MAP_KEY_FORMAT.DATE)
 }
 
@@ -297,7 +327,7 @@ export function getMapDate<T>(date: Date, map: Map<string, T>, format?: MAP_KEY_
   return map.get(getMapKey(date, format))
 }
 
-export function matchDate(date: Date, mapOrFn: Map<string, any> | ((date: Date) => boolean) | null) {
+export function matchDate(date: Date, mapOrFn: Map<string, any> | ((date: Date) => boolean) | null): boolean {
   if (!date)
     return true
   if (!mapOrFn)
@@ -308,7 +338,7 @@ export function matchDate(date: Date, mapOrFn: Map<string, any> | ((date: Date) 
   return mapOrFn(getDate(date))
 }
 
-export function checkKeyDown(ev: KeyboardEvent, fn: () => any, prevent = false, cb?: (ev: KeyboardEvent) => void) {
+export function checkKeyDown(ev: KeyboardEvent, fn: () => any, prevent = false, cb?: (ev: KeyboardEvent) => void): void {
   if (ev.key === EventKey.enter || ev.key === EventKey.space) {
     if (prevent) {
       ev.preventDefault()
@@ -319,7 +349,7 @@ export function checkKeyDown(ev: KeyboardEvent, fn: () => any, prevent = false, 
     return cb(ev)
 }
 
-export function isIOS() {
+export function isIOS(): boolean {
   return (
     ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].some(platform =>
       navigator.userAgent.includes(platform),
@@ -328,7 +358,7 @@ export function isIOS() {
   )
 }
 
-export function isTouchDevice() {
+export function isTouchDevice(): boolean {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
 }
 

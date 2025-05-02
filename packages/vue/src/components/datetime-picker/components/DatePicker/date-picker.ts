@@ -43,7 +43,7 @@ function mapInternalModuleValues(fromMount = false): void {
   if (modelValue.value) {
     if (Array.isArray(modelValue.value)) {
       tempRange.value = modelValue.value
-      return assignExistingModelValueArr(fromMount)
+      return _assignExistingModelValueArr(fromMount)
     }
     return assignSingleValue(modelValue.value, fromMount)
   }
@@ -55,7 +55,6 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
   const tempRange = ref<Date[]>([])
   const lastScrollTime = ref(new Date())
   const clickedDate = ref<ICalendarDay | undefined>()
-  const reMap = () => mapInternalModuleValues(props.isTextInputDate)
 
   const { modelValue, calendars, time, today } = useModel(props, emit, reMap)
   const {
@@ -170,6 +169,30 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     }
   }
 
+  /**
+   * Extracted method to map month and year
+   */
+  const handleNextMonthYear = (): void => {
+    if (Array.isArray(modelValue.value) && modelValue.value.length === 2) {
+      const date = getDate(
+        getDate(modelValue.value[1] ? modelValue.value[1] : addMonths(modelValue.value[0], 1)),
+      )
+      const [firstMonth, firstYear] = [getMonth(modelValue.value[0]), getYear(modelValue.value[0])]
+      const [secondMonth, secondYear] = [getMonth(modelValue.value[1]), getYear(modelValue.value[1])]
+
+      if (
+        (firstMonth !== secondMonth || (firstMonth === secondMonth && firstYear !== secondYear))
+        && defaultedMultiCalendars.value.solo
+      ) {
+        setCalendarMonthYear(1, getMonth(date), getYear(date))
+      }
+    }
+    else if (modelValue.value && !Array.isArray(modelValue.value)) {
+      setCalendarMonthYear(0, getMonth(modelValue.value), getYear(modelValue.value))
+      assignMonthAndYear(getDate())
+    }
+  }
+
   // Assign singe value
   const assignSingleValue = (date: Date, fromMount: boolean): void => {
     assignMonthAndYear(date)
@@ -226,11 +249,23 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     }
   }
 
-  const assignExistingModelValueArr = (fromMount: boolean) => {
+  const _assignExistingModelValueArr = (fromMount: boolean) => {
     const dates = modelValue.value as Date[]
     assignExistingMulti(dates, fromMount)
     if (defaultedMultiCalendars.value.count && defaultedMultiCalendars.value.solo) {
       handleNextMonthYear()
+    }
+  }
+
+  // In multi calendar mode, when the month/year is changed, sync all calendars
+  const autoChangeMultiCalendars = (instance: number): void => {
+    for (let i = instance - 1; i >= 0; i--) {
+      const date = subMonths(set(getDate(), { month: month.value(i + 1), year: year.value(i + 1) }), 1)
+      setCalendarMonthYear(i, getMonth(date), getYear(date))
+    }
+    for (let i = instance + 1; i <= defaultedMultiCalendars.value.count - 1; i++) {
+      const date = addMonths(set(getDate(), { month: month.value(i - 1), year: year.value(i - 1) }), 1)
+      setCalendarMonthYear(i, getMonth(date), getYear(date))
     }
   }
 
@@ -248,43 +283,7 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     }
   }
 
-  // In multi calendar mode, when the month/year is changed, sync all calendars
-  const autoChangeMultiCalendars = (instance: number): void => {
-    for (let i = instance - 1; i >= 0; i--) {
-      const date = subMonths(set(getDate(), { month: month.value(i + 1), year: year.value(i + 1) }), 1)
-      setCalendarMonthYear(i, getMonth(date), getYear(date))
-    }
-    for (let i = instance + 1; i <= defaultedMultiCalendars.value.count - 1; i++) {
-      const date = addMonths(set(getDate(), { month: month.value(i - 1), year: year.value(i - 1) }), 1)
-      setCalendarMonthYear(i, getMonth(date), getYear(date))
-    }
-  }
-
-  /**
-   * Extracted method to map month and year
-   */
-  const handleNextMonthYear = (): void => {
-    if (Array.isArray(modelValue.value) && modelValue.value.length === 2) {
-      const date = getDate(
-        getDate(modelValue.value[1] ? modelValue.value[1] : addMonths(modelValue.value[0], 1)),
-      )
-      const [firstMonth, firstYear] = [getMonth(modelValue.value[0]), getYear(modelValue.value[0])]
-      const [secondMonth, secondYear] = [getMonth(modelValue.value[1]), getYear(modelValue.value[1])]
-
-      if (
-        (firstMonth !== secondMonth || (firstMonth === secondMonth && firstYear !== secondYear))
-        && defaultedMultiCalendars.value.solo
-      ) {
-        setCalendarMonthYear(1, getMonth(date), getYear(date))
-      }
-    }
-    else if (modelValue.value && !Array.isArray(modelValue.value)) {
-      setCalendarMonthYear(0, getMonth(modelValue.value), getYear(modelValue.value))
-      assignMonthAndYear(getDate())
-    }
-  }
-
-  const setStartDate = () => {
+  function setStartDate(): void {
     if (props.startDate) {
       setCalendarMonthYear(0, getMonth(getDate(props.startDate)), getYear(getDate(props.startDate)))
       if (defaultedMultiCalendars.value.count) {
@@ -311,16 +310,16 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     }
   }
 
+  // Handle touch swipe
+  const handleSwipe = (direction: 'left' | 'right', instance: number): void => {
+    autoChangeMonth(direction === 'right' ? -1 : 1, instance)
+  }
+
   // Handle arrow key
   const handleArrow = (arrow: 'left' | 'right', instance: number, vertical = false): void => {
     if (props.monthChangeOnArrows && props.vertical === vertical) {
       handleSwipe(arrow, instance)
     }
-  }
-
-  // Handle touch swipe
-  const handleSwipe = (direction: 'left' | 'right', instance: number): void => {
-    autoChangeMonth(direction === 'right' ? -1 : 1, instance)
   }
 
   // Check if the calendar day has a marker
@@ -336,9 +335,9 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
       case 'prepend':
         return [true, false]
       case 'center':
-        return [firstWeekday == 0, true]
+        return [firstWeekday === 0, true]
       case 'fair':
-        return [firstWeekday == 0 || gapToEnd > firstWeekday, true]
+        return [firstWeekday === 0 || gapToEnd > firstWeekday, true]
       case 'append':
         return [false, false]
       default:
@@ -361,7 +360,7 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
       const [requiresLeadingWeek, doesAlternate] = getSixWeeksMode(firstWeekday, gapToEnd)
 
       for (let i = 1; i <= diff; i++) {
-        const addLeadingWeek = doesAlternate ? !!(i % 2) == requiresLeadingWeek : requiresLeadingWeek
+        const addLeadingWeek = doesAlternate ? !!(i % 2) === requiresLeadingWeek : requiresLeadingWeek
         if (addLeadingWeek) {
           const first = weeks[0].days[0]
           const days = getWeekDays(addDays(first.value, -7), getMonth(firstDate))
@@ -378,7 +377,7 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     return weeks
   }
   // Get 7 days from the provided start date, month is used to check whether the date is from the specified month or in the offset
-  const getWeekDays = (startDay: Date, month: number): ICalendarDay[] => {
+  function getWeekDays(startDay: Date, month: number): ICalendarDay[] {
     const startDate = getDate(startDay)
     const dates = []
     for (let i = 0; i < 7; i++) {
@@ -452,23 +451,6 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     }
   }
 
-  // Handles auto range selecting
-  const handleAutoRange = (day: ICalendarDay, isNext: boolean) => {
-    const autoRange = [
-      getDate(day.value),
-      addDays(getDate(day.value), +(defaultedRange.value.autoRange as number)),
-    ]
-    if (isDateRangeAllowed(autoRange)) {
-      if (isNext) {
-        handleNextCalendarAutoRange(day.value)
-      }
-      tempRange.value = autoRange
-    }
-    else {
-      emit('invalid-date', day.value)
-    }
-  }
-
   /**
    * When using next calendar on auto range mode, adjust month and year for both calendars
    */
@@ -483,6 +465,23 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
         )
         setCalendarMonthYear(i, next.month, next.year)
       }
+    }
+  }
+
+  // Handles auto range selecting
+  const handleAutoRange = (day: ICalendarDay, isNext: boolean) => {
+    const autoRange = [
+      getDate(day.value),
+      addDays(getDate(day.value), +(defaultedRange.value.autoRange as number)),
+    ]
+    if (isDateRangeAllowed(autoRange)) {
+      if (isNext) {
+        handleNextCalendarAutoRange(day.value)
+      }
+      tempRange.value = autoRange
+    }
+    else {
+      emit('invalid-date', day.value)
     }
   }
 
@@ -527,7 +526,7 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
   }
 
   // Check if seconds are enabled, and return proper value
-  const getSecondsValue = (getFirst = true): number => {
+  function getSecondsValue(getFirst = true): number {
     if (props.enableSeconds) {
       if (Array.isArray(time.seconds)) {
         return getFirst ? time.seconds[0] : time.seconds[1]
@@ -668,7 +667,7 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
   }
 
   // Get last date in the multi dates arr
-  const multiDatesLast = (): Date | null => {
+  function multiDatesLast(): Date | null {
     if (Array.isArray(modelValue.value) && modelValue.value.length) {
       return modelValue.value[modelValue.value.length - 1]
     }

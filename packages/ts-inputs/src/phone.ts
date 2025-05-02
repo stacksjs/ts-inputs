@@ -29,7 +29,7 @@ const COUNTRY_CODES: Record<string, string> = {
   CA: '+1',
 }
 
-function format({
+function handleFormat({
   value,
   delimiter,
   pattern,
@@ -84,7 +84,7 @@ export function formatPhone(value: string, options?: FormatPhoneOptions): string
   // Use region pattern if no custom pattern provided
   const selectedPattern = pattern ?? PHONE_PATTERNS[region] ?? DefaultPhonePattern
 
-  return format({
+  return handleFormat({
     value,
     delimiter,
     pattern: selectedPattern,

@@ -20,7 +20,7 @@ const props = defineProps({
   ...PickerBaseProps,
 })
 
-const emit = defineEmits(['close-picker', 'select-date', 'select-now', 'invalid-select'])
+const emit = defineEmits(['closePicker', 'selectDate', 'selectNow', 'invalidSelect'])
 
 const {
   defaultedActionRow,
@@ -142,10 +142,10 @@ function selectDate(): void {
     && isMonthValid.value(props.internalModelValue)
     && validDateRange.value
   ) {
-    emit('select-date')
+    emit('selectDate')
   }
   else {
-    emit('invalid-select')
+    emit('invalidSelect')
   }
 }
 </script>
@@ -158,8 +158,8 @@ function selectDate(): void {
         v-bind="{
           internalModelValue,
           disabled,
-          selectDate: () => $emit('select-date'),
-          closePicker: () => $emit('close-picker'),
+          selectDate: (): void => $emit('selectDate'),
+          closePicker: (): void => $emit('closePicker'),
         }"
       />
     </template>
@@ -187,8 +187,8 @@ function selectDate(): void {
             ref="cancelButtonRef"
             type="button"
             class="dp__action_button dp__action_cancel"
-            @click="$emit('close-picker')"
-            @keydown="checkKeyDown($event, () => $emit('close-picker'))"
+            @click="$emit('closePicker')"
+            @keydown="(e: KeyboardEvent): void => checkKeyDown(e, () => $emit('closePicker'))"
           >
             {{ cancelText }}
           </button>
@@ -196,8 +196,8 @@ function selectDate(): void {
             v-if="defaultedActionRow.showNow"
             type="button"
             class="dp__action_button dp__action_cancel"
-            @click="$emit('select-now')"
-            @keydown="checkKeyDown($event, () => $emit('select-now'))"
+            @click="$emit('selectNow')"
+            @keydown="(e: KeyboardEvent): void => checkKeyDown(e, () => $emit('selectNow'))"
           >
             {{ nowButtonLabel }}
           </button>

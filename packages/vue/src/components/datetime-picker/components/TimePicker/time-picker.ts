@@ -54,30 +54,28 @@ export function useTimePicker(props: PickerBasePropsType, emit: VueEmit) {
     }
   }
 
-  const getTimeValue = (dates: Date | Date[] | null) => {
-    if (Array.isArray(dates)) {
-      return [getTimeObj(getDate(dates[0])), getTimeObj(getDate(dates[1]))]
+  const _getTimeValue = (value: Date | Date[] | null): { hours: number, minutes: number, seconds: number }[] => {
+    if (Array.isArray(value)) {
+      return [getTimeObj(getDate(value[0])), getTimeObj(getDate(value[1]))]
     }
-    return [getTimeObj(dates ?? getDate())]
+    return [getTimeObj(value ?? getDate())]
   }
 
-  const assignTime = (hours: number | number[], minutes: number | number[], seconds: number | number[]) => {
+  const _assignTime = (hours: number | number[], minutes: number | number[], seconds: number | number[]): void => {
     setTime('hours', hours)
     setTime('minutes', minutes)
     setTime('seconds', props.enableSeconds ? seconds : 0)
   }
 
-  const setTimeFromModel = () => {
-    const [first, second] = getTimeValue(modelValue.value)
-
-    if (defaultedRange.value.enabled) {
-      return assignTime(
-        [first.hours, second.hours],
-        [first.minutes, second.minutes],
-        [first.seconds, second.seconds],
-      )
+  function setTimeFromModel(): void {
+    if (modelValue.value) {
+      const date = Array.isArray(modelValue.value) ? modelValue.value[0] : modelValue.value
+      if (date) {
+        setTime('hours', getHours(date))
+        setTime('minutes', getMinutes(date))
+        setTime('seconds', getSeconds(date))
+      }
     }
-    return assignTime(first.hours, first.minutes, first.seconds)
   }
 
   onMounted(() => {

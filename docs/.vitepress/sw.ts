@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-
 /// <reference lib="webworker" />
 
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
@@ -27,7 +26,7 @@ if (import.meta.env.PROD) {
   const base = swPath === 0 ? '/' : self.location.pathname.slice(0, swPath + 1)
   function escapeStringRegexp(value: string) {
     // Escape characters with special meaning either inside or outside character sets.
-    // Use a simple backslash escape when it’s always valid, and a `\xnn` escape when the simpler form would be disallowed by Unicode patterns’ stricter grammar.
+    // Use a simple backslash escape when it's always valid, and a `\xnn` escape when the simpler form would be disallowed by Unicode patterns' stricter grammar.
     return value
       .replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
       .replace(/-/g, '\\x2d')

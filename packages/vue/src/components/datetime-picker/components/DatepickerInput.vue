@@ -29,16 +29,16 @@ const emit = defineEmits([
   'clear',
   'open',
   'update:input-value',
-  'set-input-date',
+  'setInputDate',
   'close',
-  'select-date',
-  'set-empty-date',
+  'selectDate',
+  'setEmptyDate',
   'toggle',
-  'focus-prev',
+  'focusPrev',
   'focus',
   'blur',
-  'real-blur',
-  'text-input',
+  'realBlur',
+  'textInput',
 ])
 
 const {
@@ -76,10 +76,10 @@ const inputClass = computed(
 )
 
 function handleOnEmptyInput() {
-  emit('set-input-date', null)
+  emit('setInputDate', null)
   if (props.clearable) {
     if (props.autoApply) {
-      emit('set-empty-date')
+      emit('setEmptyDate')
       parsedDate.value = null
     }
   }
@@ -140,21 +140,21 @@ function handleInput(event: Event | string): void {
     }
     parseInput(value)
 
-    emit('set-input-date', parsedDate.value)
+    emit('setInputDate', parsedDate.value)
   }
   else {
     handleOnEmptyInput()
   }
   textPasted.value = false
   emit('update:input-value', value)
-  emit('text-input', event, parsedDate.value)
+  emit('textInput', event, parsedDate.value)
 }
 
 function handleEnter(ev: KeyboardEvent): void {
   if (defaultedTextInput.value.enabled) {
     parseInput((ev.target as HTMLInputElement).value)
     if (defaultedTextInput.value.enterSubmit && isValidDate(parsedDate.value) && props.inputValue !== '') {
-      emit('set-input-date', parsedDate.value, true)
+      emit('setInputDate', parsedDate.value, true)
       parsedDate.value = null
     }
     else if (defaultedTextInput.value.enterSubmit && props.inputValue === '') {
@@ -173,7 +173,7 @@ function handleTab(ev: KeyboardEvent, noParse?: boolean): void {
   }
 
   if (defaultedTextInput.value.tabSubmit && isValidDate(parsedDate.value) && props.inputValue !== '') {
-    emit('set-input-date', parsedDate.value, true, true)
+    emit('setInputDate', parsedDate.value, true, true)
     parsedDate.value = null
   }
   else if (defaultedTextInput.value.tabSubmit && props.inputValue === '') {
@@ -206,14 +206,14 @@ function handleOpen(ev: KeyboardEvent | MouseEvent) {
 }
 
 function handleBlur(): void {
-  emit('real-blur')
+  emit('realBlur')
   isFocused.value = false
   if (!props.isMenuOpen || (defaultedInline.value.enabled && defaultedInline.value.input)) {
     emit('blur')
   }
   if (props.autoApply && defaultedTextInput.value.enabled && parsedDate.value && !props.isMenuOpen) {
-    emit('set-input-date', parsedDate.value)
-    emit('select-date')
+    emit('setInputDate', parsedDate.value)
+    emit('selectDate')
     parsedDate.value = null
   }
 }

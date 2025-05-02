@@ -176,14 +176,14 @@ export function sanitizeTime(time: TimeModel, type?: TimeType, value?: number): 
       (['hours', 'minutes', 'seconds'] as TimeType[]).map((timeType) => {
         if (timeType === type)
           return [timeType, value]
-        return [timeType, !isNaN(+time[timeType]) ? +time[timeType] : undefined]
+        return [timeType, !Number.isNaN(+time[timeType]) ? +time[timeType] : undefined]
       }),
     )
   }
   return {
-    hours: !isNaN(+time.hours) ? +time.hours : undefined,
-    minutes: !isNaN(+time.minutes) ? +time.minutes : undefined,
-    seconds: !isNaN(+time.seconds) ? +time.seconds : undefined,
+    hours: !Number.isNaN(+time.hours) ? +time.hours : undefined,
+    minutes: !Number.isNaN(+time.minutes) ? +time.minutes : undefined,
+    seconds: !Number.isNaN(+time.seconds) ? +time.seconds : undefined,
   }
 }
 
@@ -195,7 +195,7 @@ export function getTimeObj(date: Date): TimeObj {
   }
 }
 
-export function getMinMonth(year: number, minDate?: PossibleDate) {
+export function getMinMonth(year: number, minDate?: PossibleDate): number | undefined {
   if (minDate) {
     const minYear = getYear(getDate(minDate))
     if (minYear > year)
@@ -205,7 +205,7 @@ export function getMinMonth(year: number, minDate?: PossibleDate) {
   }
 }
 
-export function getMaxMonth(year: number, maxDate?: PossibleDate) {
+export function getMaxMonth(year: number, maxDate?: PossibleDate): number | undefined {
   if (maxDate) {
     const maxYear = getYear(getDate(maxDate))
     if (maxYear < year)
@@ -217,13 +217,13 @@ export function getMaxMonth(year: number, maxDate?: PossibleDate) {
   return undefined
 }
 
-export function getMinMaxYear(minMaxDate: PossibleDate) {
+export function getMinMaxYear(minMaxDate: PossibleDate): number | undefined {
   if (minMaxDate)
     return getYear(getDate(minMaxDate))
   return undefined
 }
 
-export function getDaysInBetween(dateOne: Date, dateTwo: Date) {
+export function getDaysInBetween(dateOne: Date, dateTwo: Date): Date[] {
   // Check if selection is backwards
   const start = isDateAfter(dateOne, dateTwo) ? dateTwo : dateOne
   const end = isDateAfter(dateTwo, dateOne) ? dateTwo : dateOne
@@ -266,7 +266,13 @@ export function setDateMonthOrYear(date: DateValue, month?: number | null, year?
   return dateCopy
 }
 
-export function validateMonthYear(date: Date, maxDate: DateValue, minDate: DateValue, preventMinMaxNavigation: boolean, next: boolean) {
+export function validateMonthYear(
+  date: Date,
+  maxDate: DateValue,
+  minDate: DateValue,
+  preventMinMaxNavigation: boolean,
+  next: boolean,
+): boolean {
   if (!preventMinMaxNavigation)
     return false
   if (next && !maxDate)
@@ -292,7 +298,15 @@ export function validateMaxDate(month: number, year: number, maxDate: Date): boo
   )
 }
 
-export function formatDate(value: Date | Date[], formatProp: IFormat | null, formatLocale: Locale | null, rangeSeparator: string, modelAuto: boolean, pattern: string, parser?: boolean) {
+export function formatDate(
+  value: Date | Date[],
+  formatProp: IFormat | null,
+  formatLocale: Locale | null,
+  rangeSeparator: string,
+  modelAuto: boolean,
+  pattern: string,
+  parser?: boolean,
+): string {
   if (typeof formatProp === 'function' && !parser)
     return formatProp(value)
   const options = formatLocale ? { locale: formatLocale } : undefined
@@ -326,7 +340,7 @@ export function isValidDate(value: Date | Date[] | null | (Date | null)[]): bool
   return value ? isValid(value) : false
 }
 
-export function setDateTimeFromObj(time: TimeModel, date?: Date | null) {
+export function setDateTimeFromObj(time: TimeModel, date?: Date | null): Date {
   return set(date ?? getDate(), {
     hours: +time.hours || 0,
     minutes: +time.minutes || 0,
@@ -353,7 +367,13 @@ function getDateForCompareValidation(minOrMax: TimeModel | null, selected: Date,
   return minOrMax ? setDateTimeFromObj(minOrMax, selected) : getDate(minOrMaxDate ?? selected)
 }
 
-export function checkTimeMinMax(minOrMax: TimeModel | null, dateCompare: Date | string | null, map: 'min' | 'max', selectedDateTime: Date | Date[], isValid: boolean) {
+export function checkTimeMinMax(
+  minOrMax: TimeModel | null,
+  dateCompare: Date | string | null,
+  map: 'min' | 'max',
+  selectedDateTime: Date | Date[],
+  isValid: boolean,
+): boolean {
   if (Array.isArray(selectedDateTime)) {
     const dateOne = getDateForCompareValidation(minOrMax, selectedDateTime[0], dateCompare)
     const dateTwo = getDateForCompareValidation(minOrMax, selectedDateTime[1], dateCompare)
@@ -370,7 +390,11 @@ export function checkTimeMinMax(minOrMax: TimeModel | null, dateCompare: Date | 
 // Returns a getDate object with a set of time from a provided date
 export const setTimeValue = (date: Date): Date => set(getDate(), getTimeObj(date))
 
-export function isMonthDisabled(disabledDates: Map<string, Date | null> | null | ((date: Date) => boolean), year: number, month: number) {
+export function isMonthDisabled(
+  disabledDates: Map<string, Date | null> | null | ((date: Date) => boolean),
+  year: number,
+  month: number,
+): boolean {
   if (disabledDates instanceof Map) {
     const key = `${padZero(month + 1)}-${year}`
     return disabledDates.size ? disabledDates.has(key) : false
@@ -381,7 +405,11 @@ export function isMonthDisabled(disabledDates: Map<string, Date | null> | null |
   return false
 }
 
-export function isMonthAllowed(allowedDates: Map<string, Date | null> | null | ((date: Date) => boolean), year: number, month: number) {
+export function isMonthAllowed(
+  allowedDates: Map<string, Date | null> | null | ((date: Date) => boolean),
+  year: number,
+  month: number,
+): boolean {
   if (allowedDates instanceof Map) {
     const key = `${padZero(month + 1)}-${year}`
     return allowedDates.size ? allowedDates.has(key) : true
@@ -389,23 +417,30 @@ export function isMonthAllowed(allowedDates: Map<string, Date | null> | null | (
   return true
 }
 
-export function checkHighlightMonth(defaultedHighlight: Highlight | HighlightFn, month: number, year: number) {
+export function checkHighlightMonth(
+  defaultedHighlight: Highlight | HighlightFn,
+  month: number,
+  year: number,
+): boolean {
   return typeof defaultedHighlight === 'function'
     ? defaultedHighlight({ month, year })
     : !!defaultedHighlight.months.find(value => value.month === month && value.year === year)
 }
 
-export function checkHighlightYear(defaultedHighlight: Highlight | HighlightFn, year: number) {
+export function checkHighlightYear(
+  defaultedHighlight: Highlight | HighlightFn,
+  year: number,
+): boolean {
   return typeof defaultedHighlight === 'function'
     ? defaultedHighlight(year)
     : defaultedHighlight.years.includes(year)
 }
 
-export function getCellId(date: Date) {
+export function getCellId(date: Date): string {
   return `dp-${format(date, 'yyyy-MM-dd')}`
 }
 
-export function getBeforeAndAfterInRange(range: number, date: Date) {
+export function getBeforeAndAfterInRange(range: number, date: Date): { before: Date, after: Date } {
   const before = subDays(resetDateTime(date), range)
   const after = addDays(resetDateTime(date), range)
   return { before, after }

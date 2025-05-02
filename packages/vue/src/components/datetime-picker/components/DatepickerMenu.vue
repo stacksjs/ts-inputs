@@ -1,18 +1,14 @@
 <script lang="ts" setup>
 import type { MaybeRefOrGetter, PropType } from 'vue'
-
 import type { DynamicClass, InternalModuleValue, MenuExposedFn, MenuView, MonthModel } from '../interfaces'
-
-import { computed, onMounted, onUnmounted, ref, toValue, useSlots } from 'vue'
+import { computed, ref, toValue, useSlots } from 'vue'
 import ActionRow from '../components/ActionRow.vue'
 import DatePicker from '../components/DatePicker/DatePicker.vue'
-
 import MonthPicker from '../components/MonthPicker/MonthPicker.vue'
 import QuarterPicker from '../components/QuarterPicker/QuarterPicker.vue'
 import TimePickerSolo from '../components/TimePicker/TimePickerSolo.vue'
 import YearPicker from '../components/YearPicker/YearPicker.vue'
 import { mapSlots, useArrowNavigation, useDefaults, useFlow, useState } from '../composables'
-
 import { useResponsive } from '../composables/responsive'
 import { ArrowDirection, EventKey } from '../constants'
 import { AllProps } from '../props'
@@ -36,34 +32,39 @@ const props = defineProps({
 })
 
 const emit = defineEmits([
-  'close-picker',
-  'select-date',
-  'auto-apply',
-  'time-update',
-  'flow-step',
-  'update-month-year',
-  'invalid-select',
+  'closePicker',
+  'selectDate',
+  'autoApply',
+  'timeUpdate',
+  'flowStep',
+  'updateMonthYear',
+  'invalidSelect',
   'update:internal-model-value',
-  'recalculate-position',
-  'invalid-fixed-range',
-  'tooltip-open',
-  'tooltip-close',
-  'time-picker-open',
-  'time-picker-close',
-  'am-pm-change',
-  'range-start',
-  'range-end',
-  'auto-apply-invalid',
-  'date-update',
-  'invalid-date',
-  'overlay-toggle',
-  'menu-blur',
+  'recalculatePosition',
+  'invalidFixedRange',
+  'tooltipOpen',
+  'tooltipClose',
+  'timePickerOpen',
+  'timePickerClose',
+  'amPmChange',
+  'rangeStart',
+  'rangeEnd',
+  'autoApplyInvalid',
+  'dateUpdate',
+  'invalidDate',
+  'overlayToggle',
+  'menuBlur',
 ])
 
 const dpMenuRef = ref<HTMLElement | null>(null)
 
+const { defaultedInline, defaultedConfig, defaultedUI, handleEventPropagation }
+        = useDefaults(props)
+const { isMobile } = useResponsive(defaultedConfig, props.shadow)
+const flowStep = ref(0)
+
 const baseProps = computed(() => {
-  const { openOnTop: _, ...initProps } = props
+  const { openOnTop, ...initProps } = props
   return {
     ...initProps,
     isMobile: isMobile.value,
@@ -72,12 +73,8 @@ const baseProps = computed(() => {
   }
 })
 
-const { setMenuFocused, setShiftKey, control } = useState()
+const { setShiftKey, control } = useState()
 const slots = useSlots()
-const { defaultedTextInput, defaultedInline, defaultedConfig, defaultedUI, handleEventPropagation }
-        = useDefaults(props)
-const { isMobile } = useResponsive(defaultedConfig, props.shadow)
-
 const calendarWrapperRef = ref(null)
 const calendarWidth = ref(0)
 const innerMenuRef = ref(null)
@@ -85,54 +82,8 @@ const menuMount = ref(false)
 const dynCmpRef = ref<any>(null)
 const isMenuActive = ref(false)
 
-function stopDefault(event: Event) {
-  isMenuActive.value = true
-  if (defaultedConfig.value.allowPreventDefault) {
-    event.preventDefault()
-  }
-  checkStopPropagation(event, defaultedConfig.value, true)
-}
-
-onMounted(() => {
-  if (!props.shadow) {
-    menuMount.value = true
-    getCalendarWidth()
-    window.addEventListener('resize', getCalendarWidth)
-
-    const menu = unrefElement(dpMenuRef)
-    if (menu && !defaultedTextInput.value.enabled && !defaultedInline.value.enabled) {
-      setMenuFocused(true)
-      focusMenu()
-    }
-    if (menu) {
-      menu.addEventListener('pointerdown', stopDefault)
-      menu.addEventListener('mousedown', stopDefault)
-    }
-  }
-  document.addEventListener('mousedown', handleClickOutside)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', getCalendarWidth)
-  document.removeEventListener('mousedown', handleClickOutside)
-
-  const menu = unrefElement(dpMenuRef)
-
-  if (menu) {
-    menu.removeEventListener('pointerdown', stopDefault)
-    menu.removeEventListener('mousedown', stopDefault)
-  }
-})
-
-function getCalendarWidth(): void {
-  const el = unrefElement(innerMenuRef)
-  if (el) {
-    calendarWidth.value = el.getBoundingClientRect().width
-  }
-}
-
 const { arrowRight, arrowLeft, arrowDown, arrowUp } = useArrowNavigation()
-const { flowStep, updateFlowStep, childMount, resetFlow, handleFlow } = useFlow(props, emit, dynCmpRef)
+const { updateFlowStep, childMount, resetFlow, handleFlow } = useFlow(props, emit, dynCmpRef)
 
 const displayComponent = computed(() => {
   if (props.monthPicker)
@@ -160,6 +111,31 @@ const arrowPos = computed(() => {
   return '50%'
 })
 
+function stopDefault(event: Event): void {
+  isMenuActive.value = true
+  if (defaultedConfig.value.allowPreventDefault) {
+    event.preventDefault()
+  }
+  checkStopPropagation(event, defaultedConfig.value, true)
+}
+
+function _getCalendarWidth(): void {
+  const el = unrefElement(innerMenuRef)
+  if (el) {
+    calendarWidth.value = el.getBoundingClientRect().width
+  }
+}
+
+function _handleClickOutside(event: MouseEvent): void {
+  if (defaultedInline.value.enabled && !defaultedInline.value.input) {
+    const activeClick = dpMenuRef.value?.contains(event.target as HTMLElement)
+    if (!activeClick && isMenuActive.value) {
+      isMenuActive.value = false
+      emit('menuBlur')
+    }
+  }
+}
+
 function focusMenu(): void {
   const menu = unrefElement(dpMenuRef)
   if (menu) {
@@ -167,11 +143,9 @@ function focusMenu(): void {
   }
 }
 
-const getSidebarProps = computed(() => dynCmpRef.value?.getSidebarProps() || {})
-
-function recalculatePosition() {
+function recalculatePosition(): void {
   if (props.openOnTop) {
-    emit('recalculate-position')
+    emit('recalculatePosition')
   }
 }
 
@@ -203,12 +177,12 @@ const dpMenuClass = computed(
 )
 
 function handleDpMenuClick(ev: Event) {
-  checkStopPropagation(ev, defaultedConfig.value, true)
+  stopDefault(ev)
 }
 
 function handleEsc(ev: KeyboardEvent): void {
   if (props.escClose) {
-    emit('close-picker')
+    emit('closePicker')
     handleEventPropagation(ev)
   }
 }
@@ -238,14 +212,14 @@ function checkShiftKey(ev: KeyboardEvent) {
     if ((ev.target as HTMLElement).classList.contains('dp__menu') && control.value.shiftKeyInMenu) {
       ev.preventDefault()
       checkStopPropagation(ev, defaultedConfig.value, true)
-      emit('close-picker')
+      emit('closePicker')
     }
   }
 }
 
 function onTimePickerClose() {
   focusMenu()
-  emit('time-picker-close')
+  emit('timePickerClose')
 }
 
 function closeOverlays(instance: number) {
@@ -327,16 +301,6 @@ function onKeyDown(ev: KeyboardEvent) {
     case EventKey.arrowDown:
       return onArrowKey(ev, ArrowDirection.down)
     default:
-  }
-}
-
-function handleClickOutside(event: MouseEvent) {
-  if (defaultedInline.value.enabled && !defaultedInline.value.input) {
-    const activeClick = dpMenuRef.value?.contains(event.target as HTMLElement)
-    if (!activeClick && isMenuActive.value) {
-      isMenuActive.value = false
-      emit('menu-blur')
-    }
   }
 }
 
@@ -427,23 +391,23 @@ defineExpose({
           @update-flow-step="updateFlowStep"
           @reset-flow="resetFlow"
           @focus-menu="focusMenu"
-          @select-date="$emit('select-date')"
-          @date-update="$emit('date-update', $event)"
-          @tooltip-open="$emit('tooltip-open', $event)"
-          @tooltip-close="$emit('tooltip-close', $event)"
-          @auto-apply="$emit('auto-apply', $event)"
-          @range-start="$emit('range-start', $event)"
-          @range-end="$emit('range-end', $event)"
-          @invalid-fixed-range="$emit('invalid-fixed-range', $event)"
-          @time-update="$emit('time-update')"
-          @am-pm-change="$emit('am-pm-change', $event)"
-          @time-picker-open="$emit('time-picker-open', $event)"
+          @select-date="$emit('selectDate')"
+          @date-update="$emit('dateUpdate', $event)"
+          @tooltip-open="$emit('tooltipOpen', $event)"
+          @tooltip-close="$emit('tooltipClose', $event)"
+          @auto-apply="$emit('autoApply', $event)"
+          @range-start="$emit('rangeStart', $event)"
+          @range-end="$emit('rangeEnd', $event)"
+          @invalid-fixed-range="$emit('invalidFixedRange', $event)"
+          @time-update="$emit('timeUpdate')"
+          @am-pm-change="$emit('amPmChange', $event)"
+          @time-picker-open="$emit('timePickerOpen')"
           @time-picker-close="onTimePickerClose"
           @recalculate-position="recalculatePosition"
-          @update-month-year="$emit('update-month-year', $event)"
-          @auto-apply-invalid="$emit('auto-apply-invalid', $event)"
-          @invalid-date="$emit('invalid-date', $event)"
-          @overlay-toggle="$emit('overlay-toggle', $event)"
+          @update-month-year="$emit('updateMonthYear', $event)"
+          @auto-apply-invalid="$emit('autoApplyInvalid', $event)"
+          @invalid-date="$emit('invalidDate', $event)"
+          @overlay-toggle="$emit('overlayToggle', $event)"
           @update:internal-model-value="$emit('update:internal-model-value', $event)"
         >
           <template v-for="(slot, i) in sharedSlots" #[slot]="args" :key="i">
@@ -463,9 +427,9 @@ defineExpose({
       :menu-mount="menuMount"
       v-bind="baseProps"
       :calendar-width="calendarWidth"
-      @close-picker="$emit('close-picker')"
-      @select-date="$emit('select-date')"
-      @invalid-select="$emit('invalid-select')"
+      @close-picker="$emit('closePicker')"
+      @select-date="$emit('selectDate')"
+      @invalid-select="$emit('invalidSelect')"
       @select-now="selectCurrentDate"
     >
       <template v-for="(slot, i) in actionSlots" #[slot]="args" :key="i">

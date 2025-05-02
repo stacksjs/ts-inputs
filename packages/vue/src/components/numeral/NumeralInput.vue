@@ -1,19 +1,8 @@
 <script setup lang="ts">
+import type { FormatNumeralOptions } from 'ts-inputs'
+import type { ComputedRef } from 'vue'
 import { formatNumeral, unformatNumeral } from 'ts-inputs'
-import { computed, ref } from 'vue'
-
-interface FormatNumeralOptions {
-  delimiter?: string
-  numeralThousandsGroupStyle?: string
-  numeralIntegerScale?: number
-  numeralDecimalMark?: string
-  numeralDecimalScale?: number
-  stripLeadingZeroes?: boolean
-  numeralPositiveOnly?: boolean
-  tailPrefix?: boolean
-  signBeforePrefix?: boolean
-  prefix?: string
-}
+import { computed, ref, watch } from 'vue'
 
 const props = withDefaults(defineProps<{
   modelValue: string
@@ -55,7 +44,7 @@ const emit = defineEmits<{
 const input = ref<HTMLInputElement | null>(null)
 const error = ref<string>('')
 
-const formatOptions = computed<FormatNumeralOptions>(() => ({
+const formatOptions = computed(() => ({
   delimiter: props.delimiter,
   numeralThousandsGroupStyle: props.thousandGroupStyle,
   numeralIntegerScale: props.integerScale,
@@ -66,15 +55,24 @@ const formatOptions = computed<FormatNumeralOptions>(() => ({
   tailPrefix: props.tailPrefix,
   signBeforePrefix: props.signBeforePrefix,
   prefix: props.prefix,
-}))
+})) as ComputedRef<FormatNumeralOptions>
 
 const formattedValue = computed<string>(() => {
   try {
     return formatNumeral(props.modelValue, formatOptions.value)
   }
+  catch {
+    return props.modelValue
+  }
+})
+
+watch(formattedValue, (value) => {
+  try {
+    formatNumeral(value, formatOptions.value)
+    error.value = ''
+  }
   catch (err) {
     error.value = err instanceof Error ? err.message : 'Invalid number format'
-    return props.modelValue
   }
 })
 

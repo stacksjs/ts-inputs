@@ -16,13 +16,13 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'activate': []
-  'set-ref': [i: Ref<HTMLElement | null>]
+  activate: []
+  setRef: [i: Ref<HTMLElement | null>]
 }>()
 
 const elRef = ref<HTMLElement | null>(null)
 
-onMounted(() => emit('set-ref', elRef)) // eslint-disable-line vue/no-ref-as-operand
+onMounted(() => emit('setRef', elRef)) // eslint-disable-line vue/no-ref-as-operand
 </script>
 
 <template>

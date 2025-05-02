@@ -18,7 +18,7 @@ const props = defineProps({
   year: { type: Number as PropType<number>, default: 0 },
   isDisabled: { type: Function as PropType<(isNext: boolean) => boolean>, default: () => false },
 })
-const emit = defineEmits(['toggle-year-picker', 'year-select', 'handle-year'])
+const emit = defineEmits(['toggleYearPicker', 'yearSelect', 'handleYear'])
 const { showRightIcon, showLeftIcon } = useCommon()
 const { defaultedConfig, defaultedMultiCalendars, defaultedAriaLabels, defaultedTransitions, defaultedUI }
         = useDefaults(props)
@@ -28,16 +28,16 @@ const overlayOpen = ref(false)
 
 function toggleYearPicker(flow = false, show?: boolean) {
   overlayOpen.value = !overlayOpen.value
-  emit('toggle-year-picker', { flow, show })
+  emit('toggleYearPicker', { flow, show })
 }
 
 function handleYearSelect(year: number) {
   overlayOpen.value = false
-  emit('year-select', year)
+  emit('yearSelect', year)
 }
 
 function handleYear(increment = false): void {
-  emit('handle-year', increment)
+  emit('handleYear', increment)
 }
 </script>
 
@@ -45,7 +45,6 @@ function handleYear(increment = false): void {
   <div class="dp--year-mode-picker" :class="{ 'dp--hidden-el': overlayOpen }">
     <ArrowBtn
       v-if="showLeftIcon(defaultedMultiCalendars, instance)"
-      ref="mpPrevIconRef"
       :aria-label="defaultedAriaLabels?.prevYear"
       :disabled="isDisabled(false)"
       :class="defaultedUI?.navBtnPrev"
@@ -55,7 +54,6 @@ function handleYear(increment = false): void {
       <ChevronLeftIcon v-if="!$slots['arrow-left']" />
     </ArrowBtn>
     <button
-      ref="mpYearButtonRef"
       class="dp__btn dp--year-select"
       type="button"
       :aria-label="`${year}-${defaultedAriaLabels?.openYearsOverlay}`"
@@ -70,7 +68,6 @@ function handleYear(increment = false): void {
     </button>
     <ArrowBtn
       v-if="showRightIcon(defaultedMultiCalendars, instance)"
-      ref="mpNextIconRef"
       :aria-label="defaultedAriaLabels?.nextYear"
       :disabled="isDisabled(true)"
       :class="defaultedUI?.navBtnNext"

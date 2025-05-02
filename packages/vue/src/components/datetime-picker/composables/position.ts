@@ -33,19 +33,14 @@ export function usePosition({
 }: Params) {
   const { defaultedConfig } = useDefaults(props)
   const menuRect = ref<DOMRect>({} as DOMRect)
-  const xCorrect = ref(false)
+  const xCorrect = ref<boolean>(false)
 
   const menuStyle = ref<Record<string, string>>({
     top: '0',
     left: '0',
   })
-  const openOnTop = ref(false)
+  const openOnTop = ref<boolean>(false)
   const centered = toRef(props, 'teleportCenter')
-
-  watch(centered, () => {
-    menuStyle.value = JSON.parse(JSON.stringify({}))
-    setMenuPosition()
-  })
 
   // Get correct offset of an element
   const getOffset = (el: HTMLElement): { top: number, left: number } => {
@@ -99,32 +94,38 @@ export function usePosition({
     const el = unrefElement(inputRef as MaybeElementRef)
     menuStyle.value = props.altPosition(el)
   }
-
-  /**
-   * Main call, when input is clicked, opens the menu on the first entry
-   * Recalculate param is added when the position is recalculated on scroll or resize
-   */
-  const setMenuPosition = (recalculate = true): void => {
-    if (!inline.value.enabled) {
-      if (centered.value)
-        return teleportCenter()
-
-      if (props.altPosition !== null)
-        return customAltPosition()
-
-      if (recalculate) {
-        const el = props.teleport ? menuRefInner.value?.$el : menuRef.value
-
-        if (el) {
-          menuRect.value = el.getBoundingClientRect()
+  // Set auto left-right if the menu is out of the screen
+  const autoLeftRight = (inputEl: HTMLElement) => {
+    if (props.autoPosition) {
+      const { left, width } = getInputPositions(inputEl)
+      const { left: menuLeft, right: menuRight } = menuRect.value
+      if (!xCorrect.value) {
+        if (Math.abs(menuLeft) !== Math.abs(menuRight)) {
+          if (menuLeft <= 0) {
+            xCorrect.value = true
+            return setPositionLeft(left)
+          }
+          if (menuRight >= document.documentElement.clientWidth) {
+            xCorrect.value = true
+            return setPositionRight(left, width)
+          }
         }
-        emit('recalculate-position')
+        return setHorizontalPositioning(left, width)
       }
-      return calculateMenuPosition()
     }
   }
 
-  const setLeftRightPosition = ({ inputEl, left, width }: { inputEl: HTMLElement, left: number, width: number }) => {
+  const setLeftRightPosition = (
+    {
+      inputEl,
+      left,
+      width,
+    }: {
+      inputEl: HTMLElement
+      left: number
+      width: number
+    },
+  ): void => {
     if (window.screen.width > 768 && !xCorrect.value) {
       setHorizontalPositioning(left, width)
     }
@@ -150,27 +151,6 @@ export function usePosition({
     menuStyle.value.top = `${offset - +props.offset - menuRect.value.height}px`
     openOnTop.value = true
     setLeftRightPosition({ inputEl, left, width })
-  }
-
-  // Set auto left-right if the menu is out of the screen
-  const autoLeftRight = (inputEl: HTMLElement) => {
-    if (props.autoPosition) {
-      const { left, width } = getInputPositions(inputEl)
-      const { left: menuLeft, right: menuRight } = menuRect.value
-      if (!xCorrect.value) {
-        if (Math.abs(menuLeft) !== Math.abs(menuRight)) {
-          if (menuLeft <= 0) {
-            xCorrect.value = true
-            return setPositionLeft(left)
-          }
-          if (menuRight >= document.documentElement.clientWidth) {
-            xCorrect.value = true
-            return setPositionRight(left, width)
-          }
-        }
-        return setHorizontalPositioning(left, width)
-      }
-    }
   }
 
   const getMenuPlacement = (): MenuPlacement => {
@@ -220,6 +200,30 @@ export function usePosition({
     }
   }
 
+  /**
+   * Main call, when input is clicked, opens the menu on the first entry
+   * Recalculate param is added when the position is recalculated on scroll or resize
+   */
+  const setMenuPosition = (recalculate = true): void => {
+    if (!inline.value.enabled) {
+      if (centered.value)
+        return teleportCenter()
+
+      if (props.altPosition !== null)
+        return customAltPosition()
+
+      if (recalculate) {
+        const el = props.teleport ? menuRefInner.value?.$el : menuRef.value
+
+        if (el) {
+          menuRect.value = el.getBoundingClientRect()
+        }
+        emit('recalculatePosition')
+      }
+      return calculateMenuPosition()
+    }
+  }
+
   const isScrollable = function (el: HTMLElement | null) {
     if (el) {
       const hasScrollableContent = el.scrollHeight > el.clientHeight
@@ -259,7 +263,11 @@ export function usePosition({
   }
 
   // Renders invisible menu on open to determine the menu dimensions
-  const shadowRender = (instance: ComponentInternalInstance | null, DPMenu: Component, props: AllPropsType) => {
+  const shadowRender = (
+    instance: ComponentInternalInstance | null,
+    DPMenu: Component,
+    props: AllPropsType,
+  ): void => {
     const container = document.createElement('div')
     const input = unrefElement(inputRef as MaybeElementRef)?.getBoundingClientRect()
     container.setAttribute('id', 'dp--temp-container')
@@ -293,12 +301,17 @@ export function usePosition({
     wrap.removeChild(container)
   }
 
+  watch(centered, () => {
+    menuStyle.value = JSON.parse(JSON.stringify({}))
+    setMenuPosition()
+  })
+
   return {
-    openOnTop,
-    menuStyle,
-    xCorrect,
-    setMenuPosition,
-    getScrollableParent,
-    shadowRender,
+    openOnTop: openOnTop.value as boolean,
+    menuStyle: menuStyle.value as Record<string, string>,
+    xCorrect: xCorrect.value as boolean,
+    setMenuPosition: setMenuPosition as () => void,
+    getScrollableParent: getScrollableParent as () => Window | HTMLElement,
+    shadowRender: shadowRender as (instance: ComponentInternalInstance | null, DPMenu: Component, props: AllPropsType) => void,
   }
 }

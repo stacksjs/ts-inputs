@@ -1,3 +1,4 @@
+import type { ComputedRef } from 'vue'
 import type { VueEmit } from '../interfaces'
 import type { PickerBasePropsType } from '../props'
 
@@ -7,7 +8,16 @@ import { computed } from 'vue'
 import { getDate, validateMonthYear } from '../utils/date-utils'
 import { useDefaults, useValidation } from './index'
 
-export function useMonthYearPick(props: { month: number, year: number } & PickerBasePropsType, emit: VueEmit) {
+interface MonthYearReturn {
+  handleMonthYearChange: (isNext: boolean, fromNav?: boolean) => void
+  isDisabled: ComputedRef<(next: boolean) => boolean>
+  updateMonthYear: (month: number, year: number, fromNav: boolean) => void
+}
+
+export function useMonthYearPick(
+  props: { month: number, year: number } & PickerBasePropsType,
+  emit: VueEmit,
+): MonthYearReturn {
   const { defaultedFilters, propDates } = useDefaults(props)
   const { validateMonthYearInRange } = useValidation(props)
 
@@ -29,7 +39,18 @@ export function useMonthYearPick(props: { month: number, year: number } & Picker
     return yearDate
   }
 
-  const handleMonthYearChange = (isNext: boolean, fromNav = false): void => {
+  const updateMonthYear = (
+    month: number,
+    year: number,
+    fromNav: boolean,
+  ): void => {
+    emit('updateMonthYear', { month, year, fromNav })
+  }
+
+  const handleMonthYearChange = (
+    isNext: boolean,
+    fromNav = false,
+  ): void => {
     const initialDate = set(getDate(), { month: props.month, year: props.year })
     let date = isNext ? addMonths(initialDate, 1) : subMonths(initialDate, 1)
     if (props.disableYearSelect) {
@@ -54,11 +75,7 @@ export function useMonthYearPick(props: { month: number, year: number } & Picker
     }
   }
 
-  const updateMonthYear = (month: number, year: number, fromNav: boolean): void => {
-    emit('update-month-year', { month, year, fromNav })
-  }
-
-  const isDisabled = computed(() => (next: boolean) => {
+  const isDisabled = computed<(next: boolean) => boolean>(() => (next: boolean) => {
     return validateMonthYear(
       set(getDate(), { month: props.month, year: props.year }),
       propDates.value.maxDate,
@@ -68,5 +85,9 @@ export function useMonthYearPick(props: { month: number, year: number } & Picker
     )
   })
 
-  return { handleMonthYearChange, isDisabled, updateMonthYear }
+  return {
+    handleMonthYearChange,
+    isDisabled,
+    updateMonthYear,
+  }
 }

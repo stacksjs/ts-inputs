@@ -39,14 +39,14 @@ const props = defineProps({
 })
 
 const emit = defineEmits([
-  'select-date',
-  'set-hover-date',
-  'handle-scroll',
+  'selectDate',
+  'setHoverDate',
+  'handleScroll',
   'mount',
-  'handle-swipe',
-  'handle-space',
-  'tooltip-open',
-  'tooltip-close',
+  'handleSwipe',
+  'handleSpace',
+  'tooltipOpen',
+  'tooltipClose',
 ])
 
 const { buildMultiLevelMatrix } = useArrowNavigation()
@@ -197,15 +197,15 @@ async function handleTooltip(day: UnwrapRef<ICalendarDay>, weekInd: number, dayI
       await positionTooltip(el, day)
     }
 
-    emit('tooltip-open', day.marker)
+    emit('tooltipOpen', day.marker)
   }
 }
 
 async function onMouseOver(day: UnwrapRef<ICalendarDay>, weekInd: number, dayInd: number): Promise<void> {
   if (isMouseDown.value && defaultedMultiDates.value.enabled && defaultedMultiDates.value.dragSelect) {
-    return emit('select-date', day)
+    return emit('selectDate', day)
   }
-  emit('set-hover-date', day)
+  emit('setHoverDate', day)
   if (day.marker?.tooltip?.length) {
     if (props.hideOffsetDates && !day.current)
       return
@@ -217,7 +217,7 @@ function onMouseLeave(day: UnwrapRef<ICalendarDay>): void {
   if (showMakerTooltip.value) {
     showMakerTooltip.value = null
     markerTooltipStyle.value = JSON.parse(JSON.stringify({ bottom: '', left: '', transform: '' }))
-    emit('tooltip-close', day.marker)
+    emit('tooltipClose', day.marker)
   }
 }
 
@@ -241,7 +241,7 @@ function onTouchMove(ev: TouchEvent): void {
 function handleTouch() {
   const property = props.vertical ? 'Y' : 'X'
   if (Math.abs(touch.value[`start${property}`] - touch.value[`end${property}`]) > 10) {
-    emit('handle-swipe', touch.value[`start${property}`] > touch.value[`end${property}`] ? 'right' : 'left')
+    emit('handleSwipe', touch.value[`start${property}`] > touch.value[`end${property}`] ? 'right' : 'left')
   }
 }
 
@@ -262,7 +262,7 @@ function assignDayRef(el: any, weekInd: number, dayInd: number) {
 function onScroll(ev: WheelEvent) {
   if (props.monthChangeOnScroll) {
     ev.preventDefault()
-    emit('handle-scroll', ev)
+    emit('handleScroll', ev)
   }
 }
 
@@ -290,7 +290,7 @@ function onDateSelect(ev: Event, dayVal: ICalendarDay, isClick = true) {
     return
   if (!defaultedMultiDates.value.enabled || defaultedConfig.value.allowPreventDefault) {
     checkStopPropagation(ev, defaultedConfig.value)
-    emit('select-date', dayVal)
+    emit('selectDate', dayVal)
   }
 }
 
@@ -301,10 +301,10 @@ function onTpClick(ev: Event) {
 function onMouseDown(day: UnwrapRef<ICalendarDay>) {
   if (defaultedMultiDates.value.enabled && defaultedMultiDates.value.dragSelect) {
     isMouseDown.value = true
-    emit('select-date', day)
+    emit('selectDate', day)
   }
   else if (defaultedMultiDates.value.enabled) {
-    emit('select-date', day)
+    emit('selectDate', day)
   }
 }
 
@@ -360,7 +360,7 @@ defineExpose({ triggerTransition })
               :data-test-id="getCellId(dayVal.value)"
               @click.prevent="onDateSelect($event, dayVal)"
               @touchend="onDateSelect($event, dayVal, false)"
-              @keydown="checkKeyDown($event, () => $emit('select-date', dayVal))"
+              @keydown="checkKeyDown($event, () => $emit('selectDate', dayVal))"
               @mouseenter="onMouseOver(dayVal, weekInd, dayInd)"
               @mouseleave="onMouseLeave(dayVal)"
               @mousedown="onMouseDown(dayVal)"

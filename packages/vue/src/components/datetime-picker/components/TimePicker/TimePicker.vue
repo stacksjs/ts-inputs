@@ -35,10 +35,10 @@ const emit = defineEmits([
   'update:minutes',
   'update:seconds',
   'mount',
-  'reset-flow',
-  'overlay-opened',
-  'overlay-closed',
-  'am-pm-change',
+  'resetFlow',
+  'overlayOpened',
+  'overlayClosed',
+  'amPmChange',
 ])
 
 const { buildMatrix, setTimePicker } = useArrowNavigation()
@@ -54,7 +54,7 @@ const closeTimePickerBtn = ref(null)
 const timeInputRefs = ref<TimeInputRef[]>([])
 const overlayRef = ref<HTMLElement | null>(null)
 const timePickerOverlayOpen = ref(false)
-const navigationFlow: Flow = ref('time')
+const navigationFlow = ref('time') as Flow
 
 onMounted(() => {
   emit('mount')
@@ -97,11 +97,11 @@ const timeInputs = computed((): { hours: number, minutes: number, seconds: numbe
 
 function toggleTimePicker(show: boolean, flow = false, childOpen = ''): void {
   if (!flow) {
-    emit('reset-flow')
+    emit('resetFlow')
   }
   showTimePicker.value = show
 
-  emit(show ? 'overlay-opened' : 'overlay-closed', FlowStep.time)
+  emit(show ? 'overlayOpened' : 'overlayClosed', FlowStep.time)
 
   if (props.arrowNavigation) {
     setTimePicker(show)
@@ -161,11 +161,12 @@ function focusOverlay() {
 
 function timeInputOverlayClose(mode: TimeType) {
   timePickerOverlayOpen.value = false
-  emit('overlay-closed', mode)
+  emit('overlayClosed', mode)
 }
+
 function timeInputOverlayOpen(mode: TimeType) {
   timePickerOverlayOpen.value = true
-  emit('overlay-opened', mode)
+  emit('overlayOpened', mode)
 }
 
 defineExpose({ toggleTimePicker })
@@ -242,7 +243,7 @@ defineExpose({ toggleTimePicker })
                 @mounted="focusOverlay"
                 @overlay-closed="timeInputOverlayClose"
                 @overlay-opened="timeInputOverlayOpen"
-                @am-pm-change="$emit('am-pm-change', $event)"
+                @am-pm-change="$emit('amPmChange', $event)"
               >
                 <template v-for="(slot, i) in timeInputSlots" #[slot]="args" :key="i">
                   <slot :name="slot" v-bind="args" />

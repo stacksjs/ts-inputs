@@ -9,7 +9,6 @@ const cardType = ref<CreditCardType | null>(null)
 
 function handleCardTypeChange(type: CreditCardType) {
   cardType.value = type
-  console.log('Card type:', type)
 }
 
 const cardIcon = computed(() => {

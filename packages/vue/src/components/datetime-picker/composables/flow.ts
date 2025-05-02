@@ -17,29 +17,6 @@ export function useFlow(props: AllPropsType, emit: VueEmit, dynCmpRef: Ref<any>)
 
   const specificMode = computed(() => props.monthPicker || props.timePicker)
 
-  const childMount = (cmp: unknown): void => {
-    if (props.flow?.length) {
-      if (!cmp && specificMode.value)
-        return handleFlow()
-      childrenMounted[cmp as CMP] = true
-
-      if (!Object.keys(childrenMounted).filter(key => !childrenMounted[key as CMP]).length) {
-        handleFlow()
-      }
-    }
-  }
-
-  const updateFlowStep = (): void => {
-    if (props.flow?.length && flowStep.value !== -1) {
-      flowStep.value += 1
-      emit('flow-step', flowStep.value)
-      handleFlow()
-    }
-    if (props.flow?.length === flowStep.value) {
-      nextTick().then(() => resetFlow())
-    }
-  }
-
   const resetFlow = (): void => {
     flowStep.value = -1
   }
@@ -67,5 +44,37 @@ export function useFlow(props: AllPropsType, emit: VueEmit, dynCmpRef: Ref<any>)
     }
   }
 
-  return { childMount, updateFlowStep, resetFlow, handleFlow, flowStep }
+  const updateFlowStep = (): void => {
+    if (props.flow?.length && flowStep.value !== -1) {
+      flowStep.value += 1
+      emit('flow-step', flowStep.value)
+      handleFlow()
+    }
+    if (props.flow?.length === flowStep.value) {
+      nextTick().then(() => resetFlow())
+    }
+  }
+
+  const childMount = (cmp: unknown): void => {
+    if (props.flow?.length) {
+      if (!cmp && specificMode.value)
+        return handleFlow()
+      childrenMounted[cmp as CMP] = true
+
+      if (!Object
+        .keys(childrenMounted)
+        .filter(key => !childrenMounted[key as CMP])
+        .length) {
+        handleFlow()
+      }
+    }
+  }
+
+  return {
+    childMount,
+    updateFlowStep,
+    resetFlow,
+    handleFlow,
+    flowStep,
+  }
 }

@@ -18,12 +18,12 @@ const props = defineProps({
 })
 const emit = defineEmits([
   'update:internal-model-value',
-  'time-update',
-  'am-pm-change',
+  'timeUpdate',
+  'amPmChange',
   'mount',
-  'reset-flow',
-  'update-flow-step',
-  'overlay-toggle',
+  'resetFlow',
+  'updateFlowStep',
+  'overlayToggle',
 ])
 const slots = useSlots()
 const timePickerSlots = mapSlots(slots, 'timePicker')
@@ -66,10 +66,10 @@ defineExpose({ getSidebarProps, toggleTimePicker })
       @update:hours="updateTime($event)"
       @update:minutes="updateTime($event, false)"
       @update:seconds="updateTime($event, false, true)"
-      @am-pm-change="$emit('am-pm-change', $event)"
-      @reset-flow="$emit('reset-flow')"
-      @overlay-closed="$emit('overlay-toggle', { open: false, overlay: $event })"
-      @overlay-opened="$emit('overlay-toggle', { open: true, overlay: $event })"
+      @am-pm-change="$emit('amPmChange', $event)"
+      @reset-flow="$emit('resetFlow')"
+      @overlay-closed="$emit('overlayToggle', { open: false, overlay: $event })"
+      @overlay-opened="$emit('overlayToggle', { open: true, overlay: $event })"
     >
       <template v-for="(slot, i) in timePickerSlots" #[slot]="args" :key="i">
         <slot :name="slot" v-bind="args" />

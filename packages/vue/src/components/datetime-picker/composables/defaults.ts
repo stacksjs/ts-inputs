@@ -31,6 +31,9 @@ export function useDefaults(props: AllPropsType | PickerBasePropsType) {
     return props.is24 ? `HH${minutes}${seconds}` : `hh${minutes}${seconds} aa`
   }
 
+  const defaultedWeekNumbers = computed(() => getDefaultWeekNumbers(props.weekNumbers))
+  const defaultedRange = computed(() => getDefaultRangeOptions(props.range))
+
   // Get default format pattern, returns user specified if defined first
   const getDefaultPattern = (): string => {
     if (props.format)
@@ -82,8 +85,6 @@ export function useDefaults(props: AllPropsType | PickerBasePropsType) {
 
   const defaultedHighlight = computed(() => getDefaultHighlight(props.highlight))
 
-  const defaultedWeekNumbers = computed(() => getDefaultWeekNumbers(props.weekNumbers))
-
   const defaultedTz = computed(() => getDefaultTimeZone(props.timezone))
 
   const defaultedMultiDates = computed(() => getDefaultMultiDates(props.multiDates))
@@ -103,11 +104,9 @@ export function useDefaults(props: AllPropsType | PickerBasePropsType) {
     }),
   )
 
-  const defaultedRange = computed(() => getDefaultRangeOptions(props.range))
-
   const defaultedUI = computed(() => getDefaultUI(props.ui))
 
-  const handleEventPropagation = (ev: KeyboardEvent) => {
+  const handleEventPropagation = (ev: KeyboardEvent): void => {
     if (defaultedConfig.value.allowStopPropagation) {
       ev.stopPropagation()
     }

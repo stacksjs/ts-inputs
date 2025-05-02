@@ -40,16 +40,16 @@ const props = defineProps({
   ...PickerBaseProps,
 })
 const emit = defineEmits([
-  'set-hours',
-  'set-minutes',
+  'setHours',
+  'setMinutes',
   'update:hours',
   'update:minutes',
   'update:seconds',
-  'reset-flow',
+  'resetFlow',
   'mounted',
-  'overlay-closed',
-  'overlay-opened',
-  'am-pm-change',
+  'overlayClosed',
+  'overlayOpened',
+  'amPmChange',
 ])
 const { setTimePickerElements, setTimePickerBackRef } = useArrowNavigation()
 const {
@@ -236,21 +236,13 @@ function checkOverlayDisabled(type: TimeType): boolean {
   return props[`no${type[0].toUpperCase() + type.slice(1)}Overlay` as TimeOverlayCheck]
 }
 
-function toggleOverlay(type: TimeType): void {
-  if (!checkOverlayDisabled(type)) {
-    overlays[type] = !overlays[type]
-    if (!overlays[type]) {
-      timeOverlayOpen.value = false
-      emit('overlay-closed', type)
-    }
-    else {
-      timeOverlayOpen.value = true
-      emit('overlay-opened', type)
-    }
-  }
+function handleOverlayClose(type: TimeType) {
+  overlays[type] = false
+  timeOverlayOpen.value = false
+  emit('overlayClosed', type)
 }
 
-function getTimeGetter(type: TimeType) {
+function getTimeGetter(type: TimeType): (date: Date) => number {
   if (type === 'hours')
     return getHours
   if (type === 'minutes')
@@ -294,16 +286,9 @@ function convert24ToAmPm(time: number): number {
   return hoursToAmPmHours(time)
 }
 
-function setAmPm() {
-  if (amPm.value === 'PM') {
-    amPm.value = 'AM'
-    emit('update:hours', props.hours - 12)
-  }
-  else {
-    amPm.value = 'PM'
-    emit('update:hours', props.hours + 12)
-  }
-  emit('am-pm-change', amPm.value)
+function handleAmPmChange(): void {
+  amPm.value = amPm.value === 'AM' ? 'PM' : 'AM'
+  emit('amPmChange', amPm.value)
 }
 
 function openChildCmp(child: TimeType): void {
@@ -331,8 +316,12 @@ function assignRefs(el: any, col: number, pos: number): void {
 }
 
 function handleTimeFromOverlay(type: TimeType, value: number): void {
-  toggleOverlay(type)
+  handleOverlayClose(type)
   return emit(`update:${type}`, value)
+}
+
+function handleResetFlow() {
+  emit('resetFlow')
 }
 
 defineExpose({ openChildCmp })
@@ -403,8 +392,8 @@ defineExpose({ openChildCmp })
           :disabled="checkOverlayDisabled(timeInput.type)"
           tabindex="0"
           :data-test-id="`${timeInput.type}-toggle-overlay-btn-${props.order}`"
-          @keydown="checkKeyDown($event, () => toggleOverlay(timeInput.type), true)"
-          @click="toggleOverlay(timeInput.type)"
+          @keydown="checkKeyDown($event, () => handleOverlayClose(timeInput.type), true)"
+          @click="handleOverlayClose(timeInput.type)"
         >
           <slot
             v-if="$slots[timeInput.type]"
@@ -455,7 +444,7 @@ defineExpose({ openChildCmp })
       </template>
     </div>
     <div v-if="!is24">
-      <slot v-if="$slots['am-pm-button']" name="am-pm-button" :toggle="setAmPm" :value="amPm" />
+      <slot v-if="$slots['am-pm-button']" name="am-pm-button" :toggle="handleAmPmChange" :value="amPm" />
       <button
         v-if="!$slots['am-pm-button']"
         ref="amPmButton"
@@ -465,8 +454,8 @@ defineExpose({ openChildCmp })
         :aria-label="defaultedAriaLabels?.amPmButton"
         tabindex="0"
         :data-compact="isCompact"
-        @click="setAmPm"
-        @keydown="checkKeyDown($event, () => setAmPm(), true)"
+        @click="handleAmPmChange"
+        @keydown="checkKeyDown($event, () => handleAmPmChange(), true)"
       >
         {{ amPm }}
       </button>
@@ -485,8 +474,8 @@ defineExpose({ openChildCmp })
           :aria-labels="ariaLabels"
           :overlay-label="defaultedAriaLabels.timeOverlay?.(timeInput.type)"
           @selected="handleTimeFromOverlay(timeInput.type, $event)"
-          @toggle="toggleOverlay(timeInput.type)"
-          @reset-flow="$emit('reset-flow')"
+          @toggle="handleOverlayClose(timeInput.type)"
+          @reset-flow="handleResetFlow"
         >
           <template #button-icon>
             <slot v-if="$slots['clock-icon']" name="clock-icon" />
@@ -498,7 +487,7 @@ defineExpose({ openChildCmp })
           <template v-if="$slots[`${timeInput.type}-overlay-header`]" #header>
             <slot
               :name="`${timeInput.type}-overlay-header`"
-              :toggle="() => toggleOverlay(timeInput.type)"
+              :toggle="(): void => handleOverlayClose(timeInput.type)"
             />
           </template>
         </SelectionOverlay>

@@ -278,6 +278,43 @@ export function useCalendarClass(modelValue: WritableComputedRef<InternalModuleV
     return false
   }
 
+  const rangeStartEnd = (day: ICalendarDay) => {
+    const isRangeStart
+            = defaultedMultiCalendars.value.count > 0
+              ? day.current && rangeActiveStartEnd(day) && isModelAutoActive()
+              : rangeActiveStartEnd(day) && isModelAutoActive()
+
+    const isRangeEnd
+            = defaultedMultiCalendars.value.count > 0
+              ? day.current && rangeActiveStartEnd(day, false) && isModelAutoActive()
+              : rangeActiveStartEnd(day, false) && isModelAutoActive()
+    return { isRangeStart, isRangeEnd }
+  }
+
+  // Get set of classes for the range
+  const rangeDateClasses = (day: ICalendarDay): Record<string, boolean> => {
+    const { isRangeStart, isRangeEnd } = rangeStartEnd(day)
+    return {
+      dp__range_start: isRangeStart,
+      dp__range_end: isRangeEnd,
+      dp__range_between: isBetween(day),
+      dp__date_hover:
+                isDateEqual(day.value, hoveredDate.value) && !isRangeStart && !isRangeEnd && !props.weekPicker,
+      dp__date_hover_start: isHoverDateStartEnd(day, true),
+      dp__date_hover_end: isHoverDateStartEnd(day, false),
+    }
+  }
+
+  // Get set of classes for auto range
+  const autoRangeClasses = (day: ICalendarDay): Record<string, boolean> => {
+    return {
+      ...rangeDateClasses(day),
+      dp__cell_auto_range: isAutoRangeInBetween(day),
+      dp__cell_auto_range_start: isAutoRangeStart(day),
+      dp__cell_auto_range_end: isHoverRangeEnd(day),
+    }
+  }
+
   const minMaxRangeDate = (day: ICalendarDay) => {
     if (defaultedRange.value.enabled && (defaultedRange.value.maxRange || defaultedRange.value.minRange)) {
       if (defaultedRange.value.maxRange && defaultedRange.value.minRange) {
@@ -358,43 +395,6 @@ export function useCalendarClass(modelValue: WritableComputedRef<InternalModuleV
     }
     return {
       ...autoRangeClasses(day),
-    }
-  }
-
-  const rangeStartEnd = (day: ICalendarDay) => {
-    const isRangeStart
-            = defaultedMultiCalendars.value.count > 0
-              ? day.current && rangeActiveStartEnd(day) && isModelAutoActive()
-              : rangeActiveStartEnd(day) && isModelAutoActive()
-
-    const isRangeEnd
-            = defaultedMultiCalendars.value.count > 0
-              ? day.current && rangeActiveStartEnd(day, false) && isModelAutoActive()
-              : rangeActiveStartEnd(day, false) && isModelAutoActive()
-    return { isRangeStart, isRangeEnd }
-  }
-
-  // Get set of classes for the range
-  const rangeDateClasses = (day: ICalendarDay): Record<string, boolean> => {
-    const { isRangeStart, isRangeEnd } = rangeStartEnd(day)
-    return {
-      dp__range_start: isRangeStart,
-      dp__range_end: isRangeEnd,
-      dp__range_between: isBetween(day),
-      dp__date_hover:
-                isDateEqual(day.value, hoveredDate.value) && !isRangeStart && !isRangeEnd && !props.weekPicker,
-      dp__date_hover_start: isHoverDateStartEnd(day, true),
-      dp__date_hover_end: isHoverDateStartEnd(day, false),
-    }
-  }
-
-  // Get set of classes for auto range
-  const autoRangeClasses = (day: ICalendarDay): Record<string, boolean> => {
-    return {
-      ...rangeDateClasses(day),
-      dp__cell_auto_range: isAutoRangeInBetween(day),
-      dp__cell_auto_range_start: isAutoRangeStart(day),
-      dp__cell_auto_range_end: isHoverRangeEnd(day),
     }
   }
 

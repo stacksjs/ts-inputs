@@ -20,28 +20,28 @@ const props = defineProps({
   ...PickerBaseProps,
 })
 const emit = defineEmits([
-  'tooltip-open',
-  'tooltip-close',
+  'tooltipOpen',
+  'tooltipClose',
   'mount',
   'update:internal-model-value',
-  'update-flow-step',
-  'reset-flow',
-  'auto-apply',
-  'focus-menu',
-  'select-date',
-  'range-start',
-  'range-end',
-  'invalid-fixed-range',
-  'time-update',
-  'am-pm-change',
-  'time-picker-open',
-  'time-picker-close',
-  'recalculate-position',
-  'update-month-year',
-  'auto-apply-invalid',
-  'date-update',
-  'invalid-date',
-  'overlay-toggle',
+  'updateFlowStep',
+  'resetFlow',
+  'autoApply',
+  'focusMenu',
+  'selectDate',
+  'rangeStart',
+  'rangeEnd',
+  'invalidFixedRange',
+  'timeUpdate',
+  'amPmChange',
+  'timePickerOpen',
+  'timePickerClose',
+  'recalculatePosition',
+  'updateMonthYear',
+  'autoApplyInvalid',
+  'dateUpdate',
+  'invalidDate',
+  'overlayToggle',
 ])
 const {
   calendars,
@@ -88,7 +88,7 @@ watch(
   () => {
     if (!props.shadow) {
       setTimeout(() => {
-        emit('recalculate-position')
+        emit('recalculatePosition')
       }, 0)
     }
   },
@@ -132,13 +132,13 @@ function triggerCalendarTransition(instance?: number): void {
 }
 
 function updateFlowStep() {
-  emit('update-flow-step')
+  emit('updateFlowStep')
 }
 
 function handleSpace(day: ICalendarDay, isNext = false): void {
   selectDate(day, isNext)
   if (props.spaceConfirm) {
-    emit('select-date')
+    emit('selectDate')
   }
 }
 
@@ -182,14 +182,14 @@ function changeYear(isNext: boolean) {
 
 function timePickerOverlayToggle(type: FlowStep, open: boolean) {
   if (type === FlowStep.time) {
-    emit(`time-picker-${open ? 'open' : 'close'}`)
+    emit(open ? 'timePickerOpen' : 'timePickerClose')
   }
-  emit('overlay-toggle', { open, overlay: type })
+  emit('overlayToggle', { open, overlay: type })
 }
 
 function onHeaderOverlayClose(type: FlowStep) {
-  emit('overlay-toggle', { open: false, overlay: type })
-  emit('focus-menu')
+  emit('overlayToggle', { open: false, overlay: type })
+  emit('focusMenu')
 }
 
 function getSidebarProps() {
@@ -243,10 +243,10 @@ defineExpose({
       :instance="instance"
       v-bind="$props"
       @mount="componentMounted(CMP.header)"
-      @reset-flow="$emit('reset-flow')"
+      @reset-flow="$emit('resetFlow')"
       @update-month-year="updateMonthYear(instance, $event)"
       @overlay-closed="onHeaderOverlayClose"
-      @overlay-opened="$emit('overlay-toggle', { open: true, overlay: $event })"
+      @overlay-opened="$emit('overlayToggle', { open: true, overlay: $event })"
     >
       <template v-for="(slot, j) in headerSlots" #[slot]="args" :key="j">
         <slot :name="slot" v-bind="args" />
@@ -269,9 +269,9 @@ defineExpose({
       @handle-scroll="handleScroll($event, instance)"
       @handle-swipe="handleSwipe($event, instance)"
       @mount="componentMounted(CMP.calendar)"
-      @reset-flow="$emit('reset-flow')"
-      @tooltip-open="$emit('tooltip-open', $event)"
-      @tooltip-close="$emit('tooltip-close', $event)"
+      @reset-flow="$emit('resetFlow')"
+      @tooltip-open="$emit('tooltipOpen', $event)"
+      @tooltip-close="$emit('tooltipClose', $event)"
     >
       <template v-for="(slot, j) in calendarSlots" #[slot]="args" :key="j">
         <slot :name="slot" v-bind="{ ...args }" />
@@ -296,10 +296,10 @@ defineExpose({
       @update:hours="updateTime($event)"
       @update:minutes="updateTime($event, false)"
       @update:seconds="updateTime($event, false, true)"
-      @reset-flow="$emit('reset-flow')"
+      @reset-flow="$emit('resetFlow')"
       @overlay-closed="timePickerOverlayToggle($event, false)"
       @overlay-opened="timePickerOverlayToggle($event, true)"
-      @am-pm-change="$emit('am-pm-change', $event)"
+      @am-pm-change="$emit('amPmChange', $event)"
     >
       <template v-for="(slot, i) in timePickerSlots" #[slot]="args" :key="i">
         <slot :name="slot" v-bind="args" />
