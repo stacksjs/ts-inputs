@@ -213,7 +213,7 @@ export function isValidDateTime(value: string, options: Partial<FormatDateTimeOp
     Number.parseInt(seconds, 10),
   )
 
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     return false
   }
 

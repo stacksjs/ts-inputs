@@ -5,10 +5,10 @@ The Vue package provides a set of input components that are built on top of the 
 ## Available Components
 
 - [Credit Card Input](/vue/credit-card) - Input component for credit card numbers with automatic formatting
-- [Date Input](/vue/date) - Input component for dates with various formatting options
+- [Date Input](/vue/datetime) - Input component for dates with various formatting options
 - [Time Input](/vue/time) - Input component for time values with 12/24 hour format support
 - [Numeral Input](/vue/numeral) - Input component for numerical values with formatting options
-- [Google Places Autocomplete](/vue/google-places) - Input component for Google Places Autocomplete with address suggestions
+- [Google Places Autocomplete](/vue/places-autocomplete) - Input component for Google Places Autocomplete with address suggestions
 
 ## Installation
 

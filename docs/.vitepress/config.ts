@@ -78,7 +78,7 @@ const sidebar = [
           { text: 'Overview', link: '/vue/' },
           { text: 'Phone Input', link: '/vue/phone' },
           { text: 'Credit Card Input', link: '/vue/credit-card' },
-          { text: 'Date Input', link: '/vue/date' },
+          { text: 'Date Input', link: '/vue/datetime' },
           { text: 'Time Input', link: '/vue/time' },
           { text: 'Numeral Input', link: '/vue/numeral' },
           { text: 'Places Autocomplete', link: '/vue/places-autocomplete' },
