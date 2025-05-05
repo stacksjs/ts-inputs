@@ -2,6 +2,7 @@ import type { CreditCardType } from './constants'
 
 import type {
   FormatCreditCardOptions,
+  FormatDateTimeOptions,
   FormatGeneralOptions,
   FormatNumeralOptions,
   FormatPhoneOptions,
@@ -12,6 +13,12 @@ import {
   getCreditCardType,
   unformatCreditCard,
 } from './credit-card'
+
+import {
+  formatDateTime,
+  isValidDateTime,
+  unformatDateTime,
+} from './date-time'
 
 import {
   formatGeneral,
@@ -45,6 +52,12 @@ export interface BaseInputOptions {
   general?: boolean
   generalOptions?: FormatGeneralOptions
   onGeneralFormatChanged?: (formatted: string) => void
+
+  // DateTime Options
+  dateTime?: boolean
+  dateTimeOptions?: FormatDateTimeOptions
+  onDateTimeFormatChanged?: (formatted: string) => void
+  onDateTimeValidityChanged?: (isValid: boolean) => void
 
   // Common Options
   onValueChanged?: (value: string, unformatted: string) => void
@@ -100,6 +113,9 @@ export class BaseInput {
     else if (this.options.numeral) {
       this.handleNumeralInput(value)
     }
+    else if (this.options.dateTime) {
+      this.handleDateTimeInput(value)
+    }
     else if (this.options.general) {
       this.handleGeneralInput(value)
     }
@@ -151,6 +167,21 @@ export class BaseInput {
     }
   }
 
+  private handleDateTimeInput(value: string): void {
+    const formatted = formatDateTime(value, this.options.dateTimeOptions)
+    this.currentValue = formatted
+    this.element.value = formatted
+
+    if (this.options.onDateTimeFormatChanged) {
+      this.options.onDateTimeFormatChanged(formatted)
+    }
+
+    if (this.options.onDateTimeValidityChanged) {
+      const isValid = isValidDateTime(formatted, this.options.dateTimeOptions)
+      this.options.onDateTimeValidityChanged(isValid)
+    }
+  }
+
   private handleFocus(event: FocusEvent): void {
     if (this.options.onFocus) {
       this.options.onFocus(event)
@@ -166,6 +197,9 @@ export class BaseInput {
   private stripFormatting(value: string): string {
     if (this.options.creditCard) {
       return unformatCreditCard(value)
+    }
+    if (this.options.dateTime) {
+      return unformatDateTime(value)
     }
     // Add other unformat methods as needed
     return value.replace(/\D/g, '')

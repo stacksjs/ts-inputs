@@ -160,3 +160,21 @@ export interface FormatPhoneOptions {
   includeCountryCode?: boolean
   format?: 'national' | 'international'
 }
+
+export interface FormatDateTimeOptions {
+  format?: string // Default: 'YYYY-MM-DD HH:mm:ss'
+  dateFormat?: string // Default: 'YYYY-MM-DD'
+  timeFormat?: string // Default: 'HH:mm:ss'
+  separator?: string // Default: ' '
+  dateSeparator?: string // Default: '-'
+  timeSeparator?: string // Default: ':'
+  is24Hour?: boolean // Default: true
+  showSeconds?: boolean // Default: true
+  minDate?: Date | string // Minimum allowed date
+  maxDate?: Date | string // Maximum allowed date
+  disabledDates?: Date[] | string[] // Array of disabled dates
+  placeholder?: string // Placeholder text
+  strictMode?: boolean // Enforce strict date validation
+  allowEmpty?: boolean // Allow empty input
+  locale?: string // Locale for date formatting
+}

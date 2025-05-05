@@ -43,6 +43,7 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
   const tempRange = ref<Date[]>([])
   const lastScrollTime = ref(new Date())
   const clickedDate = ref<ICalendarDay | undefined>()
+  const reMap = () => mapInternalModuleValues(props.isTextInputDate)
 
   const { modelValue, calendars, time, today } = useModel(props, emit, reMap)
   const {
