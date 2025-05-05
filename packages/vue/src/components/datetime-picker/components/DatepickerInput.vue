@@ -25,21 +25,22 @@ const props = defineProps({
   ...AllProps,
 })
 
-const emit = defineEmits([
-  'clear',
-  'open',
-  'update:input-value',
-  'setInputDate',
-  'close',
-  'selectDate',
-  'setEmptyDate',
-  'toggle',
-  'focusPrev',
-  'focus',
-  'blur',
-  'realBlur',
-  'textInput',
-])
+const emit = defineEmits<{
+  (e: 'update:model-value', value: any): void
+  (e: 'clear'): void
+  (e: 'open'): void
+  (e: 'update:input-value', value: string): void
+  (e: 'setInputDate', value: any): void
+  (e: 'close'): void
+  (e: 'selectDate'): void
+  (e: 'setEmptyDate'): void
+  (e: 'toggle'): void
+  (e: 'focusPrev'): void
+  (e: 'focus'): void
+  (e: 'blur'): void
+  (e: 'realBlur'): void
+  (e: 'textInput', value: string): void
+}>()
 
 const {
   defaultedTextInput,

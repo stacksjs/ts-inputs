@@ -54,7 +54,7 @@ const closeTimePickerBtn = ref(null)
 const timeInputRefs = ref<TimeInputRef[]>([])
 const overlayRef = ref<HTMLElement | null>(null)
 const timePickerOverlayOpen = ref(false)
-const navigationFlow = ref('time') as Flow
+const flow = ref<Flow>('time')
 
 onMounted(() => {
   emit('mount')
@@ -176,7 +176,7 @@ defineExpose({ toggleTimePicker })
   <div class="dp--tp-wrap" :data-dp-mobile="isMobile">
     <button
       v-if="!timePicker && !timePickerInline"
-      v-show="!hideNavigationButtons(hideNavigation, navigationFlow)"
+      v-show="!hideNavigationButtons(hideNavigation, flow)"
       ref="openTimePickerBtn"
       type="button"
       :class="{ ...toggleButtonClass, 'dp--hidden-el': showTimePicker }"
@@ -253,7 +253,7 @@ defineExpose({ toggleTimePicker })
           </template>
           <button
             v-if="!timePicker && !timePickerInline"
-            v-show="!hideNavigationButtons(hideNavigation, navigationFlow)"
+            v-show="!hideNavigationButtons(hideNavigation, flow)"
             ref="closeTimePickerBtn"
             type="button"
             :class="{ ...toggleButtonClass, 'dp--hidden-el': timePickerOverlayOpen }"

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { Ref } from 'vue'
+
 import type {
   DatepickerInputRef,
   DatepickerMenuRef,
@@ -8,7 +10,6 @@ import type {
   ModelValue,
   MonthYearOpt,
 } from './interfaces'
-
 import {
   computed,
   getCurrentInstance,
@@ -16,6 +17,7 @@ import {
   onMounted,
   onUnmounted,
   ref,
+
   Teleport as TeleportCmp,
   toRef,
   useSlots,
@@ -50,33 +52,41 @@ const props = defineProps({
   ...AllProps,
 })
 
-const emit = defineEmits([
-  'update:model-value',
-  'update:model-timezone-value',
-  'textSubmit',
-  'closed',
-  'cleared',
-  'open',
-  'focus',
-  'blur',
-  'internalModelChange',
-  'recalculatePosition',
-  'flowStep',
-  'updateMonthYear',
-  'invalidSelect',
-  'invalidFixedRange',
-  'tooltipOpen',
-  'tooltipClose',
-  'timePickerOpen',
-  'timePickerClose',
-  'amPmChange',
-  'rangeStart',
-  'rangeEnd',
-  'dateUpdate',
-  'invalidDate',
-  'overlayToggle',
-  'textInput',
-])
+const emit = defineEmits<{
+  (e: 'update:model-value', value: ModelValue): void
+  (e: 'update:model-timezone-value', value: ModelValue): void
+  (e: 'internal-model-change', value: ModelValue, externalValue: ModelValue): void
+  (e: 'auto-apply', value?: boolean): void
+  (e: 'update-flow-step'): void
+  (e: 'toggle-year-picker', value: { flow: boolean }): void
+  (e: 'update-month-year', value: { month: number | null, year: number, fromNav: boolean }): void
+  (e: 'textSubmit', value: string): void
+  (e: 'closed'): void
+  (e: 'cleared'): void
+  (e: 'open'): void
+  (e: 'focus'): void
+  (e: 'blur'): void
+  (e: 'recalculatePosition'): void
+  (e: 'flowStep', value: number): void
+  (e: 'updateMonthYear', value: { month: number | null, year: number, fromNav: boolean }): void
+  (e: 'invalidSelect', value: ModelValue): void
+  (e: 'invalidFixedRange', value: ModelValue): void
+  (e: 'tooltipOpen', value: ModelValue): void
+  (e: 'tooltipClose', value: ModelValue): void
+  (e: 'timePickerOpen', value: ModelValue): void
+  (e: 'timePickerClose', value: ModelValue): void
+  (e: 'amPmChange', value: { amPm: string }): void
+  (e: 'rangeStart', value: ModelValue): void
+  (e: 'rangeEnd', value: ModelValue): void
+  (e: 'dateUpdate', value: ModelValue): void
+  (e: 'invalidDate', value: ModelValue): void
+  (e: 'overlayToggle', value: boolean): void
+  (e: 'textInput', value: string): void
+}>()
+
+function handleEmit(eventName: string, value?: any) {
+  emit(eventName as any, value)
+}
 
 const slots = useSlots()
 const isOpen = ref(false)

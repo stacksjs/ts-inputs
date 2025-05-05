@@ -288,6 +288,15 @@ function handleDatePickerEvents(event: string, value?: any) {
       break
   }
 }
+
+interface FormatNumeralOptions {
+  delimiter?: string
+  thousandGroupStyle?: string
+  integerScale?: number
+  decimalMark?: string
+  decimalScale?: number
+  positiveOnly?: boolean
+}
 </script>
 
 <template>
@@ -400,3 +409,27 @@ function handleDatePickerEvents(event: string, value?: any) {
   display: inline-block;
 }
 </style>
+
+declare global {
+  namespace google {
+    namespace maps {
+      namespace places {
+        class Autocomplete {
+          constructor(input: HTMLInputElement, options?: AutocompleteOptions)
+          addListener(eventName: string, handler: Function): void
+          getPlace(): any
+        }
+      }
+    }
+  }
+  interface Window {
+    google: typeof google
+  }
+}
+
+interface AutocompleteOptions {
+  types?: string[]
+  componentRestrictions?: {
+    country: string | string[]
+  }
+}

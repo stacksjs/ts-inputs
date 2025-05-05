@@ -49,7 +49,7 @@ export const AllProps = {
   utc: { type: [Boolean, String] as PropType<boolean | 'preserve'>, default: false },
   ariaLabels: { type: Object as PropType<Partial<AriaLabels>>, default: () => ({}) },
   offset: { type: [Number, String] as PropType<number | string>, default: 10 },
-  hideNavigation: { type: Array as PropType<Flow[]>, default: () => [] },
+  hideNavigation: { type: Array as PropType<Flow[]>, default: () => [] as Flow[] },
   timezone: { type: [String, Object] as PropType<TimeZoneProp>, default: null },
   vertical: { type: Boolean as PropType<boolean>, default: false },
   disableMonthYearSelect: { type: Boolean as PropType<boolean>, default: false },
@@ -58,24 +58,24 @@ export const AllProps = {
     type: Function as PropType<(date: Date, internalModelValue: InternalModuleValue) => string>,
     default: null,
   },
-  yearRange: { type: Array as PropType<number[]>, default: () => [1900, 2100] },
+  yearRange: { type: Array as PropType<number[]>, default: () => [1900, 2100] as number[] },
   enableTimePicker: { type: Boolean as PropType<boolean>, default: true },
   autoApply: { type: Boolean as PropType<boolean>, default: false },
-  disabledDates: { type: [Array, Function] as PropType<DisabledDatesProp>, default: () => [] },
+  disabledDates: { type: [Array, Function] as PropType<DisabledDatesProp>, default: () => [] as Date[] },
   monthNameFormat: { type: String as PropType<'long' | 'short'>, default: 'short' },
   startDate: { type: [Date, String] as PropType<string | Date>, default: null },
   startTime: { type: [Object, Array] as PropType<TimeModel | TimeModel[] | null>, default: null },
   hideOffsetDates: { type: Boolean as PropType<boolean>, default: false },
   noToday: { type: Boolean as PropType<boolean>, default: false },
-  disabledWeekDays: { type: Array as PropType<string[] | number[]>, default: () => [] },
+  disabledWeekDays: { type: Array as PropType<string[] | number[]>, default: () => [] as (string | number)[] },
   allowedDates: { type: Array as PropType<string[] | Date[]>, default: null },
   nowButtonLabel: { type: String as PropType<string>, default: 'Now' },
-  markers: { type: Array as PropType<IMarker[]>, default: () => [] },
+  markers: { type: Array as PropType<IMarker[]>, default: () => [] as IMarker[] },
   escClose: { type: Boolean as PropType<boolean>, default: true },
   spaceConfirm: { type: Boolean as PropType<boolean>, default: true },
   monthChangeOnArrows: { type: Boolean as PropType<boolean>, default: true },
-  presetDates: { type: Array as PropType<PresetDate[]>, default: () => [] },
-  flow: { type: Array as PropType<Flow[]>, default: () => [] },
+  presetDates: { type: Array as PropType<PresetDate[]>, default: () => [] as PresetDate[] },
+  flow: { type: Array as PropType<Flow[]>, default: () => [] as Flow[] },
   partialFlow: { type: Boolean as PropType<boolean>, default: false },
   preventMinMaxNavigation: { type: Boolean as PropType<boolean>, default: false },
   reverseYears: { type: Boolean as PropType<boolean>, default: false },
@@ -155,7 +155,7 @@ export const AllProps = {
   onInternalModelChange: { type: [Function, Object] as PropType<(...args: any[]) => void>, default: null },
   enableMinutes: { type: Boolean as PropType<boolean>, default: true },
   ui: { type: Object as PropType<Partial<UIOpts>>, default: () => ({}) },
-}
+} as const
 
 export const PickerBaseProps = {
   ...AllProps,
@@ -168,7 +168,7 @@ export const PickerBaseProps = {
   getInputRect: { type: Function as PropType<() => DOMRect>, default: () => ({}) },
   isTextInputDate: { type: Boolean as PropType<boolean>, default: false },
   isMobile: { type: Boolean as PropType<boolean>, default: undefined },
-}
+} as const
 
 export type AllPropsType = ExtractPropTypes<typeof AllProps>
 export type PickerBasePropsType = ExtractPropTypes<typeof PickerBaseProps>

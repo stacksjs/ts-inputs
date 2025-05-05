@@ -658,7 +658,7 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     isHours = true,
     isSeconds = false,
   ): void => {
-    updateTimeValues(value, isHours, isSeconds, handleTimeUpdate)
+    updateTimeValues(value, isHours ? 'hours' : isSeconds ? 'seconds' : 'minutes', handleTimeUpdate)
   }
 
   function mapInternalModuleValues(fromMount = false): void {

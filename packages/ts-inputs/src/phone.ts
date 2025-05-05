@@ -1,6 +1,10 @@
 import type { FormatPhoneOptions } from './types'
 import { DefaultPhoneDelimiter, DefaultPhonePattern, DefaultPhoneRegion } from './constants'
 
+type HandleFormatOptions = {
+  value: string
+} & FormatPhoneOptions
+
 // Phone number patterns by region
 const PHONE_PATTERNS: Record<string, number[]> = {
   US: [3, 3, 4], // (123) 456-7890
@@ -36,37 +40,34 @@ function handleFormat({
   region,
   includeCountryCode,
   format,
-}: {
-  value: string
-  delimiter: string
-  pattern: number[]
-  region: string
-  includeCountryCode: boolean
-  format: 'national' | 'international'
-}): string {
+}: HandleFormatOptions): string {
   // Remove all non-digit characters
   const digits = value.replace(/\D/g, '')
 
-  // Apply pattern
   let result = ''
-  let digitIndex = 0
 
-  for (let i = 0; i < pattern.length; i++) {
-    const groupSize = pattern[i]
-    const group = digits.slice(digitIndex, digitIndex + groupSize)
+  if (pattern) {
+    let digitIndex = 0
 
-    if (group) {
-      if (result) {
-        result += delimiter
+    for (let i = 0; i < pattern.length; i++) {
+      const groupSize = pattern[i]
+      const group = digits.slice(digitIndex, digitIndex + groupSize)
+
+      if (group) {
+        if (result) {
+          result += delimiter
+        }
+        result += group
+        digitIndex += groupSize
       }
-      result += group
-      digitIndex += groupSize
     }
   }
 
-  // Add country code if needed
-  if (includeCountryCode && format === 'international' && COUNTRY_CODES[region]) {
-    result = `${COUNTRY_CODES[region]} ${result}`
+  if (region) {
+    // Add country code if needed
+    if (includeCountryCode && format === 'international' && COUNTRY_CODES[region]) {
+      result = `${COUNTRY_CODES[region]} ${result}`
+    }
   }
 
   return result

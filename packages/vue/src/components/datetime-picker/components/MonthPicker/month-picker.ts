@@ -178,9 +178,9 @@ export function useMonthPicker(props: PickerBasePropsType, emit: VueEmit) {
     emit('auto-apply', true)
   }
 
-  const selectMonth = (month: number, instance: number) => {
+  const selectMonth = (month: number, instance: number): void => {
     calendars.value[instance].month = month
-    emitMonthYearUpdate(instance, calendars.value[instance].year, month)
+    emitMonthYearUpdate(instance, calendars.value[instance].year, undefined)
     if (defaultedMultiDates.value.enabled)
       return selectMultiMonths(month, instance)
     if (defaultedRange.value.enabled)
@@ -188,12 +188,12 @@ export function useMonthPicker(props: PickerBasePropsType, emit: VueEmit) {
     return selectSingleMonth(month, instance)
   }
 
-  const selectYear = (year: number, instance: number) => {
+  const selectYear = (year: number, instance: number): void => {
     onYearSelect(year, instance)
-    emitMonthYearUpdate(instance, year, null)
+    emitMonthYearUpdate(instance, year, undefined)
   }
 
-  function emitMonthYearUpdate(month: number, year: number, fromNav = false): void {
+  function emitMonthYearUpdate(month: number | null, year: number, fromNav: boolean | undefined = false): void {
     emit('update-month-year', { month, year, fromNav })
   }
 
@@ -202,11 +202,11 @@ export function useMonthPicker(props: PickerBasePropsType, emit: VueEmit) {
     emitMonthYearUpdate(instance, year)
   }
 
-  const setHoverDate = (month: number, instance: number) => {
+  const setHoverDate = (month: number, instance: number): void => {
     hoverDate.value = monthToDate(month, instance)
   }
 
-  const presetDate = (value: Date[] | string[] | Date | string, noTz?: boolean) => {
+  const presetDate = (value: Date[] | string[] | Date | string, noTz?: boolean): void => {
     setPresetDate({
       value,
       modelValue,

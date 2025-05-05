@@ -96,7 +96,7 @@ export function useExternalInternalMapper(
       return props.utc === 'preserve' ? new Date(toDate.getTime() + toDate.getTimezoneOffset() * 60000) : toDate
     }
     if (props.modelType) {
-      if (modelTypePredefined.includes(props.modelType))
+      if (props.modelType && modelTypePredefined.includes(props.modelType as typeof modelTypePredefined[number]))
         return convertModelToTz(new Date(value))
 
       if (props.modelType === 'format' && (typeof props.format === 'string' || !props.format)) {

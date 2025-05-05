@@ -11,7 +11,7 @@ import type {
   TimeObj,
   TimeType,
   WeekStartNum,
-} from './interfaces'
+} from '../interfaces'
 
 import {
   addDays,
@@ -45,7 +45,7 @@ import {
 
 import { errors } from './util'
 
-export const padZero = (val: number) => (val < 10 ? `0${val}` : val)
+export const padZero = (val: number): string | number => (val < 10 ? `0${val}` : val)
 
 function parseTextToDate(value: string, pattern: string, time: TimeModel, inputVal?: string, onPaste?: boolean, locale?: Locale): Date | null {
   const parsedDate = parse(value, pattern.slice(0, value.length), new Date(), { locale })
@@ -86,28 +86,28 @@ export function parseFreeInput(value: string, pattern: string | string[] | ((val
   return null
 }
 
-export const getDate = (value?: PossibleDate) => (value ? new Date(value) : new Date())
+export const getDate = (value?: PossibleDate): Date => (value ? new Date(value) : new Date())
 
-export function dateToUtc(date: Date, preserve: boolean, enableSeconds: boolean) {
+export function dateToUtc(date: Date, preserve: boolean, _enableSeconds: boolean): string {
   if (preserve) {
     const month = (date.getMonth() + 1).toString().padStart(2, '0')
     const day = date.getDate().toString().padStart(2, '0')
     const hours = date.getHours().toString().padStart(2, '0')
     const minutes = date.getMinutes().toString().padStart(2, '0')
-    const seconds = enableSeconds ? date.getSeconds().toString().padStart(2, '0') : '00'
-
+    const seconds = date.getSeconds().toString().padStart(2, '0')
     return `${date.getFullYear()}-${month}-${day}T${hours}:${minutes}:${seconds}.000Z`
   }
-  const utcDate = Date.UTC(
+
+  const utcDate = new Date(
     date.getUTCFullYear(),
     date.getUTCMonth(),
     date.getUTCDate(),
     date.getUTCHours(),
     date.getUTCMinutes(),
     date.getUTCSeconds(),
+    date.getUTCMilliseconds(),
   )
-
-  return new Date(utcDate).toISOString()
+  return utcDate.toISOString()
 }
 
 // Reset date time

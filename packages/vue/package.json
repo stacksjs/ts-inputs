@@ -30,7 +30,7 @@
   "types": "dist/index.d.ts",
   "files": ["README.md", "dist"],
   "scripts": {
-    "build": "bunx --bun vite build --mode lib",
+    "build": "bunx --bun vite build --mode lib && bun run build:types",
     "build:types": "bunx vue-tsc -p tsconfig.build.json && bunx api-extractor run",
     "lint": "bunx --bun eslint .",
     "lint:fix": "bunx --bun eslint . --fix"

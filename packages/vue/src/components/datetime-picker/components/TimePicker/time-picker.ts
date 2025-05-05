@@ -1,7 +1,7 @@
 import type { TimeModel, VueEmit } from '../../interfaces'
 import type { PickerBasePropsType } from '../../props'
 
-import { set } from 'date-fns'
+import { getHours, getMinutes, getSeconds, set } from 'date-fns'
 import { onMounted } from 'vue'
 import { useDefaults, useModel } from '../../composables'
 
@@ -102,7 +102,7 @@ export function useTimePicker(props: PickerBasePropsType, emit: VueEmit) {
   }
 
   const updateTime = (value: number | number[], isHours = true, isSeconds = false) => {
-    updateTimeValues(value, isHours, isSeconds, handleTimeUpdate)
+    updateTimeValues(value, isHours ? 'hours' : isSeconds ? 'seconds' : 'minutes', handleTimeUpdate)
   }
 
   return {

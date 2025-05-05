@@ -1,6 +1,6 @@
-import type { UnwrapNestedRefs, WritableComputedRef } from 'vue'
+import type { ComputedRef, UnwrapNestedRefs, WritableComputedRef } from 'vue'
 
-import type { DisabledTime, InternalModuleValue, Time, TimeModel, TimeType, TimeValuesInv } from '../../interfaces'
+import type { DisabledTime, DisabledTimesConfig, InternalModuleValue, Time, TimeModel, TimeType, TimeValuesInv } from '../../interfaces'
 
 import type { PickerBasePropsType } from '../../props'
 import { isAfter, isBefore, setMilliseconds, setSeconds } from 'date-fns'
@@ -9,7 +9,23 @@ import { computed } from 'vue'
 import { useDefaults } from '../../composables'
 import { getDate, isDateEqual, setDateTime } from '../../utils/date-utils'
 
-export function useTimePickerUtils(props: PickerBasePropsType, time: UnwrapNestedRefs<Time>, modelValue: WritableComputedRef<InternalModuleValue>, updateFlow?: () => void) {
+export function useTimePickerUtils(
+  props: PickerBasePropsType,
+  time: UnwrapNestedRefs<Time>,
+  modelValue: WritableComputedRef<InternalModuleValue>,
+  updateFlow?: () => void,
+): {
+    setTime: (property: TimeType, value: number | number[]) => void
+    updateHours: (value: number | number[]) => void
+    updateMinutes: (value: number | number[]) => void
+    updateSeconds: (value: number | number[]) => void
+    getSetDateTime: (dateValue: Date | null, i?: number) => Date
+    updateTimeValues: (value: number | number[], type: TimeType, handleTimeUpdate: (date: Date | Date[]) => void) => void
+    getSecondsValue: (i?: number) => number
+    assignStartTime: (startTime: TimeModel | TimeModel[] | null) => void
+    validateTime: (type: TimeType, value: number | number[]) => boolean
+    disabledTimesConfig: ComputedRef<(ind: number, hoursVal?: number) => TimeValuesInv>
+  } {
   const { defaultedRange } = useDefaults(props)
   const getTimeValue = (type: TimeType, i?: number): number => {
     if (Array.isArray(time[type]))
@@ -46,7 +62,7 @@ export function useTimePickerUtils(props: PickerBasePropsType, time: UnwrapNeste
     return defaultedRange.value.enabled
   })
 
-  const validateTime = (type: TimeType, value: number | number[]) => {
+  const validateTime = (type: TimeType, value: number | number[]): boolean => {
     const copies = Object.fromEntries(
       Object.keys(time).map((key) => {
         if (key === type)
@@ -84,29 +100,28 @@ export function useTimePickerUtils(props: PickerBasePropsType, time: UnwrapNeste
     }
   }
 
-  const updateHours = (value: number | number[]) => {
+  const updateHours = (value: number | number[]): void => {
     updateTime('hours', value)
   }
 
-  const updateMinutes = (value: number | number[]) => {
+  const updateMinutes = (value: number | number[]): void => {
     updateTime('minutes', value)
   }
 
-  const updateSeconds = (value: number | number[]) => {
+  const updateSeconds = (value: number | number[]): void => {
     updateTime('seconds', value)
   }
 
   const updateTimeValues = (
     value: number | number[],
-    isHours: boolean,
-    isSeconds: boolean,
+    type: TimeType,
     handleTimeUpdate: (date: Date | Date[]) => void,
-  ) => {
-    if (isHours)
+  ): void => {
+    if (type === 'hours')
       updateHours(value)
-    if (!isHours && !isSeconds)
+    else if (type === 'minutes')
       updateMinutes(value)
-    if (isSeconds)
+    else if (type === 'seconds')
       updateSeconds(value)
 
     if (modelValue.value) {

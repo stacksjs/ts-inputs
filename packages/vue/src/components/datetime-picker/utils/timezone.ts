@@ -4,13 +4,13 @@ import { getDate, resetDateTime } from './date-utils'
 /**
  * Converts date from the local timezone into the specific timezone
  */
-export function localToTz(date: Date, timeZone?: string) {
+export function localToTz(date: Date, timeZone?: string): Date {
   if (!timeZone)
     return new Date(date)
   return new Date(date.toLocaleString('en-US', { timeZone }))
 }
 
-export function dateToTimezoneSafe(date: Date | string | number, tz?: TimeZoneConfig, reset?: boolean) {
+export function dateToTimezoneSafe(date: Date | string | number, tz?: TimeZoneConfig, reset?: boolean): Date {
   const d = sanitizeDateToLocal(date, tz, reset)
   if (!d)
     return getDate()
@@ -23,7 +23,7 @@ function getDateInTz(date: Date | number | string, tz: TimeZoneConfig, reset?: b
 }
 
 // Converts specific date to a Date object based on a provided timezone
-export function sanitizeDateToLocal(date: MaybeDate, tz?: TimeZoneConfig, reset?: boolean) {
+export function sanitizeDateToLocal(date: MaybeDate, tz?: TimeZoneConfig, reset?: boolean): Date | null {
   if (!date)
     return null
   const newDate = reset ? resetDateTime(getDate(date), true) : getDate(date)
@@ -41,7 +41,7 @@ function isDST(date: Date) {
   return dateOffset < januaryOffset
 }
 
-export function getTimezoneOffset(timezone?: string, localDate?: Date) {
+export function getTimezoneOffset(timezone?: string, localDate?: Date): number {
   if (!timezone)
     return 0
   const date = new Date()

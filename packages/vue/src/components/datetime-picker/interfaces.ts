@@ -400,3 +400,9 @@ export interface UIOpts {
 export type UIParsed = {
   [K in keyof UIOpts]: Record<string, boolean>;
 }
+
+export interface DisabledTimesConfig {
+  hours: number[]
+  minutes: number[]
+  seconds: number[]
+}

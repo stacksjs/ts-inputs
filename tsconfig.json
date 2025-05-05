@@ -10,7 +10,7 @@
       "ts-inputs-vue": ["./packages/vue/src"]
     },
     "resolveJsonModule": true,
-    "types": ["bun", "google.maps"],
+    "types": ["bun", "@types/google.maps"],
     "allowImportingTsExtensions": true,
     "strict": true,
     "strictNullChecks": true,
