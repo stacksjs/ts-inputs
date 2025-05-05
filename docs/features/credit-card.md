@@ -1,87 +1,240 @@
-# Credit Card Formatting
+# Credit Card Input
 
-Format and validate credit card numbers with support for various card types. This module provides utilities for formatting, validating, and detecting credit card types.
+The Credit Card input component provides sophisticated credit card number formatting, validation, and type detection. It's designed to enhance the user experience while ensuring data accuracy.
 
 ## Features
 
-- Automatic card type detection
-- Formatting with customizable delimiters
-- Lazy delimiter display
-- Strict mode for extended card number support
-- Unformatting utility
-- Support for major card types
+- 🎯 Automatic card type detection
+- 🔄 Real-time formatting
+- ✨ Customizable delimiters
+- 🔒 Built-in validation
+- 🌐 International card support
+- 🎨 Type-specific formatting
+- ♿️ Accessibility support
 
 ## Basic Usage
 
 ```typescript
-import { formatCreditCard, getCreditCardType, unformatCreditCard } from 'ts-inputs'
+import { BaseInput } from 'ts-inputs'
 
-// Format a credit card number
-const formattedCard = formatCreditCard('4111111111111111')
-// Output: '4111 1111 1111 1111'
-
-// Get the card type
-const cardType = getCreditCardType('4111111111111111')
-// Output: 'visa'
-
-// Remove formatting
-const unformattedCard = unformatCreditCard('4111 1111 1111 1111')
-// Output: '4111111111111111'
+const cardInput = new BaseInput('#card-number', {
+  creditCard: true,
+  creditCardOptions: {
+    delimiter: ' ',
+  },
+  onCreditCardTypeChanged: (type) => {
+    console.log('Card type:', type)
+  }
+})
 ```
 
 ## Advanced Usage
 
+### Complete Payment Form
+
 ```typescript
-import { DefaultCreditCardDelimiter, formatCreditCard } from 'ts-inputs'
+class PaymentForm {
+  private cardInput: BaseInput
+  private cardIcon: HTMLElement
+  private errorElement: HTMLElement
 
-const options = {
-  delimiter: DefaultCreditCardDelimiter, // defaults to ' '
-  delimiterLazyShow: false, // show delimiters immediately
-  strictMode: false, // enable extended card number support
+  constructor() {
+    this.cardInput = new BaseInput('#card-number', {
+      creditCard: true,
+      creditCardOptions: {
+        delimiter: ' ',
+        delimiterLazyShow: true,
+      },
+      onCreditCardTypeChanged: this.updateCardUI.bind(this),
+      onValueChanged: this.validateCard.bind(this)
+    })
+
+    this.cardIcon = document.querySelector('.card-icon')
+    this.errorElement = document.querySelector('.error-message')
+  }
+
+  private updateCardUI(type: CreditCardType) {
+    // Update card icon
+    this.cardIcon.className = `card-icon ${type}`
+
+    // Update input styling
+    const input = document.querySelector('#card-number')
+    input.dataset.cardType = type
+
+    // Update CVV length requirement
+    const cvvInput = document.querySelector('#cvv')
+    cvvInput.maxLength = type === 'amex' ? 4 : 3
+  }
+
+  private validateCard(formatted: string, unformatted: string) {
+    if (!this.isValidCardNumber(unformatted)) {
+      this.showError('Invalid card number')
+      return false
+    }
+
+    this.clearError()
+    return true
+  }
+
+  private showError(message: string) {
+    this.errorElement.textContent = message
+    this.errorElement.classList.remove('hidden')
+  }
+
+  private clearError() {
+    this.errorElement.textContent = ''
+    this.errorElement.classList.add('hidden')
+  }
+
+  public async submit() {
+    const cardNumber = this.cardInput.getUnformattedValue()
+    if (!this.validateCard(cardNumber, cardNumber)) {
+      return false
+    }
+
+    // Process payment...
+  }
+
+  public destroy() {
+    this.cardInput.destroy()
+  }
 }
-
-const formattedCard = formatCreditCard('4111111111111111', options)
 ```
 
-## Options
+### With Custom Validation
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `delimiter` | string | ' ' | Character used to separate card number blocks |
-| `delimiterLazyShow` | boolean | false | Show delimiters only when typing |
-| `strictMode` | boolean | false | Enable support for extended card numbers (up to 19 digits) |
+```typescript
+const cardInput = new BaseInput('#card-number', {
+  creditCard: true,
+  creditCardOptions: {
+    delimiter: ' ',
+    delimiterLazyShow: true,
+    validateOnType: true,
+  },
+  onValueChanged: (formatted, unformatted) => {
+    const isValid = validateCardNumber(unformatted)
+    updateValidationUI(isValid)
+  }
+})
+```
 
 ## Supported Card Types
 
-- Visa
-- Mastercard
-- American Express
-- Discover
-- JCB
-- Diners Club
-- Maestro
-- UnionPay
+| Card Type | Example Number | Format |
+|-----------|---------------|---------|
+| Visa | 4111 1111 1111 1111 | 4xxx xxxx xxxx xxxx |
+| Mastercard | 5555 5555 5555 4444 | 5xxx xxxx xxxx xxxx |
+| American Express | 3714 496353 98431 | 3xxx xxxxxx xxxxx |
+| Discover | 6011 1111 1111 1117 | 6xxx xxxx xxxx xxxx |
+| Diners Club | 3056 9309 0259 04 | 3xxx xxxx xxxx xx |
+| JCB | 3530 1113 3330 0000 | 3xxx xxxx xxxx xxxx |
+| UnionPay | 6200 0000 0000 0005 | 6xxx xxxx xxxx xxxx |
 
-## Validation
-
-The library automatically validates card numbers using:
-
-- Luhn algorithm
-- Card type pattern matching
-- Length validation based on card type
-
-## Error Handling
+## Configuration Options
 
 ```typescript
-try {
-  const formattedCard = formatCreditCard('invalid-card-number')
-}
-catch (error) {
-  console.error('Invalid card number:', error.message)
+interface CreditCardOptions {
+  // Formatting
+  delimiter?: string // Default: ' '
+  delimiterLazyShow?: boolean // Default: false
+
+  // Validation
+  validateOnType?: boolean // Default: true
+  strictMode?: boolean // Default: false
+
+  // Customization
+  formatLength?: number // Default: 19
+  maskNumber?: boolean // Default: false
+  maskChar?: string // Default: '•'
 }
 ```
 
-## Type Definitions
+## Styling Guide
+
+```css
+/* Base input styling */
+.credit-card-input {
+  font-family: monospace;
+  letter-spacing: 0.5px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+
+/* Card type specific styling */
+.credit-card-input[data-card-type="visa"] {
+  border-color: #1A1F71;
+}
+
+.credit-card-input[data-card-type="mastercard"] {
+  border-color: #EB001B;
+}
+
+.credit-card-input[data-card-type="amex"] {
+  border-color: #006FCF;
+}
+
+/* Validation states */
+.credit-card-input.valid {
+  border-color: #28a745;
+}
+
+.credit-card-input.invalid {
+  border-color: #dc3545;
+}
+```
+
+## Accessibility
+
+The credit card input component follows WCAG guidelines:
+
+- Proper ARIA labels
+- Keyboard navigation support
+- Clear error messages
+- High contrast support
+
+```typescript
+const cardInput = new BaseInput('#card-number', {
+  creditCard: true,
+  creditCardOptions: {
+    ariaLabel: 'Credit card number',
+    errorMessageId: 'card-error',
+  }
+})
+```
+
+## Best Practices
+
+1. **Security**
+   - Never store raw card numbers
+   - Use SSL/TLS encryption
+   - Follow PCI compliance guidelines
+
+2. **User Experience**
+   - Show card type icon
+   - Provide immediate feedback
+   - Use appropriate keyboard type on mobile
+
+3. **Validation**
+   - Validate in real-time
+   - Show clear error messages
+   - Handle edge cases gracefully
+
+4. **Performance**
+   - Lazy load validation
+   - Debounce API calls
+   - Cache card type detection
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- IE11 (with polyfills)
+
+## TypeScript Support
 
 ```typescript
 type CreditCardType =
@@ -91,13 +244,12 @@ type CreditCardType =
   | 'discover'
   | 'jcb'
   | 'diners'
-  | 'maestro'
   | 'unionpay'
-  | 'general'
+  | 'unknown'
 
-interface FormatCreditCardOptions {
-  delimiter?: string
-  delimiterLazyShow?: boolean
-  strictMode?: boolean
+interface CreditCardValidation {
+  isValid: boolean
+  type: CreditCardType
+  error?: string
 }
 ```

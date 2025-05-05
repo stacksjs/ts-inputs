@@ -62,11 +62,11 @@ const sidebar = [
   {
     text: 'Features',
     items: [
-      { text: 'Phone Formatting', link: '/features/phone' },
-      { text: 'Credit Card Formatting', link: '/features/credit-card' },
-      { text: 'Date Formatting', link: '/features/date' },
-      { text: 'Time Formatting', link: '/features/time' },
-      { text: 'Numerical Formatting', link: '/features/numeral' },
+      { text: 'Phone Input', link: '/features/phone' },
+      { text: 'Credit Card Input', link: '/features/credit-card' },
+      { text: 'Date Input', link: '/features/date' },
+      { text: 'Time Input', link: '/features/time' },
+      { text: 'Numerical Input', link: '/features/numeral' },
     ],
   },
   {

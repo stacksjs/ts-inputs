@@ -39,18 +39,6 @@ import { dateToTimezoneSafe } from '../../utils/timezone'
 import { isNumberArray } from '../../utils/type-guard'
 import { getMapDate, isNumNullish } from '../../utils/util'
 
-function mapInternalModuleValues(fromMount = false): void {
-  if (modelValue.value) {
-    if (Array.isArray(modelValue.value)) {
-      tempRange.value = modelValue.value
-      return _assignExistingModelValueArr(fromMount)
-    }
-    return assignSingleValue(modelValue.value, fromMount)
-  }
-  if (defaultedMultiCalendars.value.count && fromMount && !props.startDate)
-    return assignMonthAndYear(getDate(), fromMount)
-}
-
 export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, triggerCalendarTransition: (inst?: number) => void, updateFlow: () => void) {
   const tempRange = ref<Date[]>([])
   const lastScrollTime = ref(new Date())
@@ -118,19 +106,6 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     }
   }
 
-  onMounted(() => {
-    if (!props.shadow) {
-      if (!modelValue.value) {
-        setStartDate()
-        setStartTime()
-      }
-      mapInternalModuleValues(true)
-      if (props.focusStartDate && props.startDate) {
-        setStartDate()
-      }
-    }
-  })
-
   const isFlowLastStep = computed(() => {
     if (props.flow?.length && !props.partialFlow) {
       return props.flowStep === props.flow.length
@@ -152,7 +127,10 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
   }
 
   // Assign month and year values per date
-  const assignMonthAndYear = (date = new Date(), fromMount = false): void => {
+  const assignMonthAndYear = (
+    date = new Date(),
+    fromMount = false,
+  ): void => {
     if (!defaultedMultiCalendars.value.count || !defaultedMultiCalendars.value.static || fromMount) {
       setCalendarMonthYear(0, getMonth(date), getYear(date))
     }
@@ -674,9 +652,38 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     return null
   }
 
-  const updateTime = (value: number | number[], isHours = true, isSeconds = false) => {
+  const updateTime = (
+    value: number | number[],
+    isHours = true,
+    isSeconds = false,
+  ): void => {
     updateTimeValues(value, isHours, isSeconds, handleTimeUpdate)
   }
+
+  function mapInternalModuleValues(fromMount = false): void {
+    if (modelValue.value) {
+      if (Array.isArray(modelValue.value)) {
+        tempRange.value = modelValue.value
+        return _assignExistingModelValueArr(fromMount)
+      }
+      return assignSingleValue(modelValue.value, fromMount)
+    }
+    if (defaultedMultiCalendars.value.count && fromMount && !props.startDate)
+      return assignMonthAndYear(getDate(), fromMount)
+  }
+
+  onMounted(() => {
+    if (!props.shadow) {
+      if (!modelValue.value) {
+        setStartDate()
+        setStartTime()
+      }
+      mapInternalModuleValues(true)
+      if (props.focusStartDate && props.startDate) {
+        setStartDate()
+      }
+    }
+  })
 
   return {
     calendars,

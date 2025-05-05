@@ -1,116 +1,282 @@
-# Numeral Formatting
+# Numeral Input
 
-Format and validate numerical values with support for various formatting options including decimal marks, thousand separators, and custom prefixes.
+The Numeral Input component provides sophisticated number formatting and validation for currency, percentages, and general numeric values. It handles various number formats, decimal places, and grouping styles.
 
 ## Features
 
-- Customizable decimal marks
-- Multiple thousand grouping styles (thousand, lakh, wan)
-- Decimal scale control
-- Integer scale limitation
-- Custom prefixes and suffixes
-- Positive-only mode
-- Leading zero stripping
-- Sign position control
+- 💰 Currency formatting
+- 📊 Percentage handling
+- 🔢 Decimal precision control
+- 🌍 International number formats
+- ➗ Mathematical operations
+- 🎨 Customizable styling
+- ♿️ Accessibility support
 
 ## Basic Usage
 
 ```typescript
-import { formatNumeral, unformatNumeral } from 'ts-inputs'
+import { BaseInput } from 'ts-inputs'
 
-// Format a number
-const formatted = formatNumeral('1234567.89')
-// Output: '1,234,567.89'
-
-// Remove formatting
-const unformatted = unformatNumeral('1,234,567.89')
-// Output: '1234567.89'
+const numeralInput = new BaseInput('#amount', {
+  numeral: true,
+  numeralOptions: {
+    thousandsSeparator: ',',
+    decimalSeparator: '.',
+    precision: 2,
+  },
+  onNumeralFormatChanged: (formatted) => {
+    console.log('Formatted value:', formatted)
+  }
+})
 ```
 
 ## Advanced Usage
 
-```typescript
-import {
-  DefaultNumeralDecimalMark,
-  DefaultNumeralDelimiter,
-  formatNumeral,
-  NumeralThousandGroupStyles
-} from 'ts-inputs'
-
-const options = {
-  delimiter: DefaultNumeralDelimiter, // defaults to ','
-  numeralThousandsGroupStyle: NumeralThousandGroupStyles.THOUSAND,
-  numeralIntegerScale: 9, // maximum integer digits
-  numeralDecimalMark: DefaultNumeralDecimalMark, // defaults to '.'
-  numeralDecimalScale: 2, // decimal places
-  stripLeadingZeroes: true,
-  numeralPositiveOnly: false,
-  tailPrefix: false,
-  signBeforePrefix: false,
-  prefix: '$'
-}
-
-const formatted = formatNumeral('1234567.89', options)
-// Output: '$1,234,567.89'
-```
-
-## Options
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `delimiter` | string | ',' | Thousand separator character |
-| `numeralThousandsGroupStyle` | string | 'thousand' | Grouping style ('thousand', 'lakh', 'wan') |
-| `numeralIntegerScale` | number | 0 | Maximum integer digits (0 for unlimited) |
-| `numeralDecimalMark` | string | '.' | Decimal mark character |
-| `numeralDecimalScale` | number | 2 | Number of decimal places |
-| `stripLeadingZeroes` | boolean | true | Remove leading zeros |
-| `numeralPositiveOnly` | boolean | false | Allow only positive numbers |
-| `tailPrefix` | boolean | false | Place prefix at the end |
-| `signBeforePrefix` | boolean | false | Place sign before prefix |
-| `prefix` | string | '' | Custom prefix (e.g., '$', '€') |
-
-## Thousand Grouping Styles
-
-1. **Thousand** (1,234,567.89)
-   - Groups numbers in sets of three
-   - Most common in Western countries
-
-2. **Lakh** (12,34,567.89)
-   - Groups numbers in sets of two, then three
-   - Common in Indian numbering system
-
-3. **Wan** (123,4567.89)
-   - Groups numbers in sets of four
-   - Common in Chinese numbering system
-
-## Type Definitions
+### Currency Input
 
 ```typescript
-type NumeralThousandGroupStyle = 'thousand' | 'lakh' | 'wan'
+class CurrencyInput {
+  private input: BaseInput
+  private currencySymbol: string
 
-interface FormatNumeralOptions {
-  delimiter?: string
-  numeralThousandsGroupStyle?: NumeralThousandGroupStyle
-  numeralIntegerScale?: number
-  numeralDecimalMark?: string
-  numeralDecimalScale?: number
-  stripLeadingZeroes?: boolean
-  numeralPositiveOnly?: boolean
-  tailPrefix?: boolean
-  signBeforePrefix?: boolean
-  prefix?: string
+  constructor(selector: string, currency = 'USD') {
+    this.setCurrency(currency)
+
+    this.input = new BaseInput(selector, {
+      numeral: true,
+      numeralOptions: {
+        thousandsSeparator: ',',
+        decimalSeparator: '.',
+        precision: 2,
+        prefix: this.currencySymbol,
+        allowNegative: true,
+      },
+      onNumeralFormatChanged: this.validateAmount.bind(this)
+    })
+  }
+
+  private setCurrency(currency: string) {
+    switch (currency) {
+      case 'USD':
+        this.currencySymbol = '$'
+        break
+      case 'EUR':
+        this.currencySymbol = '€'
+        break
+      case 'GBP':
+        this.currencySymbol = '£'
+        break
+      default:
+        this.currencySymbol = '$'
+    }
+  }
+
+  private validateAmount(formatted: string) {
+    const value = this.input.getUnformattedValue()
+    const numericValue = Number.parseFloat(value)
+
+    if (numericValue < 0) {
+      this.showNegativeWarning()
+    }
+    else if (numericValue > 1000000) {
+      this.showLargeAmountWarning()
+    }
+
+    this.updateDisplay(formatted)
+  }
+
+  private updateDisplay(value: string) {
+    const displayElement = document.querySelector('.amount-display')
+    displayElement.textContent = value
+  }
+
+  public getValue(): number {
+    const raw = this.input.getUnformattedValue()
+    return Number.parseFloat(raw)
+  }
+
+  public setValue(amount: number) {
+    this.input.setValue(amount.toString())
+  }
+
+  public destroy() {
+    this.input.destroy()
+  }
+}
+
+// Usage
+const currencyInput = new CurrencyInput('#price', 'EUR')
+```
+
+### Percentage Input
+
+```typescript
+const percentageInput = new BaseInput('#percentage', {
+  numeral: true,
+  numeralOptions: {
+    precision: 2,
+    suffix: '%',
+    max: 100,
+    min: 0,
+  },
+  onValueChanged: (formatted, unformatted) => {
+    updateChart(Number.parseFloat(unformatted))
+  }
+})
+```
+
+## Configuration Options
+
+```typescript
+interface NumeralOptions {
+  // Formatting
+  thousandsSeparator?: string // Default: ','
+  decimalSeparator?: string // Default: '.'
+  precision?: number // Default: 2
+
+  // Display
+  prefix?: string // Currency symbol or other prefix
+  suffix?: string // Percentage or other suffix
+
+  // Validation
+  min?: number // Minimum allowed value
+  max?: number // Maximum allowed value
+  allowNegative?: boolean // Default: false
+
+  // Behavior
+  padZeros?: boolean // Add trailing zeros
+  roundingMethod?: 'floor' | 'ceil' | 'round' // Default: 'round'
+  allowDecimal?: boolean // Default: true
 }
 ```
 
-## Demo
+## Formatting Examples
 
-Try out the numeral formatter in our interactive demo:
+| Type | Configuration | Input | Output |
+|------|--------------|-------|--------|
+| Currency | `precision: 2, prefix: '$'` | 1234.5 | $1,234.50 |
+| Percentage | `precision: 1, suffix: '%'` | 12.34 | 12.3% |
+| Integer | `precision: 0` | 1234.56 | 1,235 |
+| Scientific | `scientific: true` | 1234567 | 1.23e+6 |
+| Accounting | `accounting: true` | -1234.5 | ($1,234.50) |
 
-The demo allows you to:
+## Styling Guide
 
-- Enter numbers and see them formatted in real-time
-- Choose different thousand grouping styles
-- Adjust decimal places
-- Add custom prefixes
-- Toggle various formatting options
-- See the unformatted result
+```css
+/* Base input styling */
+.numeral-input {
+  font-family: monospace;
+  text-align: right;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+/* Currency specific */
+.numeral-input[data-type="currency"] {
+  padding-left: 24px; /* Space for currency symbol */
+}
+
+/* Percentage specific */
+.numeral-input[data-type="percentage"] {
+  padding-right: 24px; /* Space for % symbol */
+}
+
+/* Validation states */
+.numeral-input.valid {
+  border-color: #28a745;
+  background-color: #f8fff8;
+}
+
+.numeral-input.invalid {
+  border-color: #dc3545;
+  background-color: #fff8f8;
+}
+
+/* Size variants */
+.numeral-input.small {
+  width: 80px;
+}
+
+.numeral-input.medium {
+  width: 120px;
+}
+
+.numeral-input.large {
+  width: 160px;
+}
+```
+
+## Accessibility Features
+
+The numeral input component follows WCAG guidelines:
+
+- Proper ARIA labels
+- Screen reader announcements
+- Keyboard navigation
+- High contrast support
+
+```typescript
+const numeralInput = new BaseInput('#amount', {
+  numeral: true,
+  numeralOptions: {
+    ariaLabel: 'Amount in dollars',
+    errorMessageId: 'amount-error',
+    announceChanges: true,
+  }
+})
+```
+
+## Best Practices
+
+1. **Input Validation**
+   - Validate on type and blur
+   - Show clear error messages
+   - Handle edge cases (min/max)
+   - Prevent invalid characters
+
+2. **Formatting**
+   - Use appropriate precision
+   - Consider locale preferences
+   - Handle copy/paste gracefully
+   - Maintain cursor position
+
+3. **User Experience**
+   - Show formatting in real-time
+   - Provide visual feedback
+   - Use appropriate keyboard
+   - Clear error messages
+
+4. **Performance**
+   - Debounce validation
+   - Cache parsed values
+   - Optimize updates
+   - Lazy load features
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- IE11 (with polyfills)
+
+## TypeScript Support
+
+```typescript
+type NumeralFormat = 'decimal' | 'currency' | 'percentage' | 'scientific'
+
+interface NumeralValidation {
+  isValid: boolean
+  value: number
+  error?: string
+}
+
+interface NumeralMetadata {
+  format: NumeralFormat
+  precision: number
+  isNegative: boolean
+  hasDecimal: boolean
+}
+```

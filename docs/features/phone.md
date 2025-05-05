@@ -1,240 +1,286 @@
-# Phone Number Formatting
+# Phone Input
 
-A powerful utility for formatting and validating phone numbers with international support. The library provides flexible formatting options and robust validation capabilities.
+The Phone Input component provides international phone number formatting and validation. It supports various phone number formats across different countries and regions.
 
 ## Features
 
-- Automatic formatting of phone numbers
-- Support for multiple international formats
-- Region-based formatting
-- Customizable delimiters and patterns
-- Validation and error handling
-- Clean internal storage of digits
-- TypeScript support
-- Lightweight and performant
-- Integration with BaseInput component
+- 🌍 International format support
+- 🔄 Real-time formatting
+- 🎯 Country-specific validation
+- 🔍 Number type detection
+- 📱 Mobile-friendly input
+- 🎨 Customizable formatting
+- ♿️ Accessibility support
 
 ## Basic Usage
 
-### Core Functionality
-
 ```typescript
-import { formatPhone, unformatPhone } from 'ts-inputs'
+import { BaseInput } from 'ts-inputs'
 
-// Format a phone number with region
-const formatted = formatPhone('1234567890', {
-  region: 'US',
-  delimiter: '-'
+const phoneInput = new BaseInput('#phone-number', {
+  phone: true,
+  phoneOptions: {
+    defaultCountry: 'US',
+    format: 'international'
+  },
+  onPhoneFormatChanged: (formatted) => {
+    console.log('Formatted number:', formatted)
+  }
 })
-// Output: '(123) 456-7890'
-
-// Unformat a phone number
-const unformatted = unformatPhone('(123) 456-7890')
-// Output: '1234567890'
 ```
 
-## API Reference
+## Advanced Usage
 
-### `formatPhone(value: string, options?: FormatPhoneOptions): string`
-
-Formats a phone number according to the specified options.
-
-#### Parameters
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | The phone number to format |
-| `options` | `FormatPhoneOptions` | Optional formatting options |
-
-#### `FormatPhoneOptions`
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `region` | `string` | `'US'` | Region code for phone formatting (e.g., 'US', 'GB', 'FR') |
-| `delimiter` | `string` | `'-'` | Character used to separate phone number groups |
-| `pattern` | `number[]` | - | Array of numbers defining the group sizes (overrides region pattern) |
-| `includeCountryCode` | `boolean` | `false` | Whether to include country code in the output |
-| `format` | `'national' \| 'international'` | `'national'` | Format style (national or international) |
-
-### `unformatPhone(value: string): string`
-
-Removes all formatting from a phone number, returning only the digits.
-
-#### Parameters
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | The formatted phone number |
-
-## Region Support
-
-The library supports phone number formatting for various regions:
-
-| Region | Code | Format | Example |
-|--------|------|--------|---------|
-| United States | `'US'` | (XXX) XXX-XXXX | (123) 456-7890 |
-| United Kingdom | `'GB'` | XXXX XXX XXXX | 0123 456 7890 |
-| France | `'FR'` | XX XX XX XX XX | 01 23 45 67 89 |
-| Germany | `'DE'` | XXX XX XX XX | 012 34 56 78 |
-| Japan | `'JP'` | XXX-XXXX-XXXX | 012-3456-7890 |
-| China | `'CN'` | XXX XXXX XXXX | 012 3456 7890 |
-| India | `'IN'` | XXXX XXX XXXX | 0123 456 7890 |
-| Brazil | `'BR'` | (XX) XXXX-XXXX | (01) 2345-6789 |
-| Australia | `'AU'` | XXXX XXX XXX | 0123 456 789 |
-| Canada | `'CA'` | (XXX) XXX-XXXX | (123) 456-7890 |
-
-## Examples
-
-### Region-based Formatting
+### Complete Contact Form
 
 ```typescript
-import { formatPhone } from 'ts-inputs'
+class ContactForm {
+  private phoneInput: BaseInput
+  private countrySelect: HTMLSelectElement
+  private errorElement: HTMLElement
 
-// US Format
-const usPhone = formatPhone('1234567890', { region: 'US' })
-// Output: '(123) 456-7890'
+  constructor() {
+    this.phoneInput = new BaseInput('#phone', {
+      phone: true,
+      phoneOptions: {
+        format: 'international',
+        defaultCountry: 'US',
+        preferredCountries: ['US', 'CA', 'GB'],
+      },
+      onPhoneFormatChanged: this.validatePhone.bind(this)
+    })
 
-// UK Format
-const ukPhone = formatPhone('1234567890', { region: 'GB' })
-// Output: '0123 456 7890'
+    this.countrySelect = document.querySelector('#country')
+    this.errorElement = document.querySelector('.error-message')
 
-// French Format
-const frPhone = formatPhone('1234567890', { region: 'FR' })
-// Output: '01 23 45 67 89'
+    this.setupCountrySelect()
+  }
 
-// German Format
-const dePhone = formatPhone('1234567890', { region: 'DE' })
-// Output: '012 34 56 78'
-```
+  private setupCountrySelect() {
+    this.countrySelect.addEventListener('change', () => {
+      const country = this.countrySelect.value
+      this.updatePhoneFormat(country)
+    })
+  }
 
-### International Format
+  private updatePhoneFormat(country: string) {
+    const currentNumber = this.phoneInput.getUnformattedValue()
 
-```typescript
-import { formatPhone } from 'ts-inputs'
+    // Recreate input with new country format
+    this.phoneInput.destroy()
+    this.phoneInput = new BaseInput('#phone', {
+      phone: true,
+      phoneOptions: {
+        format: 'international',
+        defaultCountry: country
+      }
+    })
 
-// US number with country code
-const usInternational = formatPhone('1234567890', {
-  region: 'US',
-  includeCountryCode: true,
-  format: 'international'
-})
-// Output: '+1 (123) 456-7890'
+    // Reapply the number if it exists
+    if (currentNumber) {
+      this.phoneInput.setValue(currentNumber)
+    }
+  }
 
-// UK number with country code
-const ukInternational = formatPhone('1234567890', {
-  region: 'GB',
-  includeCountryCode: true,
-  format: 'international'
-})
-// Output: '+44 0123 456 7890'
-```
+  private validatePhone(formatted: string) {
+    const isValid = this.isValidPhoneNumber(formatted)
+    this.updateValidationUI(isValid)
+  }
 
-### Custom Delimiters
+  private updateValidationUI(isValid: boolean) {
+    const input = document.querySelector('#phone')
+    input.classList.toggle('valid', isValid)
+    input.classList.toggle('invalid', !isValid)
 
-```typescript
-import { formatPhone } from 'ts-inputs'
+    if (!isValid) {
+      this.errorElement.textContent = 'Please enter a valid phone number'
+      this.errorElement.classList.remove('hidden')
+    }
+    else {
+      this.errorElement.textContent = ''
+      this.errorElement.classList.add('hidden')
+    }
+  }
 
-// Using space as delimiter
-const spaceDelimited = formatPhone('1234567890', {
-  region: 'US',
-  delimiter: ' '
-})
-// Output: '(123) 456 7890'
+  public async submit() {
+    const phoneNumber = this.phoneInput.getValue()
+    if (!this.isValidPhoneNumber(phoneNumber)) {
+      return false
+    }
 
-// Using dot as delimiter
-const dotDelimited = formatPhone('1234567890', {
-  region: 'US',
-  delimiter: '.'
-})
-// Output: '(123).456.7890'
-```
+    // Process form...
+  }
 
-### Custom Patterns
-
-```typescript
-import { formatPhone } from 'ts-inputs'
-
-// Custom pattern: XXXX-XX-XXX-XX
-const customPattern = formatPhone('1234567890', {
-  pattern: [4, 2, 3, 2],
-  delimiter: '-'
-})
-// Output: '1234-56-789-0'
-
-// Complex pattern: XXX-XX-XX-XX-XX
-const complexPattern = formatPhone('1234567890', {
-  pattern: [3, 2, 2, 2, 2],
-  delimiter: '-'
-})
-// Output: '123-45-67-89-0'
-```
-
-## Error Handling
-
-The library provides robust error handling for invalid inputs:
-
-```typescript
-import { formatPhone } from 'ts-inputs'
-
-try {
-  const formatted = formatPhone('invalid-number', {
-    region: 'US'
-  })
+  public destroy() {
+    this.phoneInput.destroy()
+  }
 }
-catch (error) {
-  console.error('Invalid phone number:', error.message)
+```
+
+### With Custom Formatting
+
+```typescript
+const phoneInput = new BaseInput('#phone', {
+  phone: true,
+  phoneOptions: {
+    format: 'custom',
+    pattern: '+X (XXX) XXX-XXXX',
+    placeholder: 'X',
+  },
+  onValueChanged: (formatted, unformatted) => {
+    validatePhoneNumber(unformatted)
+  }
+})
+```
+
+## Configuration Options
+
+```typescript
+interface PhoneOptions {
+  // Formatting
+  format?: 'international' | 'national' | 'custom'
+  pattern?: string // For custom format
+  placeholder?: string // For custom format
+
+  // Country Settings
+  defaultCountry?: string // ISO country code
+  preferredCountries?: string[] // List of ISO country codes
+
+  // Validation
+  validateOnType?: boolean // Default: true
+  strictMode?: boolean // Default: false
+
+  // Display
+  showCountrySelect?: boolean // Default: false
+  showFlags?: boolean // Default: true
 }
+```
+
+## Supported Formats
+
+| Country | Format | Example |
+|---------|--------|---------|
+| US | +1 (XXX) XXX-XXXX | +1 (555) 123-4567 |
+| UK | +44 XXXX XXXXXX | +44 7911 123456 |
+| FR | +33 X XX XX XX XX | +33 6 12 34 56 78 |
+| DE | +49 XXX XXXXXXXX | +49 170 1234567 |
+| JP | +81 XX-XXXX-XXXX | +81 90-1234-5678 |
+
+## Styling Guide
+
+```css
+/* Base input styling */
+.phone-input {
+  font-family: system-ui;
+  padding: 12px;
+  padding-left: 52px; /* Space for country flag */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+/* Country flag container */
+.phone-input-flag {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 16px;
+}
+
+/* Validation states */
+.phone-input.valid {
+  border-color: #28a745;
+  background-color: #f8fff8;
+}
+
+.phone-input.invalid {
+  border-color: #dc3545;
+  background-color: #fff8f8;
+}
+
+/* Country select dropdown */
+.phone-country-select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+```
+
+## Accessibility Features
+
+The phone input component follows WCAG guidelines:
+
+- Proper ARIA labels and roles
+- Keyboard navigation support
+- Screen reader compatibility
+- High contrast support
+
+```typescript
+const phoneInput = new BaseInput('#phone', {
+  phone: true,
+  phoneOptions: {
+    ariaLabel: 'Phone number',
+    errorMessageId: 'phone-error',
+    countrySelectLabel: 'Select country'
+  }
+})
 ```
 
 ## Best Practices
 
-1. **Region Selection**
-   - Use appropriate region for the target audience
-   - Consider using dynamic region selection for international applications
-   - Test with various region formats
+1. **User Experience**
+   - Show country flags for visual recognition
+   - Provide immediate format feedback
+   - Use appropriate mobile keyboard
+   - Show example format as placeholder
 
-2. **Format Consistency**
-   - Use consistent formatting across the application
-   - Consider user preferences for format style
-   - Handle international numbers appropriately
+2. **Validation**
+   - Validate numbers in real-time
+   - Check for valid country codes
+   - Support international formats
+   - Handle copy-paste gracefully
 
-3. **Storage**
-   - Store phone numbers in unformatted form
-   - Format only for display purposes
-   - Include region information when storing
+3. **Internationalization**
+   - Support multiple country formats
+   - Handle different number lengths
+   - Consider regional preferences
+   - Support RTL languages
 
-4. **Validation**
-   - Validate phone numbers before formatting
-   - Handle international numbers correctly
-   - Consider using a validation library for complex rules
+4. **Performance**
+   - Lazy load country data
+   - Cache validation results
+   - Optimize flag images
+   - Minimize reflows
 
-5. **Performance**
-   - Format only when necessary
-   - Cache formatted results when possible
-   - Consider using memoization for repeated formatting
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- IE11 (with polyfills)
 
 ## TypeScript Support
 
-The library is written in TypeScript and provides full type support:
-
 ```typescript
-import type { FormatPhoneOptions } from 'ts-inputs'
+type PhoneFormat = 'international' | 'national' | 'custom'
 
-const options: FormatPhoneOptions = {
-  region: 'US',
-  delimiter: '-',
-  includeCountryCode: true,
-  format: 'international'
+type CountryCode = string // ISO 3166-1 alpha-2
+
+interface PhoneValidation {
+  isValid: boolean
+  countryCode?: CountryCode
+  type?: 'mobile' | 'fixed-line' | 'unknown'
+  error?: string
 }
-```
 
-## Constants
-
-The library provides default constants for common use cases:
-
-```typescript
-import { DefaultPhoneDelimiter, DefaultPhoneRegion } from 'ts-inputs'
-
-const defaultRegion = DefaultPhoneRegion // 'US'
-const defaultDelimiter = DefaultPhoneDelimiter // '-'
+interface PhoneMetadata {
+  country: CountryCode
+  dialCode: string
+  format: string
+  pattern: RegExp
+}
 ```
