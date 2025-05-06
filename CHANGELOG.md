@@ -1,4 +1,43 @@
 
+## ...main
+
+
+### 🚀 Enhancements
+
+- Add phone number formatting ([0267bfa](https://github.com/stacksjs/ts-inputs/commit/0267bfa))
+
+### 🏡 Chore
+
+- Initial commit ([19b9c09](https://github.com/stacksjs/ts-inputs/commit/19b9c09))
+- Wip ([e4fa64b](https://github.com/stacksjs/ts-inputs/commit/e4fa64b))
+- Wip ([491a6a6](https://github.com/stacksjs/ts-inputs/commit/491a6a6))
+- Wip ([8eaea36](https://github.com/stacksjs/ts-inputs/commit/8eaea36))
+- Wip package ([2a99563](https://github.com/stacksjs/ts-inputs/commit/2a99563))
+- Improve packages ([41b7ce4](https://github.com/stacksjs/ts-inputs/commit/41b7ce4))
+- Add google map components ([8e66ea8](https://github.com/stacksjs/ts-inputs/commit/8e66ea8))
+- Package update ([4717133](https://github.com/stacksjs/ts-inputs/commit/4717133))
+- Minor changes ([02897d1](https://github.com/stacksjs/ts-inputs/commit/02897d1))
+- Readme improve ([88bffba](https://github.com/stacksjs/ts-inputs/commit/88bffba))
+- Wip ([cc1aba9](https://github.com/stacksjs/ts-inputs/commit/cc1aba9))
+- Wip ([539f74a](https://github.com/stacksjs/ts-inputs/commit/539f74a))
+- Improve datetime wip ([5f7dbdf](https://github.com/stacksjs/ts-inputs/commit/5f7dbdf))
+- Finish date and time docs ([9da5aa9](https://github.com/stacksjs/ts-inputs/commit/9da5aa9))
+- Places autocomplete ([f2f9227](https://github.com/stacksjs/ts-inputs/commit/f2f9227))
+- Wip ([daf9b33](https://github.com/stacksjs/ts-inputs/commit/daf9b33))
+- Add numeral inputs ([a4e0982](https://github.com/stacksjs/ts-inputs/commit/a4e0982))
+- Lint ([b34418b](https://github.com/stacksjs/ts-inputs/commit/b34418b))
+- Add base input on ts-inputs ([6c1ac03](https://github.com/stacksjs/ts-inputs/commit/6c1ac03))
+- Improve datetime docs ([8495f1b](https://github.com/stacksjs/ts-inputs/commit/8495f1b))
+- Fix lint and docs build ([22f388b](https://github.com/stacksjs/ts-inputs/commit/22f388b))
+- Wip typecheck issue ([500b4ac](https://github.com/stacksjs/ts-inputs/commit/500b4ac))
+- Improve docs ([9ab2036](https://github.com/stacksjs/ts-inputs/commit/9ab2036))
+
+### ❤️ Contributors
+
+- Cab-mikee ([@cab-mikee](https://github.com/cab-mikee))
+- Chrisbbreuer ([@chrisbbreuer](https://github.com/chrisbbreuer))
+- Chris ([@chrisbbreuer](https://github.com/chrisbbreuer))
+
 ## v0.3.1...main
 
 [compare changes](https://github.com/stacksjs/ts-starter/compare/v0.3.1...main)
