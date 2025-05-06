@@ -39,7 +39,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun --bun build.ts",
+    "build": "bun --bun build.ts && bun run typecheck",
     "lint": "bunx --bun eslint .",
     "lint:fix": "bunx --bun eslint . --fix",
     "prepublishOnly": "bun --bun run build",

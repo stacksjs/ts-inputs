@@ -6,6 +6,31 @@ import { computed, onMounted, ref, watch } from 'vue'
 import DateTimePicker from './datetime-picker/DateTimePicker.vue'
 import NumeralInput from './numeral/NumeralInput.vue'
 
+// Add Google Maps type declaration
+declare global {
+  namespace google {
+    namespace maps {
+      namespace places {
+        class Autocomplete {
+          constructor(input: HTMLInputElement, options?: AutocompleteOptions)
+          addListener(eventName: string, handler: Function): void
+          getPlace(): any
+        }
+      }
+    }
+  }
+  interface Window {
+    google: typeof google
+  }
+}
+
+interface AutocompleteOptions {
+  types?: string[]
+  componentRestrictions?: {
+    country: string | string[]
+  }
+}
+
 const props = defineProps<TSInputsProps>()
 
 const emit = defineEmits<{
@@ -409,27 +434,3 @@ interface FormatNumeralOptions {
   display: inline-block;
 }
 </style>
-
-declare global {
-  namespace google {
-    namespace maps {
-      namespace places {
-        class Autocomplete {
-          constructor(input: HTMLInputElement, options?: AutocompleteOptions)
-          addListener(eventName: string, handler: Function): void
-          getPlace(): any
-        }
-      }
-    }
-  }
-  interface Window {
-    google: typeof google
-  }
-}
-
-interface AutocompleteOptions {
-  types?: string[]
-  componentRestrictions?: {
-    country: string | string[]
-  }
-}

@@ -66,6 +66,12 @@ function handleCardTypeChange(type: CreditCardType) {
 | `placeholder` | `string` | - | Input placeholder text |
 | `creditCardOptions` | `object` | - | Credit card formatting options |
 
+### creditCardOptions
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `delimiter` | `string` | `' '` | Character used to separate card number groups |
+
 ### CreditCardInput Props
 
 | Prop | Type | Default | Description |
@@ -102,4 +108,4 @@ The component automatically formats the card number based on the card type:
 - American Express: XXXX XXXXXX XXXXX
 - Other cards: XXXX XXXX XXXX XXXX
 
-You can customize the delimiter used for formatting by setting the `delimiter` prop or `creditCardOptions.delimiter`.
+You can customize the delimiter used for formatting by setting the `creditCardOptions.delimiter` prop.

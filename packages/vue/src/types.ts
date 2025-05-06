@@ -15,10 +15,23 @@ export interface TSInputsProps {
   type: InputType
   placeholder?: string
   className?: string
+  disabled?: boolean
+  readonly?: boolean
   // Credit Card specific props
-  creditCardOptions?: Omit<FormatCreditCardOptions, 'delimiter'>
+  creditCardOptions?: FormatCreditCardOptions
   // Numeral specific props
-  numeralOptions?: Omit<FormatNumeralOptions, 'delimiter' | 'thousandGroupStyle'>
+  numeralOptions?: {
+    delimiter?: string
+    thousandGroupStyle?: NumeralThousandGroupStyles
+    integerScale?: number
+    decimalMark?: string
+    decimalScale?: number
+    stripLeadingZeroes?: boolean
+    positiveOnly?: boolean
+    tailPrefix?: boolean
+    signBeforePrefix?: boolean
+    prefix?: string
+  }
   // Time specific props
   timeOptions?: Omit<FormatTimeOptions, 'format' | 'pattern' | 'delimiter'>
   // Date specific props
@@ -86,14 +99,15 @@ export interface CreditCardInputProps {
   delimiter?: string
   className?: string
   placeholder?: string
-  options?: Omit<FormatCreditCardOptions, 'delimiter'>
+  options?: FormatCreditCardOptions
 }
+
 export interface NumeralInputProps {
   modelValue: string
   delimiter?: string
   thousandGroupStyle?: NumeralThousandGroupStyles
   className?: string
-  options?: Omit<FormatNumeralOptions, 'delimiter' | 'thousandGroupStyle'>
+  options?: FormatNumeralOptions
 }
 
 export interface PlacesOptions {

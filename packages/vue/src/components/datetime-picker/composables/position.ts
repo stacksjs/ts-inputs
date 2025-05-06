@@ -310,7 +310,7 @@ export function usePosition({
     openOnTop: openOnTop.value as boolean,
     menuStyle: menuStyle.value as Record<string, string>,
     xCorrect: xCorrect.value as boolean,
-    setMenuPosition: setMenuPosition as () => void,
+    setMenuPosition: setMenuPosition as (recalculate?: boolean) => void,
     getScrollableParent: getScrollableParent as () => Window | HTMLElement,
     shadowRender: shadowRender as (instance: ComponentInternalInstance | null, DPMenu: Component, props: AllPropsType) => void,
   }

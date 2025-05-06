@@ -26,13 +26,12 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'update:model-value', value: any): void
-  (e: 'clear'): void
+  (e: 'update:input-value', value: string | null): void
+  (e: 'setInputDate', value: Date | Date[] | null, submit?: boolean): void
+  (e: 'clear', submit?: boolean): void
   (e: 'open'): void
-  (e: 'update:input-value', value: string): void
-  (e: 'setInputDate', value: any): void
   (e: 'close'): void
-  (e: 'selectDate'): void
+  (e: 'selectDate', date: Date): void
   (e: 'setEmptyDate'): void
   (e: 'toggle'): void
   (e: 'focusPrev'): void
@@ -133,14 +132,9 @@ function parseInput(value: string) {
 }
 
 function handleInput(event: Event | string): void {
-  const value = typeof event === 'string' ? event : (event.target as HTMLInputElement)?.value
-
-  if (value !== '') {
-    if (defaultedTextInput.value.openMenu && !props.isMenuOpen) {
-      emit('open')
-    }
+  const value = typeof event === 'string' ? event : (event.target as HTMLInputElement).value
+  if (value) {
     parseInput(value)
-
     emit('setInputDate', parsedDate.value)
   }
   else {
@@ -148,7 +142,7 @@ function handleInput(event: Event | string): void {
   }
   textPasted.value = false
   emit('update:input-value', value)
-  emit('textInput', event, parsedDate.value)
+  emit('textInput', value)
 }
 
 function handleEnter(ev: KeyboardEvent): void {
@@ -174,7 +168,7 @@ function handleTab(ev: KeyboardEvent, noParse?: boolean): void {
   }
 
   if (defaultedTextInput.value.tabSubmit && isValidDate(parsedDate.value) && props.inputValue !== '') {
-    emit('setInputDate', parsedDate.value, true, true)
+    emit('setInputDate', parsedDate.value, true)
     parsedDate.value = null
   }
   else if (defaultedTextInput.value.tabSubmit && props.inputValue === '') {
@@ -193,7 +187,7 @@ function handleFocus(): void {
   })
 }
 
-function handleOpen(ev: KeyboardEvent | MouseEvent) {
+function handleOpen(ev: KeyboardEvent | MouseEvent): void {
   checkStopPropagation(ev, defaultedConfig.value, true)
   if (defaultedTextInput.value.enabled && defaultedTextInput.value.openMenu && !defaultedInline.value.input) {
     if (defaultedTextInput.value.openMenu === 'open' && !props.isMenuOpen)
@@ -214,17 +208,17 @@ function handleBlur(): void {
   }
   if (props.autoApply && defaultedTextInput.value.enabled && parsedDate.value && !props.isMenuOpen) {
     emit('setInputDate', parsedDate.value)
-    emit('selectDate')
+    emit('selectDate', parsedDate.value as Date)
     parsedDate.value = null
   }
 }
 
-function onClear(ev?: Event) {
+function onClear(ev?: Event): void {
   checkStopPropagation(ev, defaultedConfig.value, true)
   emit('clear')
 }
 
-function handleEsc() {
+function handleEsc(): void {
   emit('close')
 }
 
@@ -245,22 +239,22 @@ function handleKeyPress(ev: KeyboardEvent): void {
   }
 }
 
-function focusInput() {
+function focusInput(): void {
   inputRef.value?.focus({ preventScroll: true })
 }
 
-function setParsedDate(date: Date | null) {
+function setParsedDate(date: Date | null): void {
   parsedDate.value = date
 }
 
-function onClearKeydown(event: KeyboardEvent) {
+function onClearKeydown(event: KeyboardEvent): void {
   if (event.key === EventKey.tab) {
     handleTab(event, true)
   }
 }
 
-function addEmit(event: string) {
-  return () => $emit(event)
+function addEmit(event: string): () => void {
+  return () => emit(event as any)
 }
 
 defineExpose({

@@ -53,39 +53,41 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'update:model-value', value: ModelValue): void
-  (e: 'update:model-timezone-value', value: ModelValue): void
-  (e: 'internal-model-change', value: ModelValue, externalValue: ModelValue): void
-  (e: 'auto-apply', value?: boolean): void
-  (e: 'update-flow-step'): void
-  (e: 'toggle-year-picker', value: { flow: boolean }): void
-  (e: 'update-month-year', value: { month: number | null, year: number, fromNav: boolean }): void
-  (e: 'textSubmit', value: string): void
+  (e: 'update:modelValue', value: ModelValue): void
+  (e: 'update:modelTimezoneValue', value: string): void
+  (e: 'textSubmit'): void
   (e: 'closed'): void
   (e: 'cleared'): void
   (e: 'open'): void
+  (e: 'close'): void
+  (e: 'selectDate', date: Date): void
+  (e: 'setEmptyDate'): void
+  (e: 'toggle'): void
+  (e: 'focusPrev'): void
   (e: 'focus'): void
   (e: 'blur'): void
-  (e: 'recalculatePosition'): void
-  (e: 'flowStep', value: number): void
-  (e: 'updateMonthYear', value: { month: number | null, year: number, fromNav: boolean }): void
-  (e: 'invalidSelect', value: ModelValue): void
-  (e: 'invalidFixedRange', value: ModelValue): void
-  (e: 'tooltipOpen', value: ModelValue): void
-  (e: 'tooltipClose', value: ModelValue): void
-  (e: 'timePickerOpen', value: ModelValue): void
-  (e: 'timePickerClose', value: ModelValue): void
-  (e: 'amPmChange', value: { amPm: string }): void
-  (e: 'rangeStart', value: ModelValue): void
-  (e: 'rangeEnd', value: ModelValue): void
-  (e: 'dateUpdate', value: ModelValue): void
-  (e: 'invalidDate', value: ModelValue): void
-  (e: 'overlayToggle', value: boolean): void
+  (e: 'realBlur'): void
   (e: 'textInput', value: string): void
+  (e: 'flowStep', value: string): void
+  (e: 'updateMonthYear', value: MonthYearValue): void
+  (e: 'invalidSelect'): void
+  (e: 'invalidFixedRange'): void
+  (e: 'recalculatePosition'): void
+  (e: 'tooltipOpen'): void
+  (e: 'tooltipClose'): void
+  (e: 'timePickerOpen'): void
+  (e: 'timePickerClose'): void
+  (e: 'amPmChange'): void
+  (e: 'rangeStart'): void
+  (e: 'rangeEnd'): void
+  (e: 'dateUpdate'): void
+  (e: 'invalidDate'): void
+  (e: 'overlayToggle'): void
 }>()
 
-function handleEmit(eventName: string, value?: any) {
-  emit(eventName as any, value)
+interface MonthYearValue {
+  month: number
+  year: number
 }
 
 const slots = useSlots()
@@ -101,6 +103,7 @@ const shouldFocusNext = ref(false)
 const shiftKeyActive = ref(false)
 const collapse = ref(false)
 const isTextInputDate = ref(false)
+const xCorrect = ref(false)
 
 const { setMenuFocused, setShiftKey } = useState()
 const { clearArrowNav } = useArrowNavigation()
@@ -118,7 +121,7 @@ const { isMobile } = useResponsive(defaultedConfig)
 
 const currentInstance = getCurrentInstance()
 
-const { openOnTop, menuStyle, xCorrect, setMenuPosition, getScrollableParent, shadowRender } = usePosition({
+const { openOnTop, menuStyle, setMenuPosition, shadowRender } = usePosition({
   menuRef: dpWrapMenuRef,
   menuRefInner: dpMenuRef,
   inputRef,
@@ -246,15 +249,15 @@ function clearValue(): void {
   clearInternalValues()
   dpMenuRef.value?.onValueCleared()
   inputRef.value?.setParsedDate(null)
-  emit('update:model-value', null)
-  emit('update:model-timezone-value', null)
+  emit('update:modelValue', '')
+  emit('update:modelTimezoneValue', '')
   emit('cleared')
   if (defaultedConfig.value.closeOnClearValue) {
     closeMenu()
   }
 }
 
-function validateBeforeEmit() {
+function validateBeforeEmit(): boolean {
   const date = internalModelValue.value
   if (!date)
     return true
@@ -283,7 +286,7 @@ function selectDate(): void {
     closeMenu()
   }
   else {
-    emit('invalidSelect', internalModelValue.value)
+    emit('invalidSelect')
   }
 }
 
@@ -381,7 +384,7 @@ function setInputDate(date: Date | Date[] | null, submit?: boolean, tabbed = fal
     })
   }
   else {
-    emit('invalidDate', date)
+    emit('invalidDate')
   }
 }
 
@@ -392,7 +395,7 @@ function timeUpdate(): void {
   updateTextInputWithDateTimeValue()
 }
 
-function toggleMenu() {
+function toggleMenu(): void {
   if (isOpen.value)
     return closeMenu()
   return openMenu()
@@ -402,16 +405,15 @@ function updateInternalModelValue(value: Date | Date[]): void {
   internalModelValue.value = value
 }
 
-function handleInputFocus() {
+function handleInputFocus(): void {
   if (defaultedTextInput.value.enabled) {
     isInputFocused.value = true
     formatInputValue()
   }
-
   emit('focus')
 }
 
-function handleBlur() {
+function handleBlur(): void {
   if (defaultedTextInput.value.enabled) {
     isInputFocused.value = false
     parseExternalModelValue(props.modelValue)
@@ -423,7 +425,7 @@ function handleBlur() {
   emit('blur')
 }
 
-function setMonthYear(value: MonthYearOpt) {
+function setMonthYear(value: MonthYearOpt): void {
   if (dpMenuRef.value) {
     dpMenuRef.value.updateMonthYear(0, {
       month: getNumVal(value.month) as number,
@@ -432,11 +434,11 @@ function setMonthYear(value: MonthYearOpt) {
   }
 }
 
-function parseModel(value?: ModelValue) {
+function parseModel(value?: ModelValue): void {
   parseExternalModelValue(value ?? props.modelValue)
 }
 
-function switchView(view: MenuView, instance?: number) {
+function switchView(view: MenuView, instance?: number): void {
   dpMenuRef.value?.switchView(view, instance)
 }
 
@@ -459,9 +461,7 @@ onMounted(() => {
   parseExternalModelValue(props.modelValue)
   nextTick().then(() => {
     if (!defaultedInline.value.enabled) {
-      const el = getScrollableParent(pickerWrapperRef.value)
-      el?.addEventListener('scroll', onScroll)
-
+      window?.addEventListener('scroll', onScroll, true)
       window?.addEventListener('resize', onResize)
     }
   })
@@ -476,8 +476,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   if (!defaultedInline.value.enabled) {
-    const el = getScrollableParent(pickerWrapperRef.value)
-    el?.removeEventListener('scroll', onScroll)
+    window?.removeEventListener('scroll', onScroll, true)
     window?.removeEventListener('resize', onResize)
   }
   window?.removeEventListener('keyup', onKeyUp)
@@ -528,8 +527,8 @@ defineExpose({
       @close="closeMenu"
       @focus="handleInputFocus"
       @blur="handleBlur"
-      @real-blur="isInputFocused = false"
-      @text-input="$emit('textInput', $event)"
+      @real-blur="() => isInputFocused = false"
+      @text-input="(value: string) => emit('textInput', value)"
     >
       <template v-for="(slot, i) in inputSlots" #[slot]="args" :key="i">
         <slot :name="slot" v-bind="args" />
@@ -558,23 +557,23 @@ defineExpose({
             @select-date="selectDate"
             @auto-apply="autoApplyValue"
             @time-update="timeUpdate"
-            @flow-step="$emit('flowStep', $event)"
-            @update-month-year="$emit('updateMonthYear', $event)"
-            @invalid-select="$emit('invalidSelect', internalModelValue)"
-            @auto-apply-invalid="$emit('invalidSelect', $event)"
-            @invalid-fixed-range="$emit('invalidFixedRange', $event)"
-            @recalculate-position="setMenuPosition"
-            @tooltip-open="$emit('tooltipOpen', $event)"
-            @tooltip-close="$emit('tooltipClose', $event)"
-            @time-picker-open="$emit('timePickerOpen', $event)"
-            @time-picker-close="$emit('timePickerClose', $event)"
-            @am-pm-change="$emit('amPmChange', $event)"
-            @range-start="$emit('rangeStart', $event)"
-            @range-end="$emit('rangeEnd', $event)"
-            @date-update="$emit('dateUpdate', $event)"
-            @invalid-date="$emit('invalidDate', $event)"
-            @overlay-toggle="$emit('overlayToggle', $event)"
-            @menu-blur="$emit('blur')"
+            @flow-step="emit('flowStep', $event)"
+            @update-month-year="emit('updateMonthYear', $event)"
+            @invalid-select="emit('invalidSelect')"
+            @auto-apply-invalid="emit('invalidSelect')"
+            @invalid-fixed-range="emit('invalidFixedRange')"
+            @recalculate-position="emit('recalculatePosition')"
+            @tooltip-open="emit('tooltipOpen')"
+            @tooltip-close="emit('tooltipClose')"
+            @time-picker-open="emit('timePickerOpen')"
+            @time-picker-close="emit('timePickerClose')"
+            @am-pm-change="emit('amPmChange')"
+            @range-start="emit('rangeStart')"
+            @range-end="emit('rangeEnd')"
+            @date-update="emit('dateUpdate')"
+            @invalid-date="emit('invalidDate')"
+            @overlay-toggle="emit('overlayToggle')"
+            @menu-blur="emit('blur')"
           >
             <template v-for="(slot, i) in slotList" #[slot]="args" :key="i">
               <slot :name="slot" v-bind="{ ...args }" />
