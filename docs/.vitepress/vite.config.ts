@@ -57,4 +57,7 @@ export default defineConfig({
       'body-scroll-lock',
     ],
   },
+  server: {
+    port: 3000,
+  },
 })
