@@ -1,4 +1,16 @@
 
+## v0.1.3...main
+
+[compare changes](https://github.com/stacksjs/ts-inputs/compare/v0.1.3...main)
+
+### 🏡 Chore
+
+- Enhance release script and fix lint ([02b1294](https://github.com/stacksjs/ts-inputs/commit/02b1294))
+
+### ❤️ Contributors
+
+- Cab-mikee ([@cab-mikee](https://github.com/cab-mikee))
+
 ## v0.1.0...main
 
 [compare changes](https://github.com/stacksjs/ts-inputs/compare/v0.1.0...main)
