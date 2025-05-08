@@ -1,6 +1,6 @@
 import type { ComputedRef, UnwrapNestedRefs, WritableComputedRef } from 'vue'
 
-import type { DisabledTime, DisabledTimesConfig, InternalModuleValue, Time, TimeModel, TimeType, TimeValuesInv } from '../../interfaces'
+import type { DisabledTime, InternalModuleValue, Time, TimeModel, TimeType, TimeValuesInv } from '../../interfaces'
 
 import type { PickerBasePropsType } from '../../props'
 import { isAfter, isBefore, setMilliseconds, setSeconds } from 'date-fns'

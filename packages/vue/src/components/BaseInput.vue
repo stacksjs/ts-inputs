@@ -7,13 +7,14 @@ import DateTimePicker from './datetime-picker/DateTimePicker.vue'
 import NumeralInput from './numeral/NumeralInput.vue'
 
 // Add Google Maps type declaration
+/* eslint-disable  ts/no-namespace */
 declare global {
   namespace google {
     namespace maps {
       namespace places {
         class Autocomplete {
           constructor(input: HTMLInputElement, options?: AutocompleteOptions)
-          addListener(eventName: string, handler: Function): void
+          addListener(eventName: string, handler: (event: any) => void): void
           getPlace(): any
         }
       }
@@ -23,6 +24,7 @@ declare global {
     google: typeof google
   }
 }
+/* eslint-enable  ts/no-namespace */
 
 interface AutocompleteOptions {
   types?: string[]
@@ -312,15 +314,6 @@ function handleDatePickerEvents(event: string, value?: any) {
       emit('update:modelTimezoneValue', value)
       break
   }
-}
-
-interface FormatNumeralOptions {
-  delimiter?: string
-  thousandGroupStyle?: string
-  integerScale?: number
-  decimalMark?: string
-  decimalScale?: number
-  positiveOnly?: boolean
 }
 </script>
 
