@@ -44,7 +44,7 @@
     "bun-plugin-dtsx": "^0.21.12",
     "changelogen": "^0.6.1",
     "clean-css": "^5.3.3",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "ts-datetime": "^0.0.3"
   }
 }
