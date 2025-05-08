@@ -1,4 +1,28 @@
 
+## v0.1.0...main
+
+[compare changes](https://github.com/stacksjs/ts-inputs/compare/v0.1.0...main)
+
+### 🏡 Chore
+
+- Add publish packages script ([1fadbd6](https://github.com/stacksjs/ts-inputs/commit/1fadbd6))
+
+### ❤️ Contributors
+
+- Cab-mikee ([@cab-mikee](https://github.com/cab-mikee))
+
+## v0.1.0...main
+
+[compare changes](https://github.com/stacksjs/ts-inputs/compare/v0.1.0...main)
+
+### 🏡 Chore
+
+- Add publish packages script ([1fadbd6](https://github.com/stacksjs/ts-inputs/commit/1fadbd6))
+
+### ❤️ Contributors
+
+- Cab-mikee ([@cab-mikee](https://github.com/cab-mikee))
+
 ## ...main
 
 

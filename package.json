@@ -1,7 +1,7 @@
 {
   "name": "ts-inputs",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Modern & lightweight input masking.",
   "author": "Chris Breuer <chris@stacksjs.org>",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "fresh": "bunx rimraf node_modules/ bun.lock && bun i",
     "changelog": "bunx changelogen --output CHANGELOG.md",
     "prepublishOnly": "bun --bun run build",
-    "release": "bun run changelog && bunx bumpp package.json -r --all",
+    "release": "bun run changelog && bunx bumpp  -r package.json --all",
     "test": "bun test",
     "dev:docs": "bun --bun vitepress dev docs",
     "build:docs": "bun --bun vitepress build docs",
