@@ -1,7 +1,7 @@
 {
   "name": "ts-inputs",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A collection of input components.",
   "author": "Chris Breuer <chris@stacksjs.org>",
   "license": "MIT",
@@ -42,8 +42,6 @@
     "build": "bun --bun build.ts && bun run typecheck",
     "lint": "bunx --bun eslint .",
     "lint:fix": "bunx --bun eslint . --fix",
-    "prepublishOnly": "bun --bun run build",
-    "release": "bun publish --access public",
     "test": "bun test",
     "typecheck": "bun --bun tsc --noEmit"
   },
