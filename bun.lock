@@ -17,7 +17,7 @@
     },
     "packages/ts-inputs": {
       "name": "ts-inputs",
-      "version": "0.0.0",
+      "version": "0.1.6",
       "devDependencies": {
         "bun-plugin-dtsx": "^0.21.12",
         "bunfig": "^0.8.5",
@@ -28,7 +28,7 @@
     },
     "packages/vue": {
       "name": "ts-inputs-vue",
-      "version": "0.0.1",
+      "version": "0.1.6",
       "devDependencies": {
         "@microsoft/api-extractor": "^7.52.7",
         "@stacksjs/docs": "^0.70.23",
@@ -40,6 +40,10 @@
         "clean-css": "^5.3.3",
         "date-fns": "^4.1.0",
         "ts-datetime": "^0.0.3",
+      },
+      "peerDependencies": {
+        "ts-inputs": "workspace:*",
+        "vue": "^3.5.13",
       },
     },
   },
