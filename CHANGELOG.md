@@ -1,4 +1,16 @@
 
+## v0.1.6...main
+
+[compare changes](https://github.com/stacksjs/ts-inputs/compare/v0.1.6...main)
+
+### 🏡 Chore
+
+- Improve package json ([d3999fe](https://github.com/stacksjs/ts-inputs/commit/d3999fe))
+
+### ❤️ Contributors
+
+- Cab-mikee ([@cab-mikee](https://github.com/cab-mikee))
+
 ## v0.1.5...main
 
 [compare changes](https://github.com/stacksjs/ts-inputs/compare/v0.1.5...main)
