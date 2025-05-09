@@ -1,4 +1,16 @@
 
+## v0.1.5...main
+
+[compare changes](https://github.com/stacksjs/ts-inputs/compare/v0.1.5...main)
+
+### 🏡 Chore
+
+- Minor release changes ([8280d0f](https://github.com/stacksjs/ts-inputs/commit/8280d0f))
+
+### ❤️ Contributors
+
+- Cab-mikee ([@cab-mikee](https://github.com/cab-mikee))
+
 ## v0.1.3...main
 
 [compare changes](https://github.com/stacksjs/ts-inputs/compare/v0.1.3...main)
