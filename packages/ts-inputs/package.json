@@ -43,7 +43,8 @@
     "lint": "bunx --bun eslint .",
     "lint:fix": "bunx --bun eslint . --fix",
     "test": "bun test",
-    "typecheck": "bun --bun tsc --noEmit"
+    "typecheck": "bun --bun tsc --noEmit",
+    "prepublishOnly": "bun run build"
   },
   "devDependencies": {
     "bun-plugin-dtsx": "^0.21.12",
