@@ -47,7 +47,7 @@
     "@microsoft/api-extractor": "^7.52.7",
     "@stacksjs/docs": "^0.70.23",
     "@types/google.maps": "^3.58.1",
-    "@vue/tsconfig": "^0.7.0",
+    "@vue/tsconfig": "^0.8.1",
     "bumpp": "^10.1.0",
     "bun-plugin-dtsx": "^0.21.12",
     "changelogen": "^0.6.1",
