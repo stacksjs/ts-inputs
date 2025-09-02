@@ -59,7 +59,7 @@
     "@types/bun": "^1.2.21",
     "@types/clean-css": "^4.2.11",
     "@types/google.maps": "^3.58.1",
-    "buddy-bot": "^0.8.10",
+    "buddy-bot": "^0.8.9",
     "bun-git-hooks": "^0.2.19",
     "bun-plugin-dtsx": "^0.21.12"
   },
