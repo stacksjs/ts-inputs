@@ -60,8 +60,8 @@
     "@types/bun": "^1.2.23",
     "@types/clean-css": "^4.2.11",
     "@types/google.maps": "^3.58.1",
-    "buddy-bot": "^0.9.7",
-    "bun-git-hooks": "^0.2.19",
+    "buddy-bot": "^0.9.8",
+    "bun-git-hooks": "^0.3.1",
     "bun-plugin-dtsx": "^0.21.12"
   },
   "overrides": {
