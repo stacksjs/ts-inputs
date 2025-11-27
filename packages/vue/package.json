@@ -48,7 +48,7 @@
     "@stacksjs/docs": "^0.70.23",
     "@types/google.maps": "^3.58.1",
     "@vue/tsconfig": "^0.8.1",
-    "bumpp": "^10.3.1",
+    "bumpp": "^10.3.2",
     "bun-plugin-dtsx": "^0.21.12",
     "changelogen": "^0.6.2",
     "clean-css": "^5.3.3",
