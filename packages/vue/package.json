@@ -41,7 +41,7 @@
   },
   "peerDependencies": {
     "ts-inputs": "workspace:*",
-    "vue": "^3.5.25"
+    "vue": "^3.5.26"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.55.2",
