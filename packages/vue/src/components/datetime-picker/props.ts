@@ -97,7 +97,7 @@ export const AllProps = {
   },
   monthChangeOnScroll: { type: [Boolean, String] as PropType<boolean | 'inverse'>, default: true },
   dayNames: {
-    type: [Function, Array] as PropType<((lang: string, weekStart: number) => string[]) | string[]>,
+    type: [Function, Array] as PropType<((_lang: string, _weekStart: number) => string[]) | string[]>,
     default: null,
   },
   monthPicker: { type: Boolean as PropType<boolean>, default: false },

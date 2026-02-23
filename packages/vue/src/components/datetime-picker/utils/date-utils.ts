@@ -391,7 +391,7 @@ export function checkTimeMinMax(
 export const setTimeValue = (date: Date): Date => set(getDate(), getTimeObj(date))
 
 export function isMonthDisabled(
-  disabledDates: Map<string, Date | null> | null | ((date: Date) => boolean),
+  disabledDates: Map<string, Date | null> | null | ((_date: Date) => boolean),
   year: number,
   month: number,
 ): boolean {
@@ -406,7 +406,7 @@ export function isMonthDisabled(
 }
 
 export function isMonthAllowed(
-  allowedDates: Map<string, Date | null> | null | ((date: Date) => boolean),
+  allowedDates: Map<string, Date | null> | null | ((_date: Date) => boolean),
   year: number,
   month: number,
 ): boolean {

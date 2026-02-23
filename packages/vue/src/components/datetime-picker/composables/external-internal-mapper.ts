@@ -70,6 +70,7 @@ export function useExternalInternalMapper(
     )
   }
 
+  // eslint-disable-next-line pickier/no-unused-vars
   const toModelType = (val: Date): string | number | Date => {
     if (!val)
       return ''
@@ -125,6 +126,7 @@ export function useExternalInternalMapper(
     }
   }
 
+  // eslint-disable-next-line pickier/no-unused-vars
   const getMonthVal = (date: Date): MonthModel | ModelTypeConverted => {
     if (props.modelType)
       return toModelType(date)

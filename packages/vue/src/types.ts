@@ -37,7 +37,7 @@ export interface TSInputsProps {
   // Date specific props
   dateOptions?: {
     // Basic configuration
-    format?: string | ((date: Date) => string) | undefined
+    format?: string | ((_date: Date) => string) | undefined
     formatLocale?: Locale
     minDate?: Date | string
     maxDate?: Date | string
@@ -76,8 +76,8 @@ export interface TSInputsProps {
     secondsGridIncrement?: number
 
     // Validation
-    disabledDates?: Date[] | ((date: Date) => boolean)
-    disabledTimes?: { hours: number, minutes: number }[] | ((date: Date) => boolean)
+    disabledDates?: Date[] | ((_date: Date) => boolean)
+    disabledTimes?: { hours: number, minutes: number }[] | ((_date: Date) => boolean)
 
     // Timezone
     timezone?: string | TimeZoneConfig

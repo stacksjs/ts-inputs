@@ -11,7 +11,7 @@ export interface IDefaultSelect<T = number> {
   className?: DynamicClass
 }
 
-export type VueEmit = (event: any, ...args: any[]) => void
+export type VueEmit = (_event: any, ..._args: any[]) => void
 
 export enum OpenPosition {
   center = 'center',
@@ -19,7 +19,7 @@ export enum OpenPosition {
   right = 'right',
 }
 
-export type IFormat = string | ((date: Date | Date[]) => string)
+export type IFormat = string | ((_date: Date | Date[]) => string)
 
 export type InternalModuleValue = Date | Date[] | null
 
@@ -48,7 +48,7 @@ export interface TextInputOptions {
   rangeSeparator: string
   selectOnFocus: boolean
   escClose: boolean
-  format?: string | string[] | ((value: string) => Date | null)
+  format?: string | string[] | ((_value: string) => Date | null)
 }
 
 export interface MonthModel {
@@ -116,7 +116,7 @@ export interface Transition {
   vPrevious: string
 }
 
-export type IDisableDates = (date: Date) => boolean
+export type IDisableDates = (_date: Date) => boolean
 export type TimeType = keyof Time
 
 export type DisabledDatesProp = Date[] | string[] | IDisableDates
@@ -201,7 +201,7 @@ export interface ActionRowData {
 
 export interface TimeObj { hours: number, minutes: number, seconds: number }
 
-export type DisabledTimesFn = (time: TimeObj | TimeObj[] | (TimeObj | undefined)[]) => boolean
+export type DisabledTimesFn = (_time: TimeObj | TimeObj[] | (TimeObj | undefined)[]) => boolean
 
 export type MenuView = 'month' | 'year' | 'calendar' | 'time'
 
@@ -271,7 +271,7 @@ export interface InlineOptions {
 
 export type InlineProp = boolean | { input?: boolean }
 
-export type DisabledTimesArrProp = (ind: number, hours?: number) => TimeValuesInv
+export type DisabledTimesArrProp = (_ind: number, _hours?: number) => TimeValuesInv
 
 export interface Config {
   allowStopPropagation: boolean
@@ -309,11 +309,11 @@ export type HighlightFn = (
 export type HighlightProp = HighlightFn | Partial<Highlight>
 
 export interface WeekNumbersOpts {
-  type: 'iso' | 'local' | ((date: Date) => string | number)
+  type: 'iso' | 'local' | ((_date: Date) => string | number)
   hideOnOffsetDates?: boolean
 }
 
-export type WeekNumbersProp = 'iso' | 'local' | ((date: Date) => string | number) | WeekNumbersOpts
+export type WeekNumbersProp = 'iso' | 'local' | ((_date: Date) => string | number) | WeekNumbersOpts
 
 export type DPElements = 'action-row' | 'action-prev' | 'action-next' | 'overlay-month' | 'overlay-year'
 
@@ -349,9 +349,9 @@ export type TimeZoneProp = string | Partial<TimeZoneConfig>
 export interface PropDates {
   maxDate: Date | null
   minDate: Date | null
-  disabledDates: Map<string, Date | null> | ((date: Date) => boolean) | null
+  disabledDates: Map<string, Date | null> | ((_date: Date) => boolean) | null
   allowedDates: Map<string, Date | null> | null
-  highlight: Map<string, Date | null> | ((date: Date) => boolean) | null
+  highlight: Map<string, Date | null> | ((_date: Date) => boolean) | null
   markers: Map<string, IMarker> | null
 }
 

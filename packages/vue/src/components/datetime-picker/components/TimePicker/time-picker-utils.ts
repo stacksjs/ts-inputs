@@ -72,14 +72,14 @@ export function useTimePickerUtils(
     )
 
     if (isRangeCheck.value && !defaultedRange.value.disableTimeRangeValidation) {
-      const setTime = (index: number) =>
+      const setTime = (_index: number) =>
         !modelValue.value
           ? (null as unknown as Date)
           : setDateTime(
-              (modelValue.value as Date[])[index],
-              (copies.hours as number[])[index],
-              (copies.minutes as number[])[index],
-              (copies.seconds as number[])[index],
+              (modelValue.value as Date[])[_index],
+              (copies.hours as number[])[_index],
+              (copies.minutes as number[])[_index],
+              (copies.seconds as number[])[_index],
             )
 
       const resetMilliseconds = (index: number) => setMilliseconds((modelValue.value as Date[])[index], 0)
