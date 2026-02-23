@@ -101,7 +101,7 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
     }
   }
 
-  const setStartTime = () => {
+  const setStartTime = (): void => {
     if (defaultedStartTime.value) {
       assignStartTime(defaultedStartTime.value)
     }
@@ -129,7 +129,7 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
 
   // Assign month and year values per date
   const assignMonthAndYear = (
-    date = new Date(),
+    date: Date = new Date(),
     fromMount = false,
   ): void => {
     if (!defaultedMultiCalendars.value.count || !defaultedMultiCalendars.value.static || fromMount) {
@@ -687,25 +687,25 @@ export function useDatePicker(props: PickerBasePropsType, emit: VueEmit, trigger
   })
 
   return {
-    calendars,
-    modelValue,
-    month,
-    year,
-    time,
-    disabledTimesConfig,
-    today,
-    validateTime,
-    getCalendarDays,
-    getMarker,
-    handleScroll,
-    handleSwipe,
-    handleArrow,
-    selectDate,
-    updateMonthYear,
-    presetDate,
-    selectCurrentDate,
-    updateTime,
-    assignMonthAndYear,
-    setStartTime,
+    calendars: calendars,
+    modelValue: modelValue,
+    month: month,
+    year: year,
+    time: time,
+    disabledTimesConfig: disabledTimesConfig,
+    today: today,
+    validateTime: validateTime,
+    getCalendarDays: getCalendarDays,
+    getMarker: getMarker,
+    handleScroll: handleScroll,
+    handleSwipe: handleSwipe,
+    handleArrow: handleArrow,
+    selectDate: selectDate,
+    updateMonthYear: updateMonthYear,
+    presetDate: presetDate,
+    selectCurrentDate: selectCurrentDate,
+    updateTime: updateTime,
+    assignMonthAndYear: assignMonthAndYear,
+    setStartTime: setStartTime,
   }
 }

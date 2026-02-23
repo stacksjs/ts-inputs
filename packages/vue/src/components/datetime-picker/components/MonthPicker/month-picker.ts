@@ -85,7 +85,7 @@ export function useMonthPicker(props: PickerBasePropsType, emit: VueEmit) {
     return { month: null, year: null }
   }
 
-  const getModelMonthYear = () => {
+  const getModelMonthYear = (): { month: number | null, year: number | null } | { month: number | null, year: number | null }[] => {
     if (modelValue.value) {
       if (Array.isArray(modelValue.value)) {
         return modelValue.value.map(val => getMonthYear(val))
@@ -217,23 +217,23 @@ export function useMonthPicker(props: PickerBasePropsType, emit: VueEmit) {
   }
 
   return {
-    groupedMonths,
-    groupedYears,
-    year,
-    isDisabled,
-    defaultedMultiCalendars,
-    defaultedAriaLabels,
-    defaultedTransitions,
-    defaultedConfig,
-    showYearPicker,
-    modelValue,
-    presetDate,
-    setHoverDate,
-    selectMonth,
-    selectYear,
-    toggleYearPicker,
-    handleYearSelect,
-    handleYear,
-    getModelMonthYear,
+    groupedMonths: groupedMonths,
+    groupedYears: groupedYears,
+    year: year,
+    isDisabled: isDisabled,
+    defaultedMultiCalendars: defaultedMultiCalendars,
+    defaultedAriaLabels: defaultedAriaLabels,
+    defaultedTransitions: defaultedTransitions,
+    defaultedConfig: defaultedConfig,
+    showYearPicker: showYearPicker,
+    modelValue: modelValue,
+    presetDate: presetDate,
+    setHoverDate: setHoverDate,
+    selectMonth: selectMonth,
+    selectYear: selectYear,
+    toggleYearPicker: toggleYearPicker,
+    handleYearSelect: handleYearSelect,
+    handleYear: handleYear,
+    getModelMonthYear: getModelMonthYear,
   }
 }

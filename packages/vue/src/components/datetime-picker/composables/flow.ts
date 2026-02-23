@@ -71,10 +71,10 @@ export function useFlow(props: AllPropsType, emit: VueEmit, dynCmpRef: Ref<any>)
   }
 
   return {
-    childMount,
-    updateFlowStep,
-    resetFlow,
-    handleFlow,
-    flowStep,
+    childMount: childMount,
+    updateFlowStep: updateFlowStep,
+    resetFlow: resetFlow,
+    handleFlow: handleFlow,
+    flowStep: flowStep,
   }
 }

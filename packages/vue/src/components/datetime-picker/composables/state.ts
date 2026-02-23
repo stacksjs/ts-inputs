@@ -19,8 +19,8 @@ export function useState() {
   const control = computed(() => ({ shiftKeyInMenu: state.shiftKeyInMenu, menuFocused: state.menuFocused }))
 
   return {
-    control,
-    setMenuFocused,
-    setShiftKey,
+    control: control,
+    setMenuFocused: setMenuFocused,
+    setShiftKey: setShiftKey,
   }
 }

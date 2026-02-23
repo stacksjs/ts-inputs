@@ -84,7 +84,7 @@ export function useQuarterPicker(props: PickerBasePropsType, emit: VueEmit) {
       : !!defaultedHighlight.value.quarters.find(value => matchQuarter(value, start))
   }
 
-  const quarters = computed(() => (instance: number) => {
+  const quarters = computed(() => (instance: number): { text: string, value: Date, active: boolean, highlighted: boolean, disabled: boolean, isBetween: boolean }[] => {
     const activeYear = set(new Date(), { year: year.value(instance) })
     return eachQuarterOfInterval({
       start: startOfYear(activeYear),
@@ -121,7 +121,7 @@ export function useQuarterPicker(props: PickerBasePropsType, emit: VueEmit) {
     emit('auto-apply')
   }
 
-  const selectQuarter = (date: Date, instance: number, disabled: boolean) => {
+  const selectQuarter = (date: Date, instance: number, disabled: boolean): void => {
     if (disabled)
       return
     calendars.value[instance].month = getMonth(endOfQuarter(date))
@@ -133,24 +133,24 @@ export function useQuarterPicker(props: PickerBasePropsType, emit: VueEmit) {
     return selectSingleQuarter(date)
   }
 
-  const setHoverDate = (date: Date) => {
+  const setHoverDate = (date: Date): void => {
     hoverDate.value = date
   }
 
   return {
-    defaultedConfig,
-    defaultedMultiCalendars,
-    groupedYears,
-    year,
-    isDisabled,
-    quarters,
-    showYearPicker,
-    modelValue,
-    setHoverDate,
-    selectYear,
-    selectQuarter,
-    toggleYearPicker,
-    handleYearSelect,
-    handleYear,
+    defaultedConfig: defaultedConfig,
+    defaultedMultiCalendars: defaultedMultiCalendars,
+    groupedYears: groupedYears,
+    year: year,
+    isDisabled: isDisabled,
+    quarters: quarters,
+    showYearPicker: showYearPicker,
+    modelValue: modelValue,
+    setHoverDate: setHoverDate,
+    selectYear: selectYear,
+    selectQuarter: selectQuarter,
+    toggleYearPicker: toggleYearPicker,
+    handleYearSelect: handleYearSelect,
+    handleYear: handleYear,
   }
 }

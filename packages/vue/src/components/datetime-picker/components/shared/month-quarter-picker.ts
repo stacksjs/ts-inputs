@@ -221,12 +221,12 @@ export function useMonthOrQuarterPicker({
   }
 
   return {
-    isDisabled,
-    groupedYears,
-    showYearPicker,
-    selectYear,
-    toggleYearPicker,
-    handleYearSelect,
-    handleYear,
+    isDisabled: isDisabled,
+    groupedYears: groupedYears,
+    showYearPicker: showYearPicker,
+    selectYear: selectYear,
+    toggleYearPicker: toggleYearPicker,
+    handleYearSelect: handleYearSelect,
+    handleYear: handleYear,
   }
 }

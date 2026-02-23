@@ -239,7 +239,7 @@ export function getDefaultRangeOptions(config: RangeProp): RangeConfig {
   }
 }
 
-export function getDefaultTimeZone(timeZone: TimeZoneProp) {
+export function getDefaultTimeZone(timeZone: TimeZoneProp): TimeZoneConfig {
   if (!timeZone)
     return { timezone: undefined, exactMatch: false, emitTimezone: undefined }
   if (typeof timeZone === 'string') {

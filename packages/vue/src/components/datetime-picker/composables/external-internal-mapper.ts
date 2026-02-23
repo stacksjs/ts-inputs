@@ -426,7 +426,7 @@ export function useExternalInternalMapper(
    * When date is selected, emit event to update modelValue on external,
    * and format input value
    */
-  const emitModelValue = (returnOnly: boolean = false) => {
+  const emitModelValue = (returnOnly: boolean = false): any => {
     if (!returnOnly) {
       formatInputValue()
     }
@@ -476,11 +476,11 @@ export function useExternalInternalMapper(
   })
 
   return {
-    inputValue,
-    internalModelValue,
-    checkBeforeEmit,
-    parseExternalModelValue,
-    formatInputValue,
-    emitModelValue,
+    inputValue: inputValue,
+    internalModelValue: internalModelValue,
+    checkBeforeEmit: checkBeforeEmit,
+    parseExternalModelValue: parseExternalModelValue,
+    formatInputValue: formatInputValue,
+    emitModelValue: emitModelValue,
   }
 }

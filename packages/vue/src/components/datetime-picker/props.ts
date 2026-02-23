@@ -40,14 +40,14 @@ export const AllProps = {
   dark: { type: Boolean as PropType<boolean>, default: false },
   format: {
     type: [String, Function] as PropType<IFormat>,
-    default: () => null,
+    default: (): null => null,
   },
   autoPosition: { type: [Boolean, String] as PropType<boolean | 'top' | 'bottom'>, default: true },
   altPosition: { type: Function as PropType<(el: HTMLElement | null) => any>, default: null },
   transitions: { type: [Boolean, Object] as PropType<boolean | Partial<Transition>>, default: true },
   formatLocale: { type: Object as PropType<Locale>, default: null },
   utc: { type: [Boolean, String] as PropType<boolean | 'preserve'>, default: false },
-  ariaLabels: { type: Object as PropType<Partial<AriaLabels>>, default: () => ({}) },
+  ariaLabels: { type: Object as PropType<Partial<AriaLabels>>, default: (): Partial<AriaLabels> => ({}) },
   offset: { type: [Number, String] as PropType<number | string>, default: 10 },
   hideNavigation: { type: Array as PropType<Flow[]>, default: () => [] as Flow[] },
   timezone: { type: [String, Object] as PropType<TimeZoneProp>, default: null },
@@ -80,7 +80,7 @@ export const AllProps = {
   preventMinMaxNavigation: { type: Boolean as PropType<boolean>, default: false },
   reverseYears: { type: Boolean as PropType<boolean>, default: false },
   weekPicker: { type: Boolean as PropType<boolean>, default: false },
-  filters: { type: Object as PropType<Partial<DateFilter>>, default: () => ({}) },
+  filters: { type: Object as PropType<Partial<DateFilter>>, default: (): Partial<DateFilter> => ({}) },
   arrowNavigation: { type: Boolean as PropType<boolean>, default: false },
   highlight: {
     type: [Function, Object] as PropType<HighlightProp>,
@@ -108,7 +108,7 @@ export const AllProps = {
   cancelText: { type: String as PropType<string>, default: 'Cancel' },
   previewFormat: {
     type: [String, Function] as PropType<IFormat>,
-    default: () => '',
+    default: (): string => '',
   },
   multiDates: { type: [Object, Boolean] as PropType<MultiDatesProp>, default: false },
   ignoreTimeValidation: { type: Boolean as PropType<boolean>, default: false },
@@ -143,7 +143,7 @@ export const AllProps = {
   inline: { type: [Boolean, Object] as PropType<InlineProp>, default: false },
   textInput: { type: [Boolean, Object] as PropType<TextInputProp>, default: false },
   sixWeeks: { type: [Boolean, String] as PropType<boolean | SixWeekMode>, default: false },
-  actionRow: { type: Object as PropType<Partial<ActionRowData>>, default: () => ({}) },
+  actionRow: { type: Object as PropType<Partial<ActionRowData>>, default: (): Partial<ActionRowData> => ({}) },
   focusStartDate: { type: Boolean as PropType<boolean>, default: false },
   disabledTimes: { type: [Function, Array] as PropType<DisabledTimeArrProp>, default: undefined },
   timePickerInline: { type: Boolean as PropType<boolean>, default: false },
@@ -154,21 +154,22 @@ export const AllProps = {
   loading: { type: Boolean as PropType<boolean>, default: false },
   onInternalModelChange: { type: [Function, Object] as PropType<(...args: any[]) => void>, default: null },
   enableMinutes: { type: Boolean as PropType<boolean>, default: true },
-  ui: { type: Object as PropType<Partial<UIOpts>>, default: () => ({}) },
+  ui: { type: Object as PropType<Partial<UIOpts>>, default: (): Partial<UIOpts> => ({}) },
 } as const
 
-export const PickerBaseProps = {
-  ...AllProps,
+const PickerBaseExtraProps = {
   shadow: { type: Boolean as PropType<boolean>, default: false },
   flowStep: { type: Number as PropType<number>, default: 0 },
   internalModelValue: { type: [Date, Array] as PropType<InternalModuleValue>, default: null },
   noOverlayFocus: { type: Boolean as PropType<boolean>, default: false },
   collapse: { type: Boolean as PropType<boolean>, default: false },
   menuWrapRef: { type: Object as PropType<HTMLElement | null>, default: null },
-  getInputRect: { type: Function as PropType<() => DOMRect>, default: () => ({}) },
+  getInputRect: { type: Function as PropType<() => DOMRect>, default: (): Record<string, never> => ({}) },
   isTextInputDate: { type: Boolean as PropType<boolean>, default: false },
   isMobile: { type: Boolean as PropType<boolean>, default: undefined },
 } as const
+
+export const PickerBaseProps: typeof AllProps & typeof PickerBaseExtraProps = Object.assign({}, AllProps, PickerBaseExtraProps)
 
 export type AllPropsType = ExtractPropTypes<typeof AllProps>
 export type PickerBasePropsType = ExtractPropTypes<typeof PickerBaseProps>

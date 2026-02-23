@@ -19,7 +19,7 @@ export function handleMultiDatesSelect(date: Date, modelValue: WritableComputedR
   }
 }
 
-export function setMonthOrYearRange(modelValue: WritableComputedRef<InternalModuleValue>, date: Date, emit: VueEmit) {
+export function setMonthOrYearRange(modelValue: WritableComputedRef<InternalModuleValue>, date: Date, emit: VueEmit): Date[] {
   let rangeDate = modelValue.value ? (modelValue.value as Date[]).slice() : []
   if (rangeDate.length === 2 && rangeDate[1] !== null) {
     rangeDate = []
@@ -38,7 +38,7 @@ export function setMonthOrYearRange(modelValue: WritableComputedRef<InternalModu
   return rangeDate
 }
 
-export function checkRangeAutoApply(range: Date[], emit: VueEmit, autoApply: boolean, modelAuto: boolean) {
+export function checkRangeAutoApply(range: Date[], emit: VueEmit, autoApply: boolean, modelAuto: boolean): void {
   if (!range)
     return
   if (range[0] && range[1] && autoApply) {
@@ -54,7 +54,7 @@ export function setPresetDate(opts: {
   range: boolean
   timezone?: string
   modelValue: WritableComputedRef<InternalModuleValue>
-}) {
+}): void {
   if (Array.isArray(opts.value) && opts.value.length <= 2 && opts.range) {
     opts.modelValue.value = opts.value.map(date => localToTz(getDate(date), opts.timezone))
   }

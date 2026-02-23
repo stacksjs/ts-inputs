@@ -26,6 +26,7 @@
     "skipLibCheck": true
   },
   "exclude": [
-    "pickier.config.ts"
+    "pickier.config.ts",
+    "packages/vue/src/components/datetime-picker"
   ]
 }

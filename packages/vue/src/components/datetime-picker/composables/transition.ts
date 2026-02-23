@@ -10,11 +10,11 @@ export function useTransitions(transitions: ComputedRef<Transition>) {
     return isOpen ? transitions.value.open : transitions.value.close
   })
 
-  const menuTransition = computed(() => (openOnTop: boolean) => {
+  const menuTransition = computed(() => (openOnTop: boolean): string => {
     if (!transitions.value)
       return ''
     return openOnTop ? transitions.value.menuAppearTop : transitions.value.menuAppearBottom
   })
 
-  return { transitionName, showTransition: !!transitions.value, menuTransition }
+  return { transitionName: transitionName, showTransition: !!transitions.value, menuTransition: menuTransition }
 }

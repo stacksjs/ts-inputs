@@ -429,8 +429,8 @@ export function useCalendarClass(modelValue: WritableComputedRef<InternalModuleV
   }
 
   return {
-    setHoverDate,
-    clearHoverDate,
-    getDayClassData,
+    setHoverDate: setHoverDate,
+    clearHoverDate: clearHoverDate,
+    getDayClassData: getDayClassData,
   }
 }

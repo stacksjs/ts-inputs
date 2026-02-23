@@ -101,7 +101,7 @@ export function useYearPicker(props: PickerBasePropsType, emit: VueEmit) {
     return new Date(year, 0, 1)
   }
 
-  const selectYear = (year: number) => {
+  const selectYear = (year: number): void => {
     emit('update-month-year', { instance: 0, year })
     if (defaultedMultiDates.value.enabled) {
       if (!modelValue.value) {
@@ -130,15 +130,15 @@ export function useYearPicker(props: PickerBasePropsType, emit: VueEmit) {
     }
   }
 
-  const setHoverValue = (value: number) => {
+  const setHoverValue = (value: number): void => {
     hoverDate.value = setYear(resetDate(new Date()), value)
   }
 
   return {
-    groupedYears,
-    modelValue,
-    focusYear,
-    setHoverValue,
-    selectYear,
+    groupedYears: groupedYears,
+    modelValue: modelValue,
+    focusYear: focusYear,
+    setHoverValue: setHoverValue,
+    selectYear: selectYear,
   }
 }

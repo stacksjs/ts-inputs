@@ -1,6 +1,12 @@
+import type { VNode } from 'vue'
 import { createElementBlock, createElementVNode, openBlock } from 'vue'
 
-function render() {
+interface RenderWithCompat {
+  (): VNode
+  compatConfig?: { MODE: number }
+}
+
+const render: RenderWithCompat = function (): VNode {
   return (
     openBlock(),
     createElementBlock(

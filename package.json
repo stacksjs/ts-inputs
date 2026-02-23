@@ -40,7 +40,7 @@
     "fresh": "bunx rimraf node_modules/ bun.lock && bun i",
     "prepublishOnly": "bun run build",
     "test": "bun test",
-    "typecheck": "bun --bun tsc --noEmit",
+    "typecheck": "bun --bun tsc --noEmit && bun --bun tsc --noEmit -p packages/vue/src/components/datetime-picker/tsconfig.json",
     "lint": "bunx --bun pickier lint .",
     "lint:fix": "bunx --bun pickier lint . --fix",
     "format": "bunx --bun pickier format .",
@@ -64,9 +64,10 @@
   },
   "git-hooks": {
     "pre-commit": {
-      "staged-lint": {
+      "stagedLint": {
         "*.{js,ts,json,yaml,yml,md}": "bunx --bun pickier lint --fix"
-      }
+      },
+      "autoRestage": true
     },
     "commit-msg": "bunx gitlint --edit .git/COMMIT_EDITMSG"
   },

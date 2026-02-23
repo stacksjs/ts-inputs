@@ -336,13 +336,13 @@ export function useValidation(props: PickerBasePropsType | AllPropsType) {
   })
 
   return {
-    isDisabled,
-    validateDate,
-    validateMonthYearInRange,
-    isDateRangeAllowed,
-    checkMinMaxRange,
-    isValidTime,
-    isTimeValid,
-    isMonthValid,
+    isDisabled: isDisabled,
+    validateDate: validateDate,
+    validateMonthYearInRange: validateMonthYearInRange,
+    isDateRangeAllowed: isDateRangeAllowed,
+    checkMinMaxRange: checkMinMaxRange,
+    isValidTime: isValidTime,
+    isTimeValid: isTimeValid,
+    isMonthValid: isMonthValid,
   }
 }

@@ -79,11 +79,11 @@ export function useModel(props: PickerBasePropsType, emit: VueEmit, reMap?: () =
   )
 
   return {
-    calendars,
-    time,
-    modelValue,
-    month,
-    year,
-    today,
+    calendars: calendars,
+    time: time,
+    modelValue: modelValue,
+    month: month,
+    year: year,
+    today: today,
   }
 }

@@ -145,7 +145,7 @@ export function useArrowNavigation() {
     }
   }
 
-  const setTimePicker = (value: boolean, mode = false) => {
+  const setTimePicker = (value: boolean, mode = false): void => {
     isTimePicker.value = value
     isTimePickerMode.value = mode
     resetNavigation()
@@ -180,18 +180,18 @@ export function useArrowNavigation() {
   }
 
   return {
-    buildMatrix,
-    buildMultiLevelMatrix,
-    setTimePickerBackRef,
-    setSelectionGrid,
-    setTimePicker,
-    setTimePickerElements,
-    arrowRight,
-    arrowLeft,
-    arrowUp,
-    arrowDown,
-    clearArrowNav,
-    setMonthPicker,
-    refSets, // exposed for testing
+    buildMatrix: buildMatrix,
+    buildMultiLevelMatrix: buildMultiLevelMatrix,
+    setTimePickerBackRef: setTimePickerBackRef,
+    setSelectionGrid: setSelectionGrid,
+    setTimePicker: setTimePicker,
+    setTimePickerElements: setTimePickerElements,
+    arrowRight: arrowRight,
+    arrowLeft: arrowLeft,
+    arrowUp: arrowUp,
+    arrowDown: arrowDown,
+    clearArrowNav: clearArrowNav,
+    setMonthPicker: setMonthPicker,
+    refSets: refSets, // exposed for testing
   }
 }

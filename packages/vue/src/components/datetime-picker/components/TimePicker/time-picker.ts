@@ -101,15 +101,15 @@ export function useTimePicker(props: PickerBasePropsType, emit: VueEmit) {
     emit('time-update')
   }
 
-  const updateTime = (value: number | number[], isHours = true, isSeconds = false) => {
+  const updateTime = (value: number | number[], isHours = true, isSeconds = false): void => {
     updateTimeValues(value, isHours ? 'hours' : isSeconds ? 'seconds' : 'minutes', handleTimeUpdate)
   }
 
   return {
-    modelValue,
-    time,
-    disabledTimesConfig,
-    updateTime,
-    validateTime,
+    modelValue: modelValue,
+    time: time,
+    disabledTimesConfig: disabledTimesConfig,
+    updateTime: updateTime,
+    validateTime: validateTime,
   }
 }
