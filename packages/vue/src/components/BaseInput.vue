@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TSInputsProps } from '../types'
 import { format, parse } from 'date-fns'
-import { CreditCardType, formatNumeral, formatPhone } from 'ts-inputs'
+import { CreditCardType, NumeralThousandGroupStyles, formatNumeral, formatPhone } from 'ts-inputs'
 import { computed, onMounted, ref, watch } from 'vue'
 import DateTimePicker from './datetime-picker/DateTimePicker.vue'
 import NumeralInput from './numeral/NumeralInput.vue'
@@ -221,7 +221,7 @@ function handleInput(event: Event) {
       try {
         const formatOptions = {
           delimiter: props.numeralOptions?.delimiter || ',',
-          numeralThousandsGroupStyle: props.numeralOptions?.thousandGroupStyle || 'thousand',
+          numeralThousandsGroupStyle: props.numeralOptions?.thousandGroupStyle ?? NumeralThousandGroupStyles.THOUSAND,
           numeralIntegerScale: props.numeralOptions?.integerScale || 0,
           numeralDecimalMark: props.numeralOptions?.decimalMark || '.',
           numeralDecimalScale: props.numeralOptions?.decimalScale || 2,
