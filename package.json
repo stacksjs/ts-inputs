@@ -57,7 +57,7 @@
     "@stacksjs/docs": "^0.70.23",
     "@types/clean-css": "^4.2.11",
     "@types/google.maps": "^3.58.1",
-    "better-dx": "^0.2.5"
+    "better-dx": "^0.2.6"
   },
   "overrides": {
     "unconfig": "0.3.10"
