@@ -5,7 +5,7 @@ const config: PickierConfig = {
   ignores: [
     '**/node_modules/**', '**/dist/**', '**/build/**', '**/bin/**',
     '**/.git/**', '**/coverage/**', '**/*.min.js', '**/bun.lock',
-    '**/benchmarks/**', '**/.claude/**', '**/.zed/**',
+    '**/benchmarks/**', '**/.claude/**', '**/.zed/**', '**/temp/**',
   ],
   lint: { extensions: ['ts', 'js'], reporter: 'stylish', cache: false, maxWarnings: -1 },
   format: {
