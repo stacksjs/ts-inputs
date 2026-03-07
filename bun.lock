@@ -15,9 +15,9 @@
       "name": "ts-inputs",
       "version": "0.1.7",
       "devDependencies": {
-        "bun-plugin-dtsx": "^0.21.12",
-        "bunfig": "^0.15.0",
-        "lint-staged": "^16.2.3",
+        "bun-plugin-dtsx": "^0.21.17",
+        "bunfig": "^0.15.6",
+        "lint-staged": "^16.3.2",
         "simple-git-hooks": "^2.13.1",
         "typescript": "^5.9.3",
       },
@@ -29,8 +29,8 @@
         "@microsoft/api-extractor": "^7.52.15",
         "@stacksjs/docs": "^0.70.23",
         "@types/google.maps": "^3.58.1",
-        "@vue/tsconfig": "^0.8.1",
-        "bumpp": "^10.2.3",
+        "@vue/tsconfig": "^0.9.0",
+        "bumpp": "^10.4.1",
         "bun-plugin-dtsx": "^0.21.12",
         "changelogen": "^0.6.2",
         "clean-css": "^5.3.3",
@@ -39,7 +39,7 @@
       },
       "peerDependencies": {
         "ts-inputs": "workspace:*",
-        "vue": "^3.5.22",
+        "vue": "^3.5.29",
       },
     },
   },
@@ -685,7 +685,7 @@
 
     "@vue/shared": ["@vue/shared@3.5.29", "", {}, "sha512-w7SR0A5zyRByL9XUkCfdLs7t9XOHUyJ67qPGQjOou3p6GvBeBW+AVjUUmlxtZ4PIYaRvE+1LmK44O4uajlZwcg=="],
 
-    "@vue/tsconfig": ["@vue/tsconfig@0.8.1", "", { "peerDependencies": { "typescript": "5.x", "vue": "^3.4.0" }, "optionalPeers": ["typescript", "vue"] }, "sha512-aK7feIWPXFSUhsCP9PFqPyFOcz4ENkb8hZ2pneL6m2UjCkccvaOhC/5KCKluuBufvp2KzkbdA2W2pk20vLzu3g=="],
+    "@vue/tsconfig": ["@vue/tsconfig@0.9.0", "", { "peerDependencies": { "typescript": "5.x", "vue": "^3.4.0" }, "optionalPeers": ["typescript", "vue"] }, "sha512-RP+v9Cpbsk1ZVXltCHHkYBr7+624x6gcijJXVjIcsYk7JXqvIpRtMwU2ARLvWDhmy9ffdFYxhsfJnPztADBohQ=="],
 
     "@vueuse/core": ["@vueuse/core@12.8.2", "", { "dependencies": { "@types/web-bluetooth": "^0.0.21", "@vueuse/metadata": "12.8.2", "@vueuse/shared": "12.8.2", "vue": "^3.5.13" } }, "sha512-HbvCmZdzAu3VGi/pWYm5Ut+Kd9mn1ZHnn4L5G8kOQTPs/IwIAmJoBrmYk2ckLArgMXZj0AW3n5CAejLUO+PhdQ=="],
 
