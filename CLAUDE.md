@@ -2,7 +2,7 @@
 
 ## About
 
-Modern & lightweight input masking.
+A TypeScript library providing specialized input handling, formatting, and validation for various data types in web applications. It includes modules for credit card number formatting and validation, date and time input handling, numeral formatting, cursor position tracking, and general input utilities. The codebase is organized into modular subdirectories under `src/` (credit-card, date, time, numeral, general, cursor-tracker).
 
 ## Linting
 
