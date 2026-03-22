@@ -41,9 +41,6 @@
       },
     },
   },
-  "overrides": {
-    "unconfig": "0.3.10",
-  },
   "packages": {
     "@babel/helper-string-parser": ["@babel/helper-string-parser@7.27.1", "", {}, "sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA=="],
 
