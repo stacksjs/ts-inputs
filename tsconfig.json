@@ -27,6 +27,7 @@
   },
   "exclude": [
     "pickier.config.ts",
-    "packages/vue/src/components/datetime-picker"
+    "packages/vue/src/components/datetime-picker",
+    "packages/vue/vite.config.ts"
   ]
 }
