@@ -14,9 +14,9 @@
       "name": "ts-inputs",
       "version": "0.1.7",
       "devDependencies": {
-        "bun-plugin-dtsx": "^0.21.12",
-        "bunfig": "^0.15.0",
-        "lint-staged": "^16.2.3",
+        "bun-plugin-dtsx": "^0.21.17",
+        "bunfig": "^0.15.6",
+        "lint-staged": "^16.4.0",
         "simple-git-hooks": "^2.13.1",
         "typescript": "^5.9.3",
       },
@@ -25,11 +25,11 @@
       "name": "ts-inputs-vue",
       "version": "0.1.7",
       "devDependencies": {
-        "@microsoft/api-extractor": "^7.52.15",
+        "@microsoft/api-extractor": "^7.57.7",
         "@types/google.maps": "^3.58.1",
-        "@vue/tsconfig": "^0.8.1",
-        "bumpp": "^10.2.3",
-        "bun-plugin-dtsx": "^0.21.12",
+        "@vue/tsconfig": "^0.9.1",
+        "bumpp": "^10.4.1",
+        "bun-plugin-dtsx": "^0.21.17",
         "changelogen": "^0.6.2",
         "clean-css": "^5.3.3",
         "date-fns": "^4.1.0",
@@ -37,7 +37,7 @@
       },
       "peerDependencies": {
         "ts-inputs": "workspace:*",
-        "vue": "^3.5.22",
+        "vue": "^3.5.31",
       },
     },
   },
@@ -136,7 +136,7 @@
 
     "@vue/shared": ["@vue/shared@3.5.31", "", {}, "sha512-nBxuiuS9Lj5bPkPbWogPUnjxxWpkRniX7e5UBQDWl6Fsf4roq9wwV+cR7ezQ4zXswNvPIlsdj1slcLB7XCsRAw=="],
 
-    "@vue/tsconfig": ["@vue/tsconfig@0.8.1", "", { "peerDependencies": { "typescript": "5.x", "vue": "^3.4.0" }, "optionalPeers": ["typescript", "vue"] }, "sha512-aK7feIWPXFSUhsCP9PFqPyFOcz4ENkb8hZ2pneL6m2UjCkccvaOhC/5KCKluuBufvp2KzkbdA2W2pk20vLzu3g=="],
+    "@vue/tsconfig": ["@vue/tsconfig@0.9.1", "", { "peerDependencies": { "typescript": ">= 5.8", "vue": "^3.4.0" }, "optionalPeers": ["typescript", "vue"] }, "sha512-buvjm+9NzLCJL29KY1j1991YYJ5e6275OiK+G4jtmfIb+z4POywbdm0wXusT9adVWqe0xqg70TbI7+mRx4uU9w=="],
 
     "abort-controller": ["abort-controller@3.0.0", "", { "dependencies": { "event-target-shim": "^5.0.0" } }, "sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg=="],
 
