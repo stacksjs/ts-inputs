@@ -79,7 +79,7 @@ const formattedNumber = formatNumeral('1000000', {
 // Output: '1,000,000'
 ```
 
-## Why ts-inputs?
+## Why ts-inputs
 
 - **Type Safety**: Built with TypeScript for better development experience
 - **Comprehensive**: Covers all common input formatting needs

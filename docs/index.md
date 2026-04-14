@@ -35,5 +35,3 @@ features:
     icon: "⚡"
     details: "Fully typed with comprehensive TypeScript support"
 ---
-
-<Home />

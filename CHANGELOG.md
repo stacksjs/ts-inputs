@@ -61,7 +61,6 @@
 
 ## ...main
 
-
 ### 🚀 Enhancements
 
 - Add phone number formatting ([0267bfa](https://github.com/stacksjs/ts-inputs/commit/0267bfa))
