@@ -238,4 +238,3 @@ Made with 💙
 [github-actions-href]: https://github.com/stacksjs/clarity/actions?query=workflow%3Aci
 
 <!-- [codecov-src]: https://img.shields.io/codecov/c/gh/stacksjs/clarity/main?style=flat-square
-[codecov-href]: https://codecov.io/gh/stacksjs/clarity -->
