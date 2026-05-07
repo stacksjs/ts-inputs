@@ -40,8 +40,8 @@
   ],
   "scripts": {
     "build": "bun --bun build.ts && bun run typecheck",
-    "lint": "bunx --bun eslint .",
-    "lint:fix": "bunx --bun eslint . --fix",
+    "lint": "bunx --bun pickier .",
+    "lint:fix": "bunx --bun pickier . --fix",
     "test": "bun test",
     "typecheck": "bun --bun tsc --noEmit",
     "prepublishOnly": "bun run build"
@@ -54,6 +54,6 @@
     "typescript": "^5.9.3"
   },
   "lint-staged": {
-    "*.{js,ts}": "bunx --bun eslint . --fix"
+    "*.{js,ts}": "bunx --bun pickier . --fix"
   }
 }
