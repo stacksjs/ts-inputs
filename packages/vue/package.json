@@ -1,7 +1,8 @@
 {
   "name": "ts-inputs-vue",
   "type": "module",
-  "version": "0.1.7",
+  "sideEffects": false,
+  "version": "0.1.9",
   "description": "Vue components for ts-inputs - Modern & lightweight input masking",
   "author": "Chris Breuer <chris@stacksjs.org>",
   "license": "MIT",

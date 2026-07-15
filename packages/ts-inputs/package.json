@@ -1,7 +1,8 @@
 {
   "name": "ts-inputs",
   "type": "module",
-  "version": "0.1.7",
+  "sideEffects": false,
+  "version": "0.1.9",
   "description": "A collection of input components.",
   "author": "Chris Breuer <chris@stacksjs.org>",
   "license": "MIT",
