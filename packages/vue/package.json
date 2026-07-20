@@ -47,7 +47,7 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.52.15",
     "@types/google.maps": "^3.58.1",
-    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue": "^6.0.8",
     "@vue/tsconfig": "^0.8.1",
     "bumpp": "^10.2.3",
     "bun-plugin-dtsx": "^0.21.12",
