@@ -107,7 +107,7 @@ We welcome contributions! Please see our [Contributing Guide](https://github.com
 Join our community for help, discussions, and updates:
 
 - [GitHub Discussions](https://github.com/stacksjs/ts-inputs/discussions)
-- [Discord Server](https://discord.gg/stacksjs)
+- [Discord Server](https://stacksjs.com/discord)
 
 ## License
 
