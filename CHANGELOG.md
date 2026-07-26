@@ -1,3 +1,21 @@
+[Compare changes](https://github.com/stacksjs/ts-inputs/compare/v0.1.10...v0.1.11)
+
+## 🐛 Bug Fixes
+
+- drop `sideEffects: false` across all three manifests ([f008db7](https://github.com/stacksjs/ts-inputs/commit/f008db7)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## 📚 Documentation
+
+- link the community as stacksjs.com/discord ([fb6c9c9](https://github.com/stacksjs/ts-inputs/commit/fb6c9c9)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## 🧹 Chores
+
+- release v0.1.11 ([98a7132](https://github.com/stacksjs/ts-inputs/commit/98a7132)) _(by Chris <chrisbreuer93@gmail.com>)_
+- **deps**: declare bun ^1.3.14 in deps.yaml ([f836548](https://github.com/stacksjs/ts-inputs/commit/f836548)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## Contributors
+
+- _Chris <chrisbreuer93@gmail.com>_
 
 ## v0.1.6...main
 
