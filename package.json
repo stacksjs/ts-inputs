@@ -56,8 +56,8 @@
   },
   "devDependencies": {
     "@types/clean-css": "^4.2.11",
-    "@types/google.maps": "^3.58.1",
-    "better-dx": "^0.2.15"
+    "@types/google.maps": "^3.65.5",
+    "better-dx": "^0.2.22"
   },
   "git-hooks": {
     "pre-commit": {
