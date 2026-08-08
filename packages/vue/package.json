@@ -44,18 +44,18 @@
     "vue": "^3.5.22"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.52.15",
-    "@types/google.maps": "^3.58.1",
+    "@microsoft/api-extractor": "^7.58.12",
+    "@types/google.maps": "^3.65.5",
     "@vitejs/plugin-vue": "^5.2.1",
-    "@vue/tsconfig": "^0.8.1",
+    "@vue/tsconfig": "^0.9.1",
     "bumpp": "^10.2.3",
-    "bun-plugin-dtsx": "^0.21.12",
+    "bun-plugin-dtsx": "^0.21.17",
     "changelogen": "^0.6.2",
     "clean-css": "^5.3.3",
-    "date-fns": "^4.1.0",
+    "date-fns": "^4.4.0",
     "ts-datetime": "^0.0.3",
     "vite": "^6.0.7",
-    "vue": "^3.5.22",
+    "vue": "^3.5.41",
     "vue-tsc": "^2.2.0"
   }
 }
