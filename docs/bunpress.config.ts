@@ -1,12 +1,19 @@
-import type { BunPressConfig } from 'bunpress'
+import type { BunPressConfig } from '@stacksjs/bunpress'
 
 const config: BunPressConfig = {
-  name: 'ts-inputs',
+  title: 'ts-inputs',
   description: 'Modern & lightweight input masking for TypeScript',
   url: 'https://ts-inputs.stacksjs.org',
 
-  theme: {
-    primaryColor: '#10b981',
+  themeConfig: {
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/stacksjs/ts-inputs' },
+      { icon: 'discord', link: 'https://discord.gg/stacksjs' },
+      { icon: 'twitter', link: 'https://twitter.com/stacksjs' },
+    ],
+    colors: {
+      primary: '#10b981',
+    },
   },
 
   sidebar: [
@@ -42,17 +49,12 @@ const config: BunPressConfig = {
     },
   ],
 
-  navbar: [
+  nav: [
     { text: 'Home', link: '/' },
     { text: 'Guide', link: '/guide/getting-started' },
     { text: 'GitHub', link: 'https://github.com/stacksjs/ts-inputs' },
   ],
 
-  socialLinks: [
-    { icon: 'github', link: 'https://github.com/stacksjs/ts-inputs' },
-    { icon: 'discord', link: 'https://discord.gg/stacksjs' },
-    { icon: 'twitter', link: 'https://twitter.com/stacksjs' },
-  ],
 }
 
 export default config
