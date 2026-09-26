@@ -47,10 +47,10 @@
     "prepublishOnly": "bun run build"
   },
   "devDependencies": {
-    "bun-plugin-dtsx": "^0.21.12",
-    "bunfig": "^0.15.0",
+    "bun-plugin-dtsx": "^0.21.17",
+    "bunfig": "^0.15.19",
     "lint-staged": "^16.2.3",
-    "simple-git-hooks": "^2.13.1",
+    "simple-git-hooks": "^2.14.0",
     "typescript": "^7.0.2"
   },
   "lint-staged": {
